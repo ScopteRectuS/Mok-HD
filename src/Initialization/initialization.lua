@@ -1,5 +1,3 @@
-STRING_MAP_NAME                = "Mok: Hero Defense"
-STRING_MAP_VERSION             = "1.0"
 STRING_CHOOSE_YOUR_HERO        = "Выберите героя"
 STRING_HERO_DESCRIPTION        = "Описание героя"
 
