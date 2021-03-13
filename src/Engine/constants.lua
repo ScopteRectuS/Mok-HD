@@ -6,9 +6,9 @@ do
     MAP_HIDDEN_Y            = 3072.0
     MAP_HIDDEN_Z            = 0.0
 
-    GROUP_TEMP              = CreateGroup( )
+    GROUP_TEMP              = CreateGroup()
 
-    UNIT_DUMMY_TYPE_ID      = FourCC( "h000" )
+    UNIT_DUMMY_TYPE_ID      = FourCC("h000")
     UNIT_MAX_COLLISION_SIZE = 197.0
 
 end
