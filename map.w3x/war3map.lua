@@ -3,268 +3,272 @@ end
 
 --CUSTOM_CODE
 do
-    Creep = { }
+    Creep = {
+        
+        Wolves = {
+            initialize = function()
+                Creep.Wolves.round = 1
+                Creep.Wolves.name = "Волки"
+                Creep.Wolves.stylizedName = "В О Л К И"
+                Creep.Wolves.tip = ""
+                Creep.Wolves.prepare = 15.0
+                Creep.Wolves.count = 215
+                Creep.Wolves.limit = 100
+                Creep.Wolves.spawnCamp = { SpawnCircle.getGroundCamp() }
+                Creep.Wolves.startSound = nil
+                Creep.Wolves.endSound = nil
+                Creep.Wolves.pool = CreateUnitPool()
 
-    Creep.wolves        = { }
-    Creep.lobstrokks    = { }
-    Creep.trolls        = { }
-    Creep.ogres         = { }
-    Creep.gnolls        = { }
-    Creep.centaurs      = { }
-    Creep.turtles       = { }
-    Creep.dragonspawn   = { }
-    Creep.bluedragons   = { }
-    Creep.blackdragons  = { }
+                UnitPoolAddUnitType(Creep.Wolves.pool, FourCC("n002"), 30.0)
+                UnitPoolAddUnitType(Creep.Wolves.pool, FourCC("n003"), 20.0)
+                UnitPoolAddUnitType(Creep.Wolves.pool, FourCC("n004"), 10.0)
+
+                Preload.unit(FourCC("n002"))
+                Preload.unit(FourCC("n003"))
+                Preload.unit(FourCC("n004"))
+            end
+        },
+
+        Lobstrokks = {
+            initialize = function()
+                Creep.Lobstrokks.round = 1
+                Creep.Lobstrokks.name = "Lobstrokks"
+                Creep.Lobstrokks.stylizedName = "L O B S T R O K K S"
+                Creep.Lobstrokks.tip = ""
+                Creep.Lobstrokks.prepare = 15.0
+                Creep.Lobstrokks.count = 215
+                Creep.Lobstrokks.limit = 100
+                Creep.Lobstrokks.spawnCamp = { SpawnCircle.getWaterCamp() }
+                Creep.Lobstrokks.startSound = nil
+                Creep.Lobstrokks.endSound = nil
+                Creep.Lobstrokks.pool = CreateUnitPool()
+
+                UnitPoolAddUnitType(Creep.Lobstrokks.pool, FourCC("nlpr"), 60.0)
+                UnitPoolAddUnitType(Creep.Lobstrokks.pool, FourCC("nlpd"), 50.0)
+                UnitPoolAddUnitType(Creep.Lobstrokks.pool, FourCC("nltc"), 40.0)
+                UnitPoolAddUnitType(Creep.Lobstrokks.pool, FourCC("nlds"), 30.0)
+                UnitPoolAddUnitType(Creep.Lobstrokks.pool, FourCC("nlsn"), 20.0)
+                UnitPoolAddUnitType(Creep.Lobstrokks.pool, FourCC("nlkl"), 10.0)
+            end
+        }
+        
+    }
+    
+    Creep.trolls = { }
+    Creep.ogres = { }
+    Creep.gnolls = { }
+    Creep.centaurs = { }
+    Creep.turtles = { }
+    Creep.dragonspawn = { }
+    Creep.bluedragons = { }
+    Creep.blackdragons = { }
     Creep.bronzedragons = { }
-    Creep.reddragons    = { }
-    Creep.greendragons  = { }
-    Creep.kamok         = { }
-
-    function Creep.lobstrokks:initialize()
-        self.round        = 1
-        self.name         = 'Lobstrokks'
-        self.stylizedName = 'L O B S T R O K K S'
-        self.tip          = ''
-        self.prepare      = 15.0
-        self.count        = 215
-        self.limit        = 100
-        self.spawnCamp    = { SpawnCircle.getWaterCamp() }
-        self.startSound   = CreateSound('Units\\Creeps\\Lobstrokkblue\\LobstrokkWhat1.wav', false, false, false, 10, 10, 'DefaultEAXON')
-        self.endSound     = CreateSound('Units\\Creeps\\Lobstrokkblue\\LobstrokkDeath1.wav', false, false, false, 10, 10, 'DefaultEAXON')
-        self.pool         = CreateUnitPool()
-
-        UnitPoolAddUnitType(self.pool, FourCC('nlpr'), 60.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nlpd'), 50.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nltc'), 40.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nlds'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nlsn'), 20.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nlkl'), 10.0)
-    end
-
-    function Creep.wolves:initialize()
-        self.round        = 1
-        self.name         = 'Волки'
-        self.stylizedName = 'В О Л К И'
-        self.tip          = ''
-        self.prepare      = 15.0
-        self.count        = 215
-        self.limit        = 100
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.startSound   = CreateSound('Units\\Orc\\Spiritwolf\\SpiritWolfYes3.wav', false, false, false, 10, 10, 'DefaultEAXON')
-        self.endSound     = CreateSound('Units\\Creeps\\Direwolf\\DireWolfDeath1.wav', false, false, false, 10, 10, 'DefaultEAXON')
-        self.pool         = CreateUnitPool()
-
-        UnitPoolAddUnitType(self.pool, FourCC('n002'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('n003'), 20.0)
-        UnitPoolAddUnitType(self.pool, FourCC('n004'), 10.0)
-
-        Preload.unit(FourCC('n002'))
-        Preload.unit(FourCC('n003'))
-        Preload.unit(FourCC('n004'))
-    end
+    Creep.reddragons = { }
+    Creep.greendragons = { }
+    Creep.kamok = { }
 
     function Creep.trolls:initialize()
-        self.round        = 2
-        self.name         = 'Тролли'
-        self.stylizedName = 'Т Р О Л Л И'
-        self.tip          = ''
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 250
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.pool         = CreateUnitPool()
+        self.round = 2
+        self.name = "Тролли"
+        self.stylizedName = "Т Р О Л Л И"
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 250
+        self.spawnCamp = { SpawnCircle.getGroundCamp() }
+        self.pool = CreateUnitPool()
 
-        UnitPoolAddUnitType(self.pool, FourCC('nftr'), 60.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nftb'), 50.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nfsp'), 40.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nftt'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nftk'), 20.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nfsh'), 10.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nftr"), 60.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nftb"), 50.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nfsp"), 40.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nftt"), 30.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nftk"), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nfsh"), 10.0)
     end
 
     function Creep.ogres:initialize()
-        self.round        = 2
-        self.name         = 'Огры'
-        self.stylizedName = 'О Г Р Ы'
-        self.tip          = 'Огры спокойно могут надавать пиздю*ей неосторожному игроку, так что будьте керифул.'
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 250
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.pool         = CreateUnitPool()
+        self.round = 2
+        self.name = "Огры"
+        self.stylizedName = "О Г Р Ы"
+        self.tip = "Огры спокойно могут надавать пиздю*ей неосторожному игроку, так что будьте керифул."
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 250
+        self.spawnCamp = { SpawnCircle.getGroundCamp() }
+        self.pool = CreateUnitPool()
 
-        UnitPoolAddUnitType(self.pool, FourCC('nogr'), 40.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nomg'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nogm'), 20.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nogl'), 10.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nogr"), 40.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nomg"), 30.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nogm"), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nogl"), 10.0)
     end
 
     function Creep.gnolls:initialize()
-        self.round        = 2
-        self.name         = 'Гноллы'
-        self.stylizedName = 'Г Н О Л Л Ы'
-        self.tip          = ''
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 250
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.pool         = CreateUnitPool()
+        self.round = 2
+        self.name = "Гноллы"
+        self.stylizedName = "Г Н О Л Л Ы"
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 250
+        self.spawnCamp = { SpawnCircle.getGroundCamp() }
+        self.pool = CreateUnitPool()
 
-        UnitPoolAddUnitType(self.pool, FourCC('ngna'), 60.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ngns'), 50.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ngno'), 40.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ngnb'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ngnw'), 20.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ngnv'), 10.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ngna"), 60.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ngns"), 50.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ngno"), 40.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ngnb"), 30.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ngnw"), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ngnv"), 10.0)
     end
 
     function Creep.centaurs:initialize()
-        self.round        = 3
-        self.name         = 'Кентавры'
-        self.stylizedName = 'К Е Н Т А В Р Ы'
-        self.tip          = ''
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 250
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.pool         = CreateUnitPool()
+        self.round = 3
+        self.name = "Кентавры"
+        self.stylizedName = "К Е Н Т А В Р Ы"
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 250
+        self.spawnCamp = { SpawnCircle.getGroundCamp() }
+        self.pool = CreateUnitPool()
 
-        UnitPoolAddUnitType(self.pool, FourCC('ncea'), 60.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ncer'), 50.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ncim'), 40.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ncen'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ncks'), 20.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ncnk'), 10.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ncea"), 60.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ncer"), 50.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ncim"), 40.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ncen"), 30.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ncks"), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ncnk"), 10.0)
     end
 
     function Creep.turtles:initialize()
-        self.round        = 4
-        self.name         = 'Черепахи'
-        self.stylizedName = 'Ч Е Р Е П А Х И'
-        self.tip          = ''
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 250
-        self.spawnCamp    = { SpawnCircle.getWaterCamp() }
-        self.pool         = CreateUnitPool()
+        self.round = 4
+        self.name = "Черепахи"
+        self.stylizedName = "Ч Е Р Е П А Х И"
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 250
+        self.spawnCamp = { SpawnCircle.getWaterCamp() }
+        self.pool = CreateUnitPool()
 
-        UnitPoolAddUnitType(self.pool, FourCC('ntrh'), 40.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ntrs'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ntrt'), 20.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ntrg'), 20.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ntrd'), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ntrh"), 40.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ntrs"), 30.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ntrt"), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ntrg"), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ntrd"), 20.0)
     end
 
     function Creep.dragonspawn:initialize()
-        self.round        = 13
-        self.name         = 'Дракониды'
-        self.stylizedName = 'Д Р А К О Н И Д Ы'
-        self.tip          = ''
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 120
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.pool         = CreateUnitPool()
+        self.round = 13
+        self.name = "Дракониды"
+        self.stylizedName = "Д Р А К О Н И Д Ы"
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 120
+        self.spawnCamp = { SpawnCircle.getGroundCamp() }
+        self.pool = CreateUnitPool()
 
-        UnitPoolAddUnitType(self.pool, FourCC('nbdm'), 50.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nbda'), 40.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nbdw'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nbds'), 20.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nbdo'), 10.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nbdm"), 50.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nbda"), 40.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nbdw"), 30.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nbds"), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nbdo"), 10.0)
     end
 
     function Creep.reddragons:initialize()
-        self.round        = 14
-        self.name         = 'Red Dragons'
-        self.stylizedName = 'R E D   D R A G O N S'
-        self.tip          = ''
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 120
-        self.spawnCamp    = { SpawnCircle.getAirCamp() }
-        self.pool         = CreateUnitPool()
+        self.round = 14
+        self.name = "Red Dragons"
+        self.stylizedName = "R E D   D R A G O N S"
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 120
+        self.spawnCamp = { SpawnCircle.getAirCamp() }
+        self.pool = CreateUnitPool()
 
-        UnitPoolAddUnitType(self.pool, FourCC('nrdk'), 40.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nrdr'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nrwm'), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nrdk"), 40.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nrdr"), 30.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nrwm"), 20.0)
     end
 
     function Creep.blackdragons:initialize()
-        self.round        = 14
-        self.name         = 'Black Dragons'
-        self.stylizedName = 'B L A C K   D R A G O N S'
-        self.tip          = ''
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 120
-        self.spawnCamp    = { SpawnCircle.getAirCamp() }
-        self.pool         = CreateUnitPool()
+        self.round = 14
+        self.name = "Black Dragons"
+        self.stylizedName = "B L A C K   D R A G O N S"
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 120
+        self.spawnCamp = { SpawnCircle.getAirCamp() }
+        self.pool = CreateUnitPool()
 
-        UnitPoolAddUnitType(self.pool, FourCC('nbdr'), 40.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nbdd'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nbwm'), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nbdr"), 40.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nbdd"), 30.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nbwm"), 20.0)
     end
 
     function Creep.bronzedragons:initialize()
-        self.round        = 14
-        self.name         = 'Bronze Dragons'
-        self.stylizedName = 'B R O N Z E   D R A G O N S'
-        self.tip          = ''
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 120
-        self.spawnCamp    = { SpawnCircle.getAirCamp() }
-        self.pool         = CreateUnitPool()
+        self.round = 14
+        self.name = "Bronze Dragons"
+        self.stylizedName = "B R O N Z E   D R A G O N S"
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 120
+        self.spawnCamp = { SpawnCircle.getAirCamp() }
+        self.pool = CreateUnitPool()
 
-        UnitPoolAddUnitType(self.pool, FourCC('nbzw'), 40.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nbzk'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nbzd'), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nbzw"), 40.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nbzk"), 30.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nbzd"), 20.0)
     end
 
     function Creep.greendragons:initialize()
-        self.round        = 14
-        self.name         = 'Green Dragons'
-        self.stylizedName = 'G R E E N   D R A G O N S'
-        self.tip          = ''
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 120
-        self.spawnCamp    = { SpawnCircle.getAirCamp() }
-        self.pool         = CreateUnitPool()
+        self.round = 14
+        self.name = "Green Dragons"
+        self.stylizedName = "G R E E N   D R A G O N S"
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 120
+        self.spawnCamp = { SpawnCircle.getAirCamp() }
+        self.pool = CreateUnitPool()
 
-        UnitPoolAddUnitType(self.pool, FourCC('ngrw'), 40.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ngdk'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('ngrd'), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ngrw"), 40.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ngdk"), 30.0)
+        UnitPoolAddUnitType(self.pool, FourCC("ngrd"), 20.0)
     end
 
     function Creep.bluedragons:initialize()
-        self.round        = 14
-        self.name         = 'Blue Dragons'
-        self.stylizedName = 'B L U E   D R A G O N S'
-        self.tip          = ''
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 120
-        self.spawnCamp    = { SpawnCircle.getAirCamp() }
-        self.pool         = CreateUnitPool()
+        self.round = 14
+        self.name = "Blue Dragons"
+        self.stylizedName = "B L U E   D R A G O N S"
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 120
+        self.spawnCamp = { SpawnCircle.getAirCamp() }
+        self.pool = CreateUnitPool()
 
-        UnitPoolAddUnitType(self.pool, FourCC('nadw'), 40.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nadk'), 30.0)
-        UnitPoolAddUnitType(self.pool, FourCC('nadr'), 20.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nadw"), 40.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nadk"), 30.0)
+        UnitPoolAddUnitType(self.pool, FourCC("nadr"), 20.0)
     end
 
     function Creep.kamok:initialize()
-        self.round        = 20
-        self.name         = 'Ka\'mok'
-        self.stylizedName = 'K A \' M O K'
-        self.tip          = ''
-        self.prepare      = 45.0
-        self.count        = 1
-        self.limit        = 1
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.pool         = CreateUnitPool()
+        self.round = 20
+        self.name = "Ka\"mok"
+        self.stylizedName = "K A \" M O K"
+        self.tip = ""
+        self.prepare = 45.0
+        self.count = 1
+        self.limit = 1
+        self.spawnCamp = { SpawnCircle.getGroundCamp() }
+        self.pool = CreateUnitPool()
 
-        UnitPoolAddUnitType(self.pool, FourCC('n00D'), 100.0)
+        UnitPoolAddUnitType(self.pool, FourCC("n00D"), 100.0)
     end
 
 end
@@ -390,10 +394,10 @@ do
         BlzFrameSetVisible(frame, true)
         BlzFrameSetScale(frame, 2.6)
 
-        if pool[ round + 1 ] ~= nil then
-            BlzFrameSetText(frame, '|cFFFFFF00Р А У Н Д   ' .. tostring(round) .. ' :|r   ' .. tostring(stylizedName[ round ]))
-        elseif pool[ round + 1 ] == nil then
-            BlzFrameSetText(frame, '|cFFFFFF00Ф И Н А Л Ь Н Ы Й   Р А У Н Д :|r   ' .. tostring(stylizedName[ round ]))
+        if pool[round + 1] ~= nil then
+            BlzFrameSetText(frame, '|cFFFFFF00Р А У Н Д   ' .. tostring(round) .. ' :|r   ' .. tostring(stylizedName[round]))
+        elseif pool[round + 1] == nil then
+            BlzFrameSetText(frame, '|cFFFFFF00Ф И Н А Л Ь Н Ы Й   Р А У Н Д :|r   ' .. tostring(stylizedName[round]))
         end
 
         TimerStart(CreateTimer(), 10.0, false, function()
@@ -412,9 +416,9 @@ do
     end
 
     function Wave.displayTip()
-        if tip[ round ] ~= '' then
+        if tip[round] ~= '' then
             DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, bj_TEXT_DELAY_ALWAYSHINT, ' ')
-            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, bj_TEXT_DELAY_ALWAYSHINT, '|cFF32CD32HINT|r - ' .. tip[ round ])
+            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, bj_TEXT_DELAY_ALWAYSHINT, '|cFF32CD32HINT|r - ' .. tip[round])
             StartSound(hintSound)
         end
     end
@@ -438,8 +442,8 @@ do
     function Wave.endRound()
         round = round + 1
 
-        if pool[ round ] ~= nil then
-            Wave.playSound(endSound[ round ])
+        if pool[round] ~= nil then
+            Wave.playSound(endSound[round])
             Wave.startSpawnTimeout()
             --  Scoreboard.show(true)
             PowerUp.create()
@@ -452,28 +456,28 @@ do
     function Wave.startRound()
         TimerDialogDisplay(timerWindow, false)
 
-        SpawnCircle.pingMinimap(spawnCamp[ round ])
+        SpawnCircle.pingMinimap(spawnCamp[round])
         Wave.displayTopMsg()
         Wave.displayTip()
-        Wave.playSound(startSound[ round ])
+        Wave.playSound(startSound[round])
         Wave.startSpawn()
         --  Scoreboard.show(false)
         PowerUp.create()
     end
 
     function Wave.startSpawn()
-        if count[ round ] > 0 then
+        if count[round] > 0 then
             TimerStart(timer, 0.75, false, Wave.startSpawn)
             for i = 0, 3 do
-                if Wave.getCount() > limit[ round ] or count[ round ] == 0 then
+                if Wave.getCount() > limit[round] or count[round] == 0 then
                     break
                 end
 
-                local circle = SpawnCircle.getRandom(spawnCamp[ round ])
+                local circle = SpawnCircle.getRandom(spawnCamp[round])
                 local owner  = GetOwningPlayer(circle)
                 local x      = GetUnitX(circle) + GetRandomReal(-16.0, 16.0)
                 local y      = GetUnitY(circle) + GetRandomReal(-16.0, 16.0)
-                local unit   = PlaceRandomUnit(pool[ round ], owner, x, y, 0.0)
+                local unit   = PlaceRandomUnit(pool[round], owner, x, y, 0.0)
 
                 for _, value in pairs(Team.defensiveForce) do
                     UnitShareVision(unit, value, true)
@@ -483,13 +487,13 @@ do
                 SetUnitColor(unit, PLAYER_COLOR_COAL)
                 --  DestroyEffect(AddSpecialEffectTarget('Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl', unit, 'origin'))
 
-                count[ round ] = count[ round ] - 1
+                count[round] = count[round] - 1
             end
 
-        elseif count[ round ] == 0 and Wave.getCount() > 0 then
+        elseif count[round] == 0 and Wave.getCount() > 0 then
             TimerStart(timer, 2.75, false, Wave.startSpawn)
 
-        elseif count[ round ] == 0 and Wave.getCount() == 0 then
+        elseif count[round] == 0 and Wave.getCount() == 0 then
             Wave.endRound()
         end
     end
@@ -500,22 +504,22 @@ do
             timerWindow = CreateTimerDialog(timer)
 
             TimerDialogSetTitleColor(timerWindow, 0xFF, 0xFF, 0xFF, 0xFF)
-            TimerDialogSetTimeColor (timerWindow, 0xFF, 0xFF, 0xFF, 0xFF)
+            TimerDialogSetTimeColor(timerWindow, 0xFF, 0xFF, 0xFF, 0xFF)
         end
 
-        if pool[ round - 1 ] == nil then
+        if pool[round - 1] == nil then
             TimerDialogSetTitle(timerWindow, 'Первая волна:')
-        elseif pool[ round + 1 ] == nil then
+        elseif pool[round + 1] == nil then
             TimerDialogSetTitle(timerWindow, 'Последняя волна:')
         else
             TimerDialogSetTitle(timerWindow, 'Следующая волна:')
         end
 
         TimerDialogDisplay(timerWindow, true)
-        TimerStart(timer, prepare[ round ], false, Wave.startRound)
+        TimerStart(timer, prepare[round], false, Wave.startRound)
 
-        if prepare[ round ] >= 3.0 then
-            TimerStart(CreateTimer(), prepare[ round ] - 3.0, false, function()
+        if prepare[round] >= 3.0 then
+            TimerStart(CreateTimer(), prepare[round] - 3.0, false, function()
                 StartSound(tickSound)
                 TimerStart(GetExpiredTimer(), 1.0, false, function()
                     StartSound(tickSound)
@@ -530,8 +534,8 @@ do
     end
 
     function Wave.initialize()
-        tickSound  = CreateSound('Sound\\Interface\\BattleNetTick.wav',  false, false, false, 10, 10, 'DefaultEAXON')
-        hintSound  = CreateSoundFromLabel('Hint', false, false, false, 10000, 10000)
+        tickSound = CreateSound('Sound\\Interface\\BattleNetTick.wav', false, false, false, 10, 10, 'DefaultEAXON')
+        hintSound = CreateSoundFromLabel('Hint', false, false, false, 10000, 10000)
 
         for _, offensivePlayer in pairs(Team.offensiveForce) do
             for _, defensivePlayer in pairs(Team.defensiveForce) do
@@ -563,27 +567,27 @@ do
 
         for _, value in pairs(Creep) do
             if type(value) == "table" and value.round ~= nil then
-                if data[ value.round ] == nil then
-                    data[ value.round ] = { }
+                if data[value.round] == nil then
+                    data[value.round] = { }
                 end
 
-                table.insert(data[ value.round ], value)
+                table.insert(data[value.round], value)
             end
         end
 
         for key, value in pairs(data) do
-            local i = math.random(1, #value)
+            local i           = math.random(1, #value)
 
-            name        [ key ] = value[ i ].name
-            stylizedName[ key ] = value[ i ].stylizedName
-            tip         [ key ] = value[ i ].tip
-            prepare     [ key ] = value[ i ].prepare
-            count       [ key ] = value[ i ].count
-            limit       [ key ] = value[ i ].limit
-            spawnCamp   [ key ] = value[ i ].spawnCamp
-            startSound  [ key ] = value[ i ].startSound
-            endSound    [ key ] = value[ i ].endSound
-            pool        [ key ] = value[ i ].pool
+            name[key]         = value[i].name
+            stylizedName[key] = value[i].stylizedName
+            tip[key]          = value[i].tip
+            prepare[key]      = value[i].prepare
+            count[key]        = value[i].count
+            limit[key]        = value[i].limit
+            spawnCamp[key]    = value[i].spawnCamp
+            startSound[key]   = value[i].startSound
+            endSound[key]     = value[i].endSound
+            pool[key]         = value[i].pool
 
             --  print('Round ' .. key .. ': ' .. name[ key ])
         end
@@ -979,7 +983,7 @@ do
 
 end
 
-do
+
 
     S2FourCC = function(value)
         return string.unpack(">I4", id)
@@ -988,42 +992,6 @@ do
     FourCC2S = function(value)
         return string.pack(">I4", id)
     end
-
-end
-
------------------------------------------------------------------------------
---                                                                         --
--- C O R E :                                                               --
---                                                                         --
---   Warcraft III lua script                                               --
---   Date: 2020-01-26                                                      --
---   Script Author: ScopteRectuS                                           --
---                                                                         --
------------------------------------------------------------------------------
-
-DEBUG_MODE              = true
-
-HIDDEN_X                = -2048.0
-HIDDEN_Y                =  1024.0
-HIDDEN_Z                =  1024.0
-
-DUMMY_UNIT_ID           = FourCC( 'h002' )
-
-TEMP_ENUM_GROUP         = CreateGroup( )
-MAX_COLLISION_SIZE      = 197.0
-
-STRING_MAP_NAME                = 'Mok: Hero Defense'
-STRING_MAP_VERSION             = '1.0'
-STRING_CHOOSE_YOUR_HERO        = 'Выберите героя'
-STRING_HERO_DESCRIPTION        = 'Описание героя'
-
-function S2FourCC( id )
-    return string.unpack( '>I4', id )
-end
-
-function FourCC2S( id )
-    return string.pack( '>I4', id )
-end
 
 do
     local worldRect   = nil
@@ -1203,6 +1171,7 @@ FloatingTextTag = {
     end
 
 }
+
 
 
 Preload = {

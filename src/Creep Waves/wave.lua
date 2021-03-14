@@ -27,10 +27,10 @@ do
         BlzFrameSetVisible(frame, true)
         BlzFrameSetScale(frame, 2.6)
 
-        if pool[ round + 1 ] ~= nil then
-            BlzFrameSetText(frame, '|cFFFFFF00Р А У Н Д   ' .. tostring(round) .. ' :|r   ' .. tostring(stylizedName[ round ]))
-        elseif pool[ round + 1 ] == nil then
-            BlzFrameSetText(frame, '|cFFFFFF00Ф И Н А Л Ь Н Ы Й   Р А У Н Д :|r   ' .. tostring(stylizedName[ round ]))
+        if pool[round + 1] ~= nil then
+            BlzFrameSetText(frame, '|cFFFFFF00Р А У Н Д   ' .. tostring(round) .. ' :|r   ' .. tostring(stylizedName[round]))
+        elseif pool[round + 1] == nil then
+            BlzFrameSetText(frame, '|cFFFFFF00Ф И Н А Л Ь Н Ы Й   Р А У Н Д :|r   ' .. tostring(stylizedName[round]))
         end
 
         TimerStart(CreateTimer(), 10.0, false, function()
@@ -49,9 +49,9 @@ do
     end
 
     function Wave.displayTip()
-        if tip[ round ] ~= '' then
+        if tip[round] ~= '' then
             DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, bj_TEXT_DELAY_ALWAYSHINT, ' ')
-            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, bj_TEXT_DELAY_ALWAYSHINT, '|cFF32CD32HINT|r - ' .. tip[ round ])
+            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, bj_TEXT_DELAY_ALWAYSHINT, '|cFF32CD32HINT|r - ' .. tip[round])
             StartSound(hintSound)
         end
     end
@@ -75,8 +75,8 @@ do
     function Wave.endRound()
         round = round + 1
 
-        if pool[ round ] ~= nil then
-            Wave.playSound(endSound[ round ])
+        if pool[round] ~= nil then
+            Wave.playSound(endSound[round])
             Wave.startSpawnTimeout()
             --  Scoreboard.show(true)
             PowerUp.create()
@@ -89,28 +89,28 @@ do
     function Wave.startRound()
         TimerDialogDisplay(timerWindow, false)
 
-        SpawnCircle.pingMinimap(spawnCamp[ round ])
+        SpawnCircle.pingMinimap(spawnCamp[round])
         Wave.displayTopMsg()
         Wave.displayTip()
-        Wave.playSound(startSound[ round ])
+        Wave.playSound(startSound[round])
         Wave.startSpawn()
         --  Scoreboard.show(false)
         PowerUp.create()
     end
 
     function Wave.startSpawn()
-        if count[ round ] > 0 then
+        if count[round] > 0 then
             TimerStart(timer, 0.75, false, Wave.startSpawn)
             for i = 0, 3 do
-                if Wave.getCount() > limit[ round ] or count[ round ] == 0 then
+                if Wave.getCount() > limit[round] or count[round] == 0 then
                     break
                 end
 
-                local circle = SpawnCircle.getRandom(spawnCamp[ round ])
+                local circle = SpawnCircle.getRandom(spawnCamp[round])
                 local owner  = GetOwningPlayer(circle)
                 local x      = GetUnitX(circle) + GetRandomReal(-16.0, 16.0)
                 local y      = GetUnitY(circle) + GetRandomReal(-16.0, 16.0)
-                local unit   = PlaceRandomUnit(pool[ round ], owner, x, y, 0.0)
+                local unit   = PlaceRandomUnit(pool[round], owner, x, y, 0.0)
 
                 for _, value in pairs(Team.defensiveForce) do
                     UnitShareVision(unit, value, true)
@@ -120,13 +120,13 @@ do
                 SetUnitColor(unit, PLAYER_COLOR_COAL)
                 --  DestroyEffect(AddSpecialEffectTarget('Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl', unit, 'origin'))
 
-                count[ round ] = count[ round ] - 1
+                count[round] = count[round] - 1
             end
 
-        elseif count[ round ] == 0 and Wave.getCount() > 0 then
+        elseif count[round] == 0 and Wave.getCount() > 0 then
             TimerStart(timer, 2.75, false, Wave.startSpawn)
 
-        elseif count[ round ] == 0 and Wave.getCount() == 0 then
+        elseif count[round] == 0 and Wave.getCount() == 0 then
             Wave.endRound()
         end
     end
@@ -137,22 +137,22 @@ do
             timerWindow = CreateTimerDialog(timer)
 
             TimerDialogSetTitleColor(timerWindow, 0xFF, 0xFF, 0xFF, 0xFF)
-            TimerDialogSetTimeColor (timerWindow, 0xFF, 0xFF, 0xFF, 0xFF)
+            TimerDialogSetTimeColor(timerWindow, 0xFF, 0xFF, 0xFF, 0xFF)
         end
 
-        if pool[ round - 1 ] == nil then
+        if pool[round - 1] == nil then
             TimerDialogSetTitle(timerWindow, 'Первая волна:')
-        elseif pool[ round + 1 ] == nil then
+        elseif pool[round + 1] == nil then
             TimerDialogSetTitle(timerWindow, 'Последняя волна:')
         else
             TimerDialogSetTitle(timerWindow, 'Следующая волна:')
         end
 
         TimerDialogDisplay(timerWindow, true)
-        TimerStart(timer, prepare[ round ], false, Wave.startRound)
+        TimerStart(timer, prepare[round], false, Wave.startRound)
 
-        if prepare[ round ] >= 3.0 then
-            TimerStart(CreateTimer(), prepare[ round ] - 3.0, false, function()
+        if prepare[round] >= 3.0 then
+            TimerStart(CreateTimer(), prepare[round] - 3.0, false, function()
                 StartSound(tickSound)
                 TimerStart(GetExpiredTimer(), 1.0, false, function()
                     StartSound(tickSound)
@@ -167,8 +167,8 @@ do
     end
 
     function Wave.initialize()
-        tickSound  = CreateSound('Sound\\Interface\\BattleNetTick.wav',  false, false, false, 10, 10, 'DefaultEAXON')
-        hintSound  = CreateSoundFromLabel('Hint', false, false, false, 10000, 10000)
+        tickSound = CreateSound('Sound\\Interface\\BattleNetTick.wav', false, false, false, 10, 10, 'DefaultEAXON')
+        hintSound = CreateSoundFromLabel('Hint', false, false, false, 10000, 10000)
 
         for _, offensivePlayer in pairs(Team.offensiveForce) do
             for _, defensivePlayer in pairs(Team.defensiveForce) do
@@ -200,27 +200,27 @@ do
 
         for _, value in pairs(Creep) do
             if type(value) == "table" and value.round ~= nil then
-                if data[ value.round ] == nil then
-                    data[ value.round ] = { }
+                if data[value.round] == nil then
+                    data[value.round] = { }
                 end
 
-                table.insert(data[ value.round ], value)
+                table.insert(data[value.round], value)
             end
         end
 
         for key, value in pairs(data) do
-            local i = math.random(1, #value)
+            local i           = math.random(1, #value)
 
-            name        [ key ] = value[ i ].name
-            stylizedName[ key ] = value[ i ].stylizedName
-            tip         [ key ] = value[ i ].tip
-            prepare     [ key ] = value[ i ].prepare
-            count       [ key ] = value[ i ].count
-            limit       [ key ] = value[ i ].limit
-            spawnCamp   [ key ] = value[ i ].spawnCamp
-            startSound  [ key ] = value[ i ].startSound
-            endSound    [ key ] = value[ i ].endSound
-            pool        [ key ] = value[ i ].pool
+            name[key]         = value[i].name
+            stylizedName[key] = value[i].stylizedName
+            tip[key]          = value[i].tip
+            prepare[key]      = value[i].prepare
+            count[key]        = value[i].count
+            limit[key]        = value[i].limit
+            spawnCamp[key]    = value[i].spawnCamp
+            startSound[key]   = value[i].startSound
+            endSound[key]     = value[i].endSound
+            pool[key]         = value[i].pool
 
             --  print('Round ' .. key .. ': ' .. name[ key ])
         end
