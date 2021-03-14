@@ -9,7 +9,7 @@ HeroExperience = {
         local life        = BlzGetUnitMaxHP(dyingUnit)
         local mana        = BlzGetUnitMaxMana(dyingUnit)
         local level       = GetUnitLevel(dyingUnit)
-        local exp         = R2I(2 * ((life + mana) * level) ^ 0.5)
+        local exp         = math.ceil(2 * ((life + mana) * level) ^ 0.5)
 
         GroupClear(HeroExperience.group)
         GroupEnumUnitsInRange(HeroExperience.group, dyingUnitX, dyingUnitY, 1200.0 + UNIT_MAX_COLLISION_SIZE, nil)

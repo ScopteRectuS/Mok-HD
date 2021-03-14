@@ -1,5 +1,5 @@
 DummyUnit = {
-    id     = UNIT_DUMMY_TYPE_ID,
+    id     = FourCC("h000"),
 
     ---@param owner player
     ---@param x real
@@ -8,7 +8,7 @@ DummyUnit = {
     ---@param face real
     ---@return unit
     create = function(owner, x, y, z, face)
-        if z == nil then
+        if z == nil or z == 0.0 then
             return CreateUnit(owner, DummyUnit.id, x, y, face)
 
         else
