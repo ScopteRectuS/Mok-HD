@@ -22,7 +22,7 @@ do
                 SetUnitPathing(grave, false)
                 BlzSetUnitName(grave, GetHeroProperName(dyingUnit))
 
-                if IsUnitSelected(dyingUnit,  GetLocalPlayer()) then
+                if IsUnitSelected(dyingUnit, GetLocalPlayer()) then
                     SelectUnit(dyingUnit, false)
                     SelectUnit(grave, true)
                 end
@@ -40,7 +40,7 @@ do
 
                     else
                         ReviveHero(dyingUnit, dyingUnitX, dyingUnitY, true)
-                        SetUnitState(dyingUnit, UNIT_STATE_LIFE, BlzGetUnitMaxHP  (dyingUnit))
+                        SetUnitState(dyingUnit, UNIT_STATE_LIFE, BlzGetUnitMaxHP(dyingUnit))
                         SetUnitState(dyingUnit, UNIT_STATE_MANA, BlzGetUnitMaxMana(dyingUnit))
 
                         if IsUnitSelected(grave, GetLocalPlayer()) then

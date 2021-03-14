@@ -2,10 +2,7 @@ InitGlobals = function()
 
 end
 
-
-
-
-Map = {
+Map         = {
 
     initializeTeams = function()
         SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x03), true)
