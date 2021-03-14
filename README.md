@@ -4,12 +4,17 @@
 
 ##Сюжет
 
+
 PlotText.
+
 
 ##Игровой процесс
 
+
 GameplayText.
 
+
 ##Ссылки
+
 
 Text.
