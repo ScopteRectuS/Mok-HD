@@ -1,3 +1,3 @@
-![logo](.\resources\reforged logo.png)
+![logo](resources\reforged logo.png)
 # Mok: Hero Defense
 
