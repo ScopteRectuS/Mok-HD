@@ -135,18 +135,18 @@ Frame "FRAME" "HeroPickDialog" {
         Width       0.21f,
         SetPoint    TOPLEFT, "HeroListTitleValue", BOTTOMLEFT,  -0.003, -0.002,
 
-      //Frame "BACKDROP" "HeroListContainerBackdrop" {
-      //    SetAllPoints                    ,
-      //    DecorateFileNames               ,
-      //    BackdropTileBackground          ,
-      //    BackdropBackground              "EscMenuEditBoxBackground",
-      //    BackdropCornerFlags             "UL|UR|BL|BR|T|L|B|R",
-      //    BackdropCornerSize              0.0125,
-      //    BackdropBackgroundSize          0.256,
-      //    BackdropBackgroundInsets        0.005 0.005 0.005 0.005,
-      //    BackdropEdgeFile                "EscMenuEditBoxBorder",
-      //    BackdropBlendAll                ,
-      //}
+        Frame "BACKDROP" "HeroListContainerBackdrop" {
+            SetAllPoints                    ,
+            DecorateFileNames               ,
+            BackdropTileBackground          ,
+            BackdropBackground              "EscMenuEditBoxBackground",
+            BackdropCornerFlags             "UL|UR|BL|BR|T|L|B|R",
+            BackdropCornerSize              0.0125,
+            BackdropBackgroundSize          0.256,
+            BackdropBackgroundInsets        0.005 0.005 0.005 0.005,
+            BackdropEdgeFile                "EscMenuEditBoxBorder",
+            BackdropBlendAll                ,
+        }
     }
 
     // -- HERO DESCRIPTION --------------------------------------------------
@@ -301,10 +301,10 @@ Frame "FRAME" "HeroListItem" {
     }
 
     Frame "GLUEBUTTON" "HeroListItemButton" INHERITS WITHCHILDREN "HeroButtonTemplate" {
-        Width                   0.178,
+        Width                   0.169,
         Height                  0.035,
         UseActiveContext        ,
-        SetPoint                TOPLEFT,       "HeroListItemIcon",   TOPRIGHT,      -0.003,  0,
+        SetPoint                TOPLEFT,       "HeroListItemIcon",   TOPRIGHT,      0.003,  0,
         ControlStyle            "AUTOTRACK",
 
       //Frame "HIGHLIGHT" "HeroListItemSelectedHighlight" {

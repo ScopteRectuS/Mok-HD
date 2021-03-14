@@ -28,6 +28,15 @@ HeroPick = {
         BlzFrameSetText(BlzGetFrameByName("AbilityDescriptionTitleValue", 0), "Описание способности")
 
         local heroListContainer = BlzGetFrameByName("HeroListContainer", 0)
+
+        local scroll = BlzCreateFrame("HeroListScrollBar", heroListContainer, 0, 0)
+
+        BlzFrameSetSize(sliderFrame, 0.005, 0.11 )
+        BlzFrameSetPoint(scroll, FRAMEPOINT_CENTER, game_ui, FRAMEPOINT_CENTER, 0.0, 0.0)
+        BlzFrameSetMinMaxValue(scroll, 0.0, 100.0)
+        BlzFrameSetStepSize(scroll, 1.0)
+
+
         local heroListItem = { }
         local heroListItemIcon = { }
         local heroListItemTitle = { }
