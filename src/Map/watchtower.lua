@@ -373,4 +373,3 @@ function SetBuildingsInvulnerable(flag)
     SetTowersInvulnerable(flag)
     SetPigFarmsInvulnerable(flag)
 end
-

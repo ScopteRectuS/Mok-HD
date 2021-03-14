@@ -60,4 +60,3 @@ HeroRevive = {
     end
 
 }
-

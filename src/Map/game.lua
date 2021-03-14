@@ -137,4 +137,3 @@ function displayTopMsg(msg)
     BlzFrameSetScale(frame, 2.6)
     BlzFrameSetVisible(frame, true)
 end
-

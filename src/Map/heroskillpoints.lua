@@ -78,4 +78,3 @@ SkillPoints = {
     end
 
 }
-
