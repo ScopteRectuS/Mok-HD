@@ -75,7 +75,7 @@ end
 function IsUnitTower(whichUnit)
     return
     GetUnitTypeId(whichUnit) == BUILDING_TOWER_T1 or
-            GetUnitTypeId(whichUnit) == BUILDING_TOWER_T2
+        GetUnitTypeId(whichUnit) == BUILDING_TOWER_T2
 end
 
 function CreateTowers()
@@ -313,10 +313,10 @@ end
 function IsUnitBuilding(whichUnit)
     return
     IsUnitTown(whichUnit) or
-            IsUnitTower(whichUnit) or
-            IsUnitPigFarm(whichUnit) or
-            IsUnitSpawnCircle(whichUnit) or
-            IsUnitSentryWard(whichUnit)
+        IsUnitTower(whichUnit) or
+        IsUnitPigFarm(whichUnit) or
+        IsUnitSpawnCircle(whichUnit) or
+        IsUnitSentryWard(whichUnit)
 end
 
 function RestoreBuilding(whichUnit)
@@ -341,9 +341,9 @@ function RestoreBuilding(whichUnit)
 
         UnitResetCooldown(whichUnit)
         DestroyEffect(AddSpecialEffect(
-                "Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",
-                GetUnitX(whichUnit),
-                GetUnitY(whichUnit)
+            "Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",
+            GetUnitX(whichUnit),
+            GetUnitY(whichUnit)
         ))
     end
 end

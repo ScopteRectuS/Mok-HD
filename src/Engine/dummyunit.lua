@@ -1,5 +1,5 @@
 DummyUnit = {
-    id = UNIT_DUMMY_TYPE_ID,
+    id     = UNIT_DUMMY_TYPE_ID,
 
     ---@param owner player
     ---@param x real

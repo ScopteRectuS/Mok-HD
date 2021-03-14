@@ -1,5 +1,5 @@
 do
-    Hero = { }
+    Hero     = { }
     HeroPick = { }
 
     function Hero.getByPlayer(whichPlayer)
@@ -19,7 +19,7 @@ do
     end
 
     function HeroPick.displayHint()
-        local snd = CreateSoundFromLabel('Hint', false, false, false, 10000, 10000)
+        local snd  = CreateSoundFromLabel('Hint', false, false, false, 10000, 10000)
         local hint = 'Choose the right character for your game. ' ..
             'To complete the game, your team must have at least one hero from each class. ' ..
             'For more information, click on the tavern you are interested in.'
@@ -32,7 +32,7 @@ do
 
     function HeroPick.createTavern(x, y, whichColor, ...)
         local tavern = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), FourCC('n00L'), x, y, bj_UNIT_FACING)
-        local arg = { ... }
+        local arg    = { ... }
 
         SelectUnit(tavern, true)
         SetUnitColor(tavern, whichColor)
@@ -73,7 +73,7 @@ do
         TriggerRegisterPlayerUnitEvent(trig, Player(PLAYER_NEUTRAL_PASSIVE), EVENT_PLAYER_UNIT_SELL, nil)
         TriggerAddAction(trig, function()
             local soldUnit = GetSoldUnit()
-            local owner = GetOwningPlayer(soldUnit)
+            local owner    = GetOwningPlayer(soldUnit)
 
             for _, value in pairs(Team.defensiveForce) do
                 SetPlayerTechMaxAllowed(value, GetUnitTypeId(soldUnit), IntegerTertiaryOp(value == owner, 1, 0))
@@ -100,19 +100,19 @@ do
     function HeroPick.initialize()
         BlzLoadTOCFile("war3mapImported\\FrameDef.toc")
 
-        local game_ui = BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)
+        local game_ui               = BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)
 
-        local hero_pick_dialog = BlzCreateFrame("HeroPickDialog", game_ui, 0, 0)
+        local hero_pick_dialog      = BlzCreateFrame("HeroPickDialog", game_ui, 0, 0)
 
-        local heroPickTitleValue = BlzGetFrameByName("HeroPickTitleValue", 0)
+        local heroPickTitleValue    = BlzGetFrameByName("HeroPickTitleValue", 0)
         local heroPickSubtitleValue = BlzGetFrameByName("HeroPickSubtitleValue", 0)
 
         BlzFrameSetText(heroPickTitleValue, STRING_MAP_NAME)
         BlzFrameSetText(heroPickSubtitleValue, STRING_CHOOSE_YOUR_HERO)
 
-        local heroListTitleValue = BlzGetFrameByName("HeroListTitleValue", 0)
-        local heroDescriptionTitleValue = BlzGetFrameByName("HeroDescriptionTitleValue", 0)
-        local abilityListTitleValue = BlzGetFrameByName("AbilityListTitleValue", 0)
+        local heroListTitleValue           = BlzGetFrameByName("HeroListTitleValue", 0)
+        local heroDescriptionTitleValue    = BlzGetFrameByName("HeroDescriptionTitleValue", 0)
+        local abilityListTitleValue        = BlzGetFrameByName("AbilityListTitleValue", 0)
         local abilityDescriptionTitleValue = BlzGetFrameByName("AbilityDescriptionTitleValue", 0)
 
         BlzFrameSetText(heroListTitleValue, 'Список героев')
@@ -121,12 +121,12 @@ do
         BlzFrameSetText(abilityDescriptionTitleValue, 'Описание способности')
 
         local hero_list_container = BlzGetFrameByName("HeroListContainer", 0)
-        local hero_description = BlzGetFrameByName("HeroDescriptionArea", 0)
+        local hero_description    = BlzGetFrameByName("HeroDescriptionArea", 0)
         local abil_list_container = BlzGetFrameByName("AbilityListContainer", 0)
-        local abil_description = BlzGetFrameByName("AbilityDescriptionArea", 0)
-        local button = BlzGetFrameByName("HeroPickOkButton", 0)
+        local abil_description    = BlzGetFrameByName("AbilityDescriptionArea", 0)
+        local button              = BlzGetFrameByName("HeroPickOkButton", 0)
 
-        local hero_list_item_1 = BlzCreateFrame("HeroListItem", hero_list_container, 0, 0)
+        local hero_list_item_1    = BlzCreateFrame("HeroListItem", hero_list_container, 0, 0)
 
         BlzFrameSetTexture(BlzGetFrameByName("HeroListItemIcon", 0), "ReplaceableTextures\\CommandButtons\\BTNSamuro.blp", 0, true)
         BlzFrameSetText(BlzGetFrameByName("HeroListItemTitle", 0), "Мастер клинка")

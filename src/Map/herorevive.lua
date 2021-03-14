@@ -6,9 +6,9 @@ HeroRevive = {
         if IsUnitType(dyingUnit, UNIT_TYPE_HERO) then
             local dyingUnitX = GetUnitX(dyingUnit)
             local dyingUnitY = GetUnitY(dyingUnit)
-            local grave = CreateUnit(GetOwningPlayer(dyingUnit), HeroRevive.graveTypeId, dyingUnitX, dyingUnitY, 0.0)
-            local timer = CreateTimer()
-            local graveLife = 1.0
+            local grave      = CreateUnit(GetOwningPlayer(dyingUnit), HeroRevive.graveTypeId, dyingUnitX, dyingUnitY, 0.0)
+            local timer      = CreateTimer()
+            local graveLife  = 1.0
 
             SetWidgetLife(grave, 1.0)
             SetUnitPathing(grave, false)
@@ -48,8 +48,8 @@ HeroRevive = {
         end
     end,
 
-    initialize = function()
-        HeroRevive.trigger = CreateTrigger()
+    initialize        = function()
+        HeroRevive.trigger     = CreateTrigger()
         HeroRevive.graveTypeId = FourCC('h003')
 
         TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x02), EVENT_PLAYER_UNIT_DEATH, nil)

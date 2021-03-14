@@ -1,7 +1,7 @@
 SkillPoints = {
 
     onPlayerHeroLevel = function()
-        local hero = GetLevelingUnit()
+        local hero  = GetLevelingUnit()
         local level = GetHeroLevel(hero)
 
         if level == 1 then
@@ -67,13 +67,13 @@ SkillPoints = {
         end
     end,
 
-    initialize = function()
+    initialize        = function()
         SkillPoints.trigger = CreateTrigger()
 
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player( 0x02), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player( 0x03), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player( 0x04), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player( 0x05), EVENT_PLAYER_HERO_LEVEL, nil)
+        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x02), EVENT_PLAYER_HERO_LEVEL, nil)
+        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x03), EVENT_PLAYER_HERO_LEVEL, nil)
+        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x04), EVENT_PLAYER_HERO_LEVEL, nil)
+        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x05), EVENT_PLAYER_HERO_LEVEL, nil)
         TriggerAddAction(SkillPoints.trigger, SkillPoints.onPlayerHeroLevel)
     end
 
