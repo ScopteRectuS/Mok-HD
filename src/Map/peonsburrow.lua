@@ -1,4 +1,7 @@
 PeonsBurrow = {
+    id = FourCC("t000"),
+    owner = Player(0x16),
+    group = CreateGroup(),
 
     restore = function(u)
     end,

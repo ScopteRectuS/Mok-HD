@@ -623,272 +623,6 @@ do
 
 end
 
-TimerStart(CreateTimer(), 0.0, false, function()
-    DestroyTimer(GetExpiredTimer())
-
-    -- body:
-end)
-
-do
-    Debug = { }
-
-    function Debug.onEsc()
-        local group = CreateGroup()
-
-        GroupEnumUnitsOfPlayer(group, GetTriggerPlayer(), nil)
-
-        for i = 1, BlzGroupGetSize(group) do
-            local enumUnit = BlzGroupUnitAt(group, i - 1)
-
-            if IsUnitType(enumUnit, UNIT_TYPE_HERO) then
-                SetHeroLevel(enumUnit, GetHeroLevel(enumUnit) + 1, true)
-                UnitResetCooldown(enumUnit)
-            end
-        end
-
-        DestroyGroup(group)
-    end
-
-    function Debug.initialize()
-        local trig = CreateTrigger()
-
-        for i = 0, bj_MAX_PLAYERS - 1 do
-            BlzTriggerRegisterPlayerKeyEvent(trig, Player(i), OSKEY_ESCAPE, 0, true)
-        end
-
-        TriggerAddAction(trig, Debug.onEsc)
-    end
-
-end
-
---[[
-COLOR
-if     i ==  0 then return "|cFFFF0303" .. s .. "|r"
-elseif i ==  1 then return "|cFF0042FF" .. s .. "|r"
-elseif i ==  2 then return "|cFF1CE6B9" .. s .. "|r"
-elseif i ==  3 then return "|cFF540081" .. s .. "|r"
-elseif i ==  4 then return "|cFFFFFF01" .. s .. "|r"
-elseif i ==  5 then return "|cFFFE8A0E" .. s .. "|r"
-elseif i ==  6 then return "|cFF20C000" .. s .. "|r"
-elseif i ==  7 then return "|cFFE55BB0" .. s .. "|r"
-elseif i ==  8 then return "|cff959697" .. s .. "|r"
-elseif i ==  9 then return "|cFF7EBFF1" .. s .. "|r"
-elseif i == 10 then return "|cFF106246" .. s .. "|r"
-elseif i == 11 then return "|cFF4E2A04" .. s .. "|r"
-elseif i == 12 then return "|cFF282828" .. s .. "|r"
-elseif i == 13 then return "|cFF282828" .. s .. "|r"
-elseif i == 14 then return "|cFF282828" .. s .. "|r"
-elseif i == 15 then return "|cFF282828" .. s .. "|r"
-elseif i >= 16 then return "|cFFFFFFFF" .. s .. "|r"
-
-
-
-
-    DAMAGE_TYPE_PHYSICAL
-    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_MELEE, DAMAGE_TYPE_NORMAL, null )
-    DAMAGE_TYPE_PHYSICAL_EX
-    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_MELEE, DAMAGE_TYPE_UNIVERSAL, null )
-
-    DAMAGE_TYPE_MAGICAL
-    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, null )
-    DAMAGE_TYPE_MAGICAL_EX
-    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_ENHANCED, null )
-
-    DAMAGE_TYPE_PURE
-    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, null )
-    DAMAGE_TYPE_COMPOSITE
-    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL, null )
-
-
-
-
-    FLOATING_TEXTTAG_GOLD                                   FLOATING_TEXTTAG_LUMBER
-    SetTextTagText( tt, value, 0.023 )                      SetTextTagText( tt, value, 0.023 )
-    SetTextTagPosUnit( tt, whichUnit, 0.0 )                 SetTextTagPosUnit( tt, whichUnit, 0.0 )
-    SetTextTagColor( tt, 255, 220, 0, 255 )                 SetTextTagColor( tt, 0, 200, 80, 255 )
-    SetTextTagVisibility ( tt, true )                       SetTextTagVisibility( tt, true )
-    SetTextTagPermanent( tt, false )                        SetTextTagPermanent( tt, false )
-    SetTextTagVelocity( tt, 0.0, 0.029 )                    SetTextTagVelocity( tt, 0.0, 0.029 )
-    SetTextTagLifespan( tt, 2.0 )                           SetTextTagLifespan( tt, 2.0 )
-    SetTextTagFadepoint( tt, 1.0 )                          SetTextTagFadepoint( tt, 1.0 )
-
-    FLOATING_TEXTTAG_MISS                                   FLOATING_TEXTTAG_CRITICAL_STRIKE
-    SetTextTagText( tt, value, 0.023 )                      SetTextTagText( tt, value, 0.023 )
-    SetTextTagPosUnit( tt, whichUnit, 0.0 )                 SetTextTagPosUnit( tt, whichUnit, 0.0 )
-    SetTextTagColor( tt, 255, 0, 0, 255 )                   SetTextTagColor( tt, 255, 0, 0, 255 )
-    SetTextTagVisibility( tt, true )                        SetTextTagVisibility( tt, true )
-    SetTextTagPermanent( tt, false )                        SetTextTagPermanent( tt, false )
-    SetTextTagVelocity( tt, 0.0, 0.03993 )                  SetTextTagVelocity( tt, 0.0, 0.03993 )
-    SetTextTagLifespan( tt, 3.0 )                           SetTextTagLifespan( tt, 5.0 )
-    SetTextTagFadepoint( tt, 1.0 )                          SetTextTagFadepoint( tt, 2.0 )
-
-    FLOATING_TEXTTAG_SHADOW_STRIKE                          FLOATING_TEXTTAG_MANA_BURN
-    SetTextTagText( tt, value, 0.023 )                      SetTextTagText( tt, value, 0.023 )
-    SetTextTagPosUnit( tt, whichUnit, 0.0 )                 SetTextTagPosUnit( tt, whichUnit, 0.0 )
-    SetTextTagColor( tt, 158, 255, 0, 255 )                 SetTextTagColor( tt, 81, 81, 255, 255 )
-    SetTextTagVisibility( tt, true )                        SetTextTagVisibility( tt, true )
-    SetTextTagPermanent( tt, false )                        SetTextTagPermanent( tt, false )
-    SetTextTagVelocity( tt, 0.0, 0.03993 )                  SetTextTagVelocity( tt, 0.0, 0.03993 )
-    SetTextTagLifespan( tt, 5.0 )                           SetTextTagLifespan( tt, 5.0 )
-    SetTextTagFadepoint( tt, 2.0 )                          SetTextTagFadepoint( tt, 2.0 )
-
-
-
-
-
-
-
-
-
-    QUESTMESSAGE_DISCOVERED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, "|cFFFFCC00" .. "MAIN QUEST" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, message )
-    StartSound( QUEST_DISCOVERED_SOUND )
-    FlashQuestDialogButton( )
-
-    QUESTMESSAGE_OPT_DISCOVERED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, "|cFFFFCC00" .. "OPTIONAL QUEST" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, message )
-    StartSound( QUEST_DISCOVERED_SOUND)
-    FlashQuestDialogButton( )
-
-    QUESTMESSAGE_UPDATED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, "|cffffcc00" .. "MAIN QUEST UPDATE" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, message )
-    StartSound( QUEST_UPDATED_SOUND )
-    FlashQuestDialogButton( )
-
-    QUESTMESSAGE_OPT_UPDATED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, "|cFFFFCC00" .. "OPTIONAL QUEST UPDATE" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, message )
-    StartSound( QUEST_UPDATED_SOUND )
-    FlashQuestDialogButton( )
-
-    QUESTMESSAGE_COMPLETED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, "|cFFFFCC00" .. "MAIN QUEST COMPLETED" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, message )
-    StartSound( QUEST_COMPLETED_SOUND )
-    FlashQuestDialogButton( )
-
-    QUESTMESSAGE_OPT_COMPLETED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, "|cFFFFCC00" .. "OPTIONAL QUEST COMPLETED" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, message )
-    StartSound( QUEST_COMPLETED_SOUND )
-    FlashQuestDialogButton( )
-
-    QUESTMESSAGE_FAILED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, "|cFFFFCC00" .. "QUEST FAILED" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, message )
-    StartSound( QUEST_FAILED_SOUND )
-    FlashQuestDialogButton( )
-
-    QUESTMESSAGE_OPT_FAILED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, "|cFFFFCC00" .. "OPTIONAL QUEST FAILED" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, message )
-    StartSound( QUEST_FAILED_SOUND )
-    FlashQuestDialogButton( )
-
-    QUESTMESSAGE_REQUIREMENT
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTREQUIREMENT, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTREQUIREMENT, message )
-
-    QUESTMESSAGE_MISSIONFAILED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_MISSIONFAILED, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_MISSIONFAILED, "|cFFFFCC00" .. "MISSION FAILED" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_MISSIONFAILED, message )
-    StartSound( QUEST_FAILED_SOUND )
-
-    QUESTMESSAGE_HINT
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_HINT, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_HINT, "|cff32CD32" .. "КРАТКАЯ ПОДСКАЗКА:" .. "|r " .. message )
-    StartSound( QUEST_HINT_SOUND )
-
-    QUESTMESSAGE_ALWAYSHINT
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_ALWAYSHINT, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_ALWAYSHINT, "|cff32CD32" .. "HINT" .. "|r " .. " – " .. message )
-    StartSound( QUEST_HINT_SOUND )
-
-    QUESTMESSAGE_SECRET
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_SECRET, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_SECRET, "|cff32CD32" .. "SECRET FOUND" .. "|r " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_SECRET, message )
-    StartSound( QUEST_SECRET_SOUND )
-
-    QUESTMESSAGE_UNITACQUIRED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITACQUIRED, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITACQUIRED, "|cff87ceeb" .. "ВЫ ПОЛУЧИЛИ ПОДКРЕПЛЕНИЕ" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITACQUIRED, message )
-    StartSound( QUEST_HINT_SOUND )
-
-    QUESTMESSAGE_UNITAVAILABLE
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITAVAILABLE, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITAVAILABLE, "|cff87ceeb" .. "NEW UNIT AVAILABLE" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITAVAILABLE, message )
-    StartSound( QUEST_HINT_SOUND )
-
-    QUESTMESSAGE_ITEMACQUIRED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_ITEMACQUIRED, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_ITEMACQUIRED, "|cff87ceeb" .. "ПОЛУЧЕНЫ ПРЕДМЕТЫ:" .. "|r " .. message )
-    StartSound( QUEST_ITEM_ACQUIRED_SOUND )
-
-    QUESTMESSAGE_WARNING
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_WARNING, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_WARNING, "|cff32cd32" .. "ВНИМАНИЕ:" .. "|r " .. message )
-    StartSound( QUEST_WARNING_SOUND )
-
-
-
-    SOUND_PING_MINIMAP                                                  = CreateSoundFromLabel( "AutoCastButtonClick",         false, false, false, 10000, 10000 )
-    SOUND_RESCUE                                                        = CreateSoundFromLabel( "Rescue",                      false, false, false, 10000, 10000 )
-    SOUND_QUEST_DISCOVERED                                              = CreateSoundFromLabel( "QuestNew",                    false, false, false, 10000, 10000 )
-    SOUND_QUEST_UPDATED                                                 = CreateSoundFromLabel( "QuestUpdate",                 false, false, false, 10000, 10000 )
-    SOUND_QUEST_COMPLETED                                               = CreateSoundFromLabel( "QuestCompleted",              false, false, false, 10000, 10000 )
-    SOUND_QUEST_FAILED                                                  = CreateSoundFromLabel( "QuestFailed",                 false, false, false, 10000, 10000 )
-    SOUND_QUEST_HINT                                                    = CreateSoundFromLabel( "Hint",                        false, false, false, 10000, 10000 )
-    SOUND_QUEST_SECRET                                                  = CreateSoundFromLabel( "SecretFound",                 false, false, false, 10000, 10000 )
-    SOUND_QUEST_ITEM_ACQUIRED                                           = CreateSoundFromLabel( "ItemReward",                  false, false, false, 10000, 10000 )
-    SOUND_QUEST_WARNING                                                 = CreateSoundFromLabel( "Warning",                     false, false, false, 10000, 10000 )
-    SOUND_VICTORY_DIALOG                                                = CreateSoundFromLabel( "QuestCompleted",              false, false, false, 10000, 10000 )
-    SOUND_DEFEAT_DIALOG                                                 = CreateSoundFromLabel( "QuestFailed",                 false, false, false, 10000, 10000 )
-    SOUND_DAWN                                                          = CreateSound( "Sound\\Time\\DaybreakRooster.wav",     false, false, false, 10, 10, "DefaultEAXON" )
-    SOUND_DUSK                                                          = CreateSound( "Sound\\Time\\DuskWolf.wav",            false, false, false, 10, 10, "DefaultEAXON" )
-    SOUND_BATTLE_NET_TICK                                               = CreateSound( "Sound\\Interface\\BattleNetTick.wav",  false, false, false, 10, 10, "DefaultEAXON" )
-    SOUND_GOOD_JOB                                                      = CreateSound( "Sound\\Interface\\GoodJob.wav",        false, false, false, 10, 10, "DefaultEAXON" )
-    SOUND_CLAN_INVITATION                                               = CreateSound( "Sound\\Interface\\ClanInvitation.wav", false, false, false, 10, 10, "DefaultEAXON" )
-
-
-
-    ITEM_POWERUP = {
-        [0]                                                             = FourCC( "manh" ),
-        [1]                                                             = FourCC( "tdx2" ),
-        [2]                                                             = FourCC( "texp" ),
-        [3]                                                             = FourCC( "tin2" ),
-        [4]                                                             = FourCC( "tpow" ),
-        [5]                                                             = FourCC( "tst2" )
-    }
-
-    TIP = {
-        [0x00]                                                          = "выберите подходящего для вашего стиля игры героя.",
-        [0x01]                                                          = "каждый раз, когда вы успешно проходите волну, богиня благословляет вас, исцеляя всех раненных воинов и воскрешая всех, кто пал в бою.",
-        [0x02]                                                          = "когда погибает один из героев, его могут воскресить другие герои, которые остались в живых. Для этого щёлкните |cFFFED312ПРАВОЙ КНОПКОЙ МЫШИ|r на могиле погибшего героя. Если погибнут все герои, то вы проиграете.",
-        [0x03]                                                          = "за убийство боссов иногда могут выпдать различные артефакты",
-        [0x04]                                                          = "Choose the right character for your game. To complete the game, your team must have at least one hero from each class. For more information, click on the tavern you are interested in.",
-        [0x05]                                                          = "|cFFFED312Ability Power:|r  Ability Power гладиаторы в битве полагаются в основном на урон с заклинаний, при этом сами обладают небольшим количеством брони и здоровья.",
-        [0x06]                                                          = "|cFFFED312Attack Damage:|r  oписание находится в разработке.",
-        [0x07]                                                          = "|cFFFED312Support:|r  сами Support'ы по себе не сильны, однако очень полезны для команды. Они могут как лечить раненных в бою союзников, так и усиливать огневую мощь атакующих.",
-        [0x08]                                                          = "|cFFFED312Tank:|r  гладиаторы класса Tank отвлекают в бою внимание противника на себя, предотвращая нанесение урона слобозащищённым персонажам. Могут также перехватить часть повреждений, нацеленных на союзников. Для выполнения поставленных задач Tank'и имеют хорошую защиту и большой запас здоровья."
-    }
-
-]]
-
 do
     Ability = { }
 
@@ -1763,6 +1497,9 @@ SkillPoints = {
 }
 
 Peon = {
+    id = FourCC("t000"),
+    owner = Player(0x16),
+    group = CreateGroup(),
 
     protectTarget = function(target)
     end,
@@ -1784,6 +1521,9 @@ Peon = {
 }
 
 PeonsBurrow = {
+    id = FourCC("t000"),
+    owner = Player(0x16),
+    group = CreateGroup(),
 
     restore = function(u)
     end,
@@ -2034,183 +1774,315 @@ do
 
 end
 
-do
+SentryWard = {
+    id = FourCC("t000"),
+    owner = Player(0x16),
+    group = CreateGroup(),
 
-    WatchTower = {
-        id = FourCC("t000"),
-        owner = Player(22),
-        group = CreateGroup(),
+    create = function(x, y, face)
+        return CreateUnit(SentryWard.owner, SentryWard.id, x, y, face)
+    end
 
-        create = function(x, y, face)
-            local u = CreateUnit(WatchTower.owner, WatchTower.id, x, y, face)
+}
 
-            --SetUbersplatRenderAlways(CreateUbersplat(x, y, "OLAR", 0xFF, 0xFF, 0xFF, 0xFF, true, true), true)
+WatchTower = {
+    id = FourCC("t000"),
+    owner = Player(0x16),
+    group = CreateGroup(),
 
-            return u
-        end,
+    setInvulnerable = function(u, flag)
+        SetUnitInvulnerable(u, flag)
+        SetUnitVertexColor(u, 0xFF, 0xFF, 0xFF, IntegerTertiaryOp(flag, 0xA0, 0xFF))
+    end,
 
-        setInvulnerable = function(u, flag)
-            SetUnitInvulnerable(u, flag)
-            SetUnitVertexColor(u, 0xFF, 0xFF, 0xFF, IntegerTertiaryOp(flag, 0xA0, 0xFF))
+    restore = function(u)
+        if not UnitAlive(u) then
+            ReviveUnit(u)
         end
 
-    }
+        SetUnitState(u, UNIT_STATE_LIFE, BlzGetUnitMaxHP(u))
+        SetUnitState(u, UNIT_STATE_MANA, BlzGetUnitMaxMana(u))
+        DestroyEffect(AddSpecialEffectTarget("", u,"origin"))
+    end,
 
-end
+    createUbersplat = function(x, y)
+        SetUbersplatRenderAlways(CreateUbersplat(x, y, "OLAR", 0xFF, 0xFF, 0xFF, 0xFF, true, true), true)
+    end,
 
------------------------------------------------------------------------------
---  B U I L D I N G S :   T O W N                                          --
------------------------------------------------------------------------------
+    create = function(x, y, face)
+        --UnitSetUsesAltIcon(tower[i], true)
+        --SetAltMinimapIcon("UI\\Minimap\\MiniMap-Tower.tga")
 
-function IsUnitTown(whichUnit)
-    return GetUnitTypeId(whichUnit) == BUILDING_TOWN
-end
-
-function GetTown()
-    return town
-end
-
-function CreateTown()
-    town = CreateUnit(DEFENSIVE_PLAYER, BUILDING_TOWN, 4288.0, -4544.0, 270.0)
-    CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), FourCC("n012"), GetUnitX(town), GetUnitY(town), GetUnitFacing(town))
-end
-
-function SetTownInvulnerable(flag)
-    SetUnitInvulnerable(town, flag)
-    SetUnitVertexColor(town, 0x96, 0x96, 0x96, IntegerTertiaryOp(flag, 0xA0, 0xFF))
-end
-
------------------------------------------------------------------------------
---  B U I L D I N G S :   T O W E R S                                      --
------------------------------------------------------------------------------
-
-function IsUnitTower(whichUnit)
-    return
-    GetUnitTypeId(whichUnit) == BUILDING_TOWER_T1 or
-        GetUnitTypeId(whichUnit) == BUILDING_TOWER_T2
-end
-
-function CreateTowers()
-    tower = {
-        -- Tier 1:
-        [0] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_TOWER_T1, 3648.0, -6848.0, 270.0),
-        [1] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_TOWER_T1, 1856.0, -5312.0, 270.0),
-        [2] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_TOWER_T1, 1600.0, -3136.0, 270.0),
-        [3] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_TOWER_T1, 3392.0, -2112.0, 270.0),
-        [4] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_TOWER_T1, 5440.0, -2624.0, 270.0),
-        [5] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_TOWER_T1, 6208.0, -4288.0, 270.0),
-
-        -- Tier 2:
-        [6] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_TOWER_T2, 4928.0, -3904.0, 270.0),
-        [7] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_TOWER_T2, 3776.0, -5312.0, 270.0),
-        [8] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_TOWER_T2, 3648.0, -3904.0, 270.0)
-    }
-
-    for i = 0, #tower do
-        UnitSetUsesAltIcon(tower[i], true)
-        SetUbersplatRenderAlways(CreateUbersplat(GetUnitX(tower[i]), GetUnitY(tower[i]), "OLAR", 0xFF, 0xFF, 0xFF, 0xFF, true, true), true)
+        return CreateUnit(WatchTower.owner, WatchTower.id, x, y, face)
     end
 
-    SetAltMinimapIcon("UI\\Minimap\\MiniMap-Tower.tga")
-end
+}
 
-function SetTowersInvulnerable(flag)
-    for i = 0, #tower do
-        SetUnitInvulnerable(tower[i], flag)
-        SetUnitVertexColor(tower[i], 0x96, 0x96, 0x96, IntegerTertiaryOp(flag, 0xA0, 0xFF))
-    end
-end
+TimerStart(CreateTimer(), 0.0, false, function()
+    DestroyTimer(GetExpiredTimer())
 
------------------------------------------------------------------------------
---  B U I L D I N G S :   S E N T R Y   W A R D S                          --
------------------------------------------------------------------------------
+    -- body:
+end)
 
-function IsUnitSentryWard(whichUnit)
-    return GetUnitTypeId(whichUnit) == BUILDING_SENTRY_WARD
-end
+do
+    Debug = { }
 
-function CreateSentryWards()
-    sentryWard = {
-        [0] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_SENTRY_WARD, 2688.0, -8064.0, 270.0),
-        [1] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_SENTRY_WARD, 768.0, -4352.0, 270.0),
-        [2] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_SENTRY_WARD, 896.0, -1280.0, 270.0),
-        [3] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_SENTRY_WARD, 2432.0, -1408.0, 270.0),
-        [4] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_SENTRY_WARD, 5760.0, -1792.0, 270.0),
-        [5] = CreateUnit(DEFENSIVE_PLAYER, BUILDING_SENTRY_WARD, 7552.0, -3584.0, 270.0)
-    }
+    function Debug.onEsc()
+        local group = CreateGroup()
 
-    for i = 0, #sentryWard do
-        SetUbersplatRenderAlways(CreateUbersplat(GetUnitX(sentryWard[i]), GetUnitY(sentryWard[i]), "OSMA", 0xFF, 0xFF, 0xFF, 0xFF, true, true), true)
-    end
-end
+        GroupEnumUnitsOfPlayer(group, GetTriggerPlayer(), nil)
 
------------------------------------------------------------------------------
---  B U I L D I N G S                                                      --
------------------------------------------------------------------------------
+        for i = 1, BlzGroupGetSize(group) do
+            local enumUnit = BlzGroupUnitAt(group, i - 1)
 
-function IsUnitBuilding(whichUnit)
-    return
-    IsUnitTown(whichUnit) or
-        IsUnitTower(whichUnit) or
-        IsUnitPigFarm(whichUnit) or
-        IsUnitSpawnCircle(whichUnit) or
-        IsUnitSentryWard(whichUnit)
-end
-
-function RestoreBuilding(whichUnit)
-    if IsUnitBuilding(whichUnit) then
-
-        if UnitAlive(whichUnit) then
-            SetUnitState(whichUnit, UNIT_STATE_LIFE, GetUnitState(whichUnit, UNIT_STATE_MAX_LIFE))
-            SetUnitState(whichUnit, UNIT_STATE_MANA, GetUnitState(whichUnit, UNIT_STATE_MAX_MANA))
-
-        else
-            if reviverUnit ~= nil then
-                SetUnitX(reviverUnit, GetUnitX(whichUnit))
-                SetUnitY(reviverUnit, GetUnitY(whichUnit))
-                IssueImmediateOrderById(reviverUnit, 852094)
-
-            else
-                reviverUnit = CreateUnit(NEUTRAL_PASSIVE_PLAYER, DUMMY_UNIT_ID, GetUnitX(whichUnit), GetUnitY(whichUnit), 0.0)
-                UnitAddAbility(reviverUnit, FourCC("A00Q"))
-                IssueImmediateOrderById(reviverUnit, 852094)
+            if IsUnitType(enumUnit, UNIT_TYPE_HERO) then
+                SetHeroLevel(enumUnit, GetHeroLevel(enumUnit) + 1, true)
+                UnitResetCooldown(enumUnit)
             end
         end
 
-        UnitResetCooldown(whichUnit)
-        DestroyEffect(AddSpecialEffect(
-            "Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl",
-            GetUnitX(whichUnit),
-            GetUnitY(whichUnit)
-        ))
+        DestroyGroup(group)
     end
-end
 
-function RestoreAllBuildings()
-    RestoreBuilding(town)
+    function Debug.initialize()
+        local trig = CreateTrigger()
 
-    for i = 0, #tower do
-        RestoreBuilding(tower[i])
+        for i = 0, bj_MAX_PLAYERS - 1 do
+            BlzTriggerRegisterPlayerKeyEvent(trig, Player(i), OSKEY_ESCAPE, 0, true)
+        end
+
+        TriggerAddAction(trig, Debug.onEsc)
     end
+
 end
 
-function CreateAllBuildings()
-    CreateTown()
-    CreateTowers()
-    CreatePigFarms()
-    CreateSpawnCircles()
-    CreatePowerupCircles()
-    CreateSentryWards()
-    CreateTaverns()
+--[[
+COLOR
+if     i ==  0 then return "|cFFFF0303" .. s .. "|r"
+elseif i ==  1 then return "|cFF0042FF" .. s .. "|r"
+elseif i ==  2 then return "|cFF1CE6B9" .. s .. "|r"
+elseif i ==  3 then return "|cFF540081" .. s .. "|r"
+elseif i ==  4 then return "|cFFFFFF01" .. s .. "|r"
+elseif i ==  5 then return "|cFFFE8A0E" .. s .. "|r"
+elseif i ==  6 then return "|cFF20C000" .. s .. "|r"
+elseif i ==  7 then return "|cFFE55BB0" .. s .. "|r"
+elseif i ==  8 then return "|cff959697" .. s .. "|r"
+elseif i ==  9 then return "|cFF7EBFF1" .. s .. "|r"
+elseif i == 10 then return "|cFF106246" .. s .. "|r"
+elseif i == 11 then return "|cFF4E2A04" .. s .. "|r"
+elseif i == 12 then return "|cFF282828" .. s .. "|r"
+elseif i == 13 then return "|cFF282828" .. s .. "|r"
+elseif i == 14 then return "|cFF282828" .. s .. "|r"
+elseif i == 15 then return "|cFF282828" .. s .. "|r"
+elseif i >= 16 then return "|cFFFFFFFF" .. s .. "|r"
 
-    SetBuildingsInvulnerable(true)
-end
 
-function SetBuildingsInvulnerable(flag)
-    SetTownInvulnerable(flag)
-    SetTowersInvulnerable(flag)
-    SetPigFarmsInvulnerable(flag)
-end
+
+
+    DAMAGE_TYPE_PHYSICAL
+    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_MELEE, DAMAGE_TYPE_NORMAL, null )
+    DAMAGE_TYPE_PHYSICAL_EX
+    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_MELEE, DAMAGE_TYPE_UNIVERSAL, null )
+
+    DAMAGE_TYPE_MAGICAL
+    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, null )
+    DAMAGE_TYPE_MAGICAL_EX
+    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_ENHANCED, null )
+
+    DAMAGE_TYPE_PURE
+    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, null )
+    DAMAGE_TYPE_COMPOSITE
+    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL, null )
+
+
+
+
+    FLOATING_TEXTTAG_GOLD                                   FLOATING_TEXTTAG_LUMBER
+    SetTextTagText( tt, value, 0.023 )                      SetTextTagText( tt, value, 0.023 )
+    SetTextTagPosUnit( tt, whichUnit, 0.0 )                 SetTextTagPosUnit( tt, whichUnit, 0.0 )
+    SetTextTagColor( tt, 255, 220, 0, 255 )                 SetTextTagColor( tt, 0, 200, 80, 255 )
+    SetTextTagVisibility ( tt, true )                       SetTextTagVisibility( tt, true )
+    SetTextTagPermanent( tt, false )                        SetTextTagPermanent( tt, false )
+    SetTextTagVelocity( tt, 0.0, 0.029 )                    SetTextTagVelocity( tt, 0.0, 0.029 )
+    SetTextTagLifespan( tt, 2.0 )                           SetTextTagLifespan( tt, 2.0 )
+    SetTextTagFadepoint( tt, 1.0 )                          SetTextTagFadepoint( tt, 1.0 )
+
+    FLOATING_TEXTTAG_MISS                                   FLOATING_TEXTTAG_CRITICAL_STRIKE
+    SetTextTagText( tt, value, 0.023 )                      SetTextTagText( tt, value, 0.023 )
+    SetTextTagPosUnit( tt, whichUnit, 0.0 )                 SetTextTagPosUnit( tt, whichUnit, 0.0 )
+    SetTextTagColor( tt, 255, 0, 0, 255 )                   SetTextTagColor( tt, 255, 0, 0, 255 )
+    SetTextTagVisibility( tt, true )                        SetTextTagVisibility( tt, true )
+    SetTextTagPermanent( tt, false )                        SetTextTagPermanent( tt, false )
+    SetTextTagVelocity( tt, 0.0, 0.03993 )                  SetTextTagVelocity( tt, 0.0, 0.03993 )
+    SetTextTagLifespan( tt, 3.0 )                           SetTextTagLifespan( tt, 5.0 )
+    SetTextTagFadepoint( tt, 1.0 )                          SetTextTagFadepoint( tt, 2.0 )
+
+    FLOATING_TEXTTAG_SHADOW_STRIKE                          FLOATING_TEXTTAG_MANA_BURN
+    SetTextTagText( tt, value, 0.023 )                      SetTextTagText( tt, value, 0.023 )
+    SetTextTagPosUnit( tt, whichUnit, 0.0 )                 SetTextTagPosUnit( tt, whichUnit, 0.0 )
+    SetTextTagColor( tt, 158, 255, 0, 255 )                 SetTextTagColor( tt, 81, 81, 255, 255 )
+    SetTextTagVisibility( tt, true )                        SetTextTagVisibility( tt, true )
+    SetTextTagPermanent( tt, false )                        SetTextTagPermanent( tt, false )
+    SetTextTagVelocity( tt, 0.0, 0.03993 )                  SetTextTagVelocity( tt, 0.0, 0.03993 )
+    SetTextTagLifespan( tt, 5.0 )                           SetTextTagLifespan( tt, 5.0 )
+    SetTextTagFadepoint( tt, 2.0 )                          SetTextTagFadepoint( tt, 2.0 )
+
+
+
+
+
+
+
+
+
+    QUESTMESSAGE_DISCOVERED
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, "|cFFFFCC00" .. "MAIN QUEST" .. "|r" )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, message )
+    StartSound( QUEST_DISCOVERED_SOUND )
+    FlashQuestDialogButton( )
+
+    QUESTMESSAGE_OPT_DISCOVERED
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, "|cFFFFCC00" .. "OPTIONAL QUEST" .. "|r" )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, message )
+    StartSound( QUEST_DISCOVERED_SOUND)
+    FlashQuestDialogButton( )
+
+    QUESTMESSAGE_UPDATED
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, "|cffffcc00" .. "MAIN QUEST UPDATE" .. "|r" )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, message )
+    StartSound( QUEST_UPDATED_SOUND )
+    FlashQuestDialogButton( )
+
+    QUESTMESSAGE_OPT_UPDATED
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, "|cFFFFCC00" .. "OPTIONAL QUEST UPDATE" .. "|r" )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, message )
+    StartSound( QUEST_UPDATED_SOUND )
+    FlashQuestDialogButton( )
+
+    QUESTMESSAGE_COMPLETED
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, "|cFFFFCC00" .. "MAIN QUEST COMPLETED" .. "|r" )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, message )
+    StartSound( QUEST_COMPLETED_SOUND )
+    FlashQuestDialogButton( )
+
+    QUESTMESSAGE_OPT_COMPLETED
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, "|cFFFFCC00" .. "OPTIONAL QUEST COMPLETED" .. "|r" )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, message )
+    StartSound( QUEST_COMPLETED_SOUND )
+    FlashQuestDialogButton( )
+
+    QUESTMESSAGE_FAILED
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, "|cFFFFCC00" .. "QUEST FAILED" .. "|r" )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, message )
+    StartSound( QUEST_FAILED_SOUND )
+    FlashQuestDialogButton( )
+
+    QUESTMESSAGE_OPT_FAILED
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, "|cFFFFCC00" .. "OPTIONAL QUEST FAILED" .. "|r" )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, message )
+    StartSound( QUEST_FAILED_SOUND )
+    FlashQuestDialogButton( )
+
+    QUESTMESSAGE_REQUIREMENT
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTREQUIREMENT, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTREQUIREMENT, message )
+
+    QUESTMESSAGE_MISSIONFAILED
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_MISSIONFAILED, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_MISSIONFAILED, "|cFFFFCC00" .. "MISSION FAILED" .. "|r" )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_MISSIONFAILED, message )
+    StartSound( QUEST_FAILED_SOUND )
+
+    QUESTMESSAGE_HINT
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_HINT, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_HINT, "|cff32CD32" .. "КРАТКАЯ ПОДСКАЗКА:" .. "|r " .. message )
+    StartSound( QUEST_HINT_SOUND )
+
+    QUESTMESSAGE_ALWAYSHINT
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_ALWAYSHINT, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_ALWAYSHINT, "|cff32CD32" .. "HINT" .. "|r " .. " – " .. message )
+    StartSound( QUEST_HINT_SOUND )
+
+    QUESTMESSAGE_SECRET
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_SECRET, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_SECRET, "|cff32CD32" .. "SECRET FOUND" .. "|r " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_SECRET, message )
+    StartSound( QUEST_SECRET_SOUND )
+
+    QUESTMESSAGE_UNITACQUIRED
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITACQUIRED, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITACQUIRED, "|cff87ceeb" .. "ВЫ ПОЛУЧИЛИ ПОДКРЕПЛЕНИЕ" .. "|r" )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITACQUIRED, message )
+    StartSound( QUEST_HINT_SOUND )
+
+    QUESTMESSAGE_UNITAVAILABLE
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITAVAILABLE, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITAVAILABLE, "|cff87ceeb" .. "NEW UNIT AVAILABLE" .. "|r" )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITAVAILABLE, message )
+    StartSound( QUEST_HINT_SOUND )
+
+    QUESTMESSAGE_ITEMACQUIRED
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_ITEMACQUIRED, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_ITEMACQUIRED, "|cff87ceeb" .. "ПОЛУЧЕНЫ ПРЕДМЕТЫ:" .. "|r " .. message )
+    StartSound( QUEST_ITEM_ACQUIRED_SOUND )
+
+    QUESTMESSAGE_WARNING
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_WARNING, " " )
+    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_WARNING, "|cff32cd32" .. "ВНИМАНИЕ:" .. "|r " .. message )
+    StartSound( QUEST_WARNING_SOUND )
+
+
+
+    SOUND_PING_MINIMAP                                                  = CreateSoundFromLabel( "AutoCastButtonClick",         false, false, false, 10000, 10000 )
+    SOUND_RESCUE                                                        = CreateSoundFromLabel( "Rescue",                      false, false, false, 10000, 10000 )
+    SOUND_QUEST_DISCOVERED                                              = CreateSoundFromLabel( "QuestNew",                    false, false, false, 10000, 10000 )
+    SOUND_QUEST_UPDATED                                                 = CreateSoundFromLabel( "QuestUpdate",                 false, false, false, 10000, 10000 )
+    SOUND_QUEST_COMPLETED                                               = CreateSoundFromLabel( "QuestCompleted",              false, false, false, 10000, 10000 )
+    SOUND_QUEST_FAILED                                                  = CreateSoundFromLabel( "QuestFailed",                 false, false, false, 10000, 10000 )
+    SOUND_QUEST_HINT                                                    = CreateSoundFromLabel( "Hint",                        false, false, false, 10000, 10000 )
+    SOUND_QUEST_SECRET                                                  = CreateSoundFromLabel( "SecretFound",                 false, false, false, 10000, 10000 )
+    SOUND_QUEST_ITEM_ACQUIRED                                           = CreateSoundFromLabel( "ItemReward",                  false, false, false, 10000, 10000 )
+    SOUND_QUEST_WARNING                                                 = CreateSoundFromLabel( "Warning",                     false, false, false, 10000, 10000 )
+    SOUND_VICTORY_DIALOG                                                = CreateSoundFromLabel( "QuestCompleted",              false, false, false, 10000, 10000 )
+    SOUND_DEFEAT_DIALOG                                                 = CreateSoundFromLabel( "QuestFailed",                 false, false, false, 10000, 10000 )
+    SOUND_DAWN                                                          = CreateSound( "Sound\\Time\\DaybreakRooster.wav",     false, false, false, 10, 10, "DefaultEAXON" )
+    SOUND_DUSK                                                          = CreateSound( "Sound\\Time\\DuskWolf.wav",            false, false, false, 10, 10, "DefaultEAXON" )
+    SOUND_BATTLE_NET_TICK                                               = CreateSound( "Sound\\Interface\\BattleNetTick.wav",  false, false, false, 10, 10, "DefaultEAXON" )
+    SOUND_GOOD_JOB                                                      = CreateSound( "Sound\\Interface\\GoodJob.wav",        false, false, false, 10, 10, "DefaultEAXON" )
+    SOUND_CLAN_INVITATION                                               = CreateSound( "Sound\\Interface\\ClanInvitation.wav", false, false, false, 10, 10, "DefaultEAXON" )
+
+
+
+    ITEM_POWERUP = {
+        [0]                                                             = FourCC( "manh" ),
+        [1]                                                             = FourCC( "tdx2" ),
+        [2]                                                             = FourCC( "texp" ),
+        [3]                                                             = FourCC( "tin2" ),
+        [4]                                                             = FourCC( "tpow" ),
+        [5]                                                             = FourCC( "tst2" )
+    }
+
+    TIP = {
+        [0x00]                                                          = "выберите подходящего для вашего стиля игры героя.",
+        [0x01]                                                          = "каждый раз, когда вы успешно проходите волну, богиня благословляет вас, исцеляя всех раненных воинов и воскрешая всех, кто пал в бою.",
+        [0x02]                                                          = "когда погибает один из героев, его могут воскресить другие герои, которые остались в живых. Для этого щёлкните |cFFFED312ПРАВОЙ КНОПКОЙ МЫШИ|r на могиле погибшего героя. Если погибнут все герои, то вы проиграете.",
+        [0x03]                                                          = "за убийство боссов иногда могут выпдать различные артефакты",
+        [0x04]                                                          = "Choose the right character for your game. To complete the game, your team must have at least one hero from each class. For more information, click on the tavern you are interested in.",
+        [0x05]                                                          = "|cFFFED312Ability Power:|r  Ability Power гладиаторы в битве полагаются в основном на урон с заклинаний, при этом сами обладают небольшим количеством брони и здоровья.",
+        [0x06]                                                          = "|cFFFED312Attack Damage:|r  oписание находится в разработке.",
+        [0x07]                                                          = "|cFFFED312Support:|r  сами Support'ы по себе не сильны, однако очень полезны для команды. Они могут как лечить раненных в бою союзников, так и усиливать огневую мощь атакующих.",
+        [0x08]                                                          = "|cFFFED312Tank:|r  гладиаторы класса Tank отвлекают в бою внимание противника на себя, предотвращая нанесение урона слобозащищённым персонажам. Могут также перехватить часть повреждений, нацеленных на союзников. Для выполнения поставленных задач Tank'и имеют хорошую защиту и большой запас здоровья."
+    }
+
+]]
 
 --CUSTOM_CODE
 function InitCustomPlayerSlots()

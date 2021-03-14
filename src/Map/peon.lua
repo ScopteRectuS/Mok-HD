@@ -1,4 +1,7 @@
 Peon = {
+    id = FourCC("t000"),
+    owner = Player(0x16),
+    group = CreateGroup(),
 
     protectTarget = function(target)
     end,
