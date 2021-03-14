@@ -1,38 +1,28 @@
-do
-    Game = { }
+Game = {
 
-    function Game.displayVictoryMsg(msg)
-        local frame = BlzCreateFrameByType('TEXT', '', BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), '', 0)
+    startDefeat = function()
+    end,
 
-        BlzFrameSetPoint(frame, FRAMEPOINT_TOP, BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), FRAMEPOINT_TOP, 0.0, -0.0195)
-        BlzFrameSetText(frame, msg)
-        BlzFrameSetScale(frame, 2.6)
-        BlzFrameSetVisible(frame, true)
-    end
+    startVictory = function()
+    end,
 
-    function Game.startDefeat()
-        Game.displayVictoryMsg("|cFFFF0303 O F F E N S I V E   F O R C E   V I C T O R Y ! |r")
-    end
+    setStartingVisibility = function()
+        FogEnable( true )
+        FogMaskEnable( true )
+    end,
 
-    function Game.startVictory()
-        Game.displayVictoryMsg("|cFF03FF03 D E F E N S I V E   F O R C E   V I C T O R Y ! |r")
-    end
+    setStartingResources = function()
+    end,
 
-    local function setStartingVisibility()
-    end
-
-    local function setStartingResources()
-    end
-
-    local function createStartingUnits()
+    createStartingUnits = function()
         for _, value in pairs(Team.computerForce) do
-            local id          = GetPlayerId(value)
-            local startLocX   = GetStartLocationX(id)
-            local startLocY   = GetStartLocationY(id)
+            local id = GetPlayerId(value)
+            local startLocX = GetStartLocationX(id)
+            local startLocY = GetStartLocationY(id)
 
             local unitSpacing = 64.00
-            local peonX       = startLocX
-            local peonY       = startLocY - 224.00
+            local peonX = startLocX
+            local peonY = startLocY - 224.00
 
             --  Spawn Great Hall at the start location.
             CreateUnit(value, FourCC('o002'), startLocX, startLocY, bj_UNIT_FACING)
@@ -44,47 +34,107 @@ do
             CreateUnit(value, FourCC('opeo'), peonX - 1.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
             CreateUnit(value, FourCC('opeo'), peonX - 2.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
         end
+    end,
+
+    setStartingHeroLimit = function()
+    end,
+
+    setPlayerAlliance = function()
+        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x03), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x04), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x05), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x16), true)
+
+        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x02), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x04), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x05), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x16), true)
+
+        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x02), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x03), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x05), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x16), true)
+
+        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x02), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x03), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x04), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x16), true)
+
+        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x03), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x04), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x05), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x16), true)
+
+        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x02), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x04), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x05), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x16), true)
+
+        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x02), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x03), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x05), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x16), true)
+
+        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x02), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x03), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x04), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x16), true)
+
+        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x02), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x03), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x04), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x05), true)
+    end,
+
+    setCameraBounds = function()
+        local marginX = 1024.0 + 512.0
+        local marginY = 1024.0 + 256.0
+
+        local maxX = GetRectMaxX(GetWorldRect())
+        local minX = GetRectMinX(GetWorldRect())
+        local maxY = GetRectMaxY(GetWorldRect())
+        local minY = GetRectMinY(GetWorldRect())
+
+        SetCameraBounds(
+            minX + marginX,
+            minY + marginY,
+            maxX - marginX,
+            maxY - marginY,
+            minX + marginX,
+            maxY - marginY,
+            maxX - marginX,
+            minY + marginY
+        )
+    end,
+
+    setCameraTargetDistance = function()
+        local cameraDist = 1785.0
+
+        SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, cameraDist, 0.0)
+
+        TimerStart(CreateTimer(), 0.001, true, function ()
+            SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, cameraDist, 0.0)
+        end)
+    end,
+
+    initialize = function()
+        Game.setStartingVisibility()
+        Game.setStartingResources()
+        Game.createStartingUnits()
+        Game.setStartingHeroLimit()
+        Game.setPlayerAlliance()
+        Game.setCameraBounds()
+        Game.setCameraTargetDistance()
     end
 
-    local function setStartingHeroLimit()
-    end
+}
 
-    function Game.initialize()
-        --  FogEnable( false )
-        --  FogMaskEnable( false )
-        EnableMinimapFilterButtons(true, false)
+function displayTopMsg(msg)
+    local frame = BlzCreateFrameByType('TEXT', '', BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), '', 0)
 
-        setStartingVisibility()
-        setStartingResources()
-        createStartingUnits()
-        setStartingHeroLimit()
-
-        if DEBUG_MODE then
-            print('DEBUG_MODE: The Game library has been initialized.')
-        end
-    end
-
+    BlzFrameSetPoint(frame, FRAMEPOINT_TOP, BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), FRAMEPOINT_TOP, 0.0, -0.0195)
+    BlzFrameSetText(frame, msg)
+    BlzFrameSetScale(frame, 2.6)
+    BlzFrameSetVisible(frame, true)
 end
 
-do
-    Ai = { }
-
-    function Ai.start(forPlayer)
-        StartMeleeAI(forPlayer, 'ai scripts\\anmok.lua')
-    end
-
-    function Ai.initialize()
-        for _, value in pairs(Team.defensiveForce) do
-            if GetPlayerSlotState(value) == PLAYER_SLOT_STATE_PLAYING and GetPlayerController(value) == MAP_CONTROL_COMPUTER then
-                Ai.start(value)
-            end
-        end
-
-        for _, value in pairs(Team.offensiveForce) do
-            if GetPlayerSlotState(value) == PLAYER_SLOT_STATE_PLAYING and GetPlayerController(value) == MAP_CONTROL_COMPUTER then
-                Ai.start(value)
-            end
-        end
-    end
-
-end
