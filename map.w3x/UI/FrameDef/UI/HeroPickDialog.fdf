@@ -135,18 +135,18 @@ Frame "FRAME" "HeroPickDialog" {
         Width       0.21f,
         SetPoint    TOPLEFT, "HeroListTitleValue", BOTTOMLEFT,  -0.003, -0.002,
 
-        Frame "BACKDROP" "HeroListContainerBackdrop" {
-            SetAllPoints                    ,
-            DecorateFileNames               ,
-            BackdropTileBackground          ,
-            BackdropBackground              "EscMenuEditBoxBackground",
-            BackdropCornerFlags             "UL|UR|BL|BR|T|L|B|R",
-            BackdropCornerSize              0.0125,
-            BackdropBackgroundSize          0.256,
-            BackdropBackgroundInsets        0.005 0.005 0.005 0.005,
-            BackdropEdgeFile                "EscMenuEditBoxBorder",
-            BackdropBlendAll                ,
-        }
+      //Frame "BACKDROP" "HeroListContainerBackdrop" {
+      //    SetAllPoints                    ,
+      //    DecorateFileNames               ,
+      //    BackdropTileBackground          ,
+      //    BackdropBackground              "EscMenuEditBoxBackground",
+      //    BackdropCornerFlags             "UL|UR|BL|BR|T|L|B|R",
+      //    BackdropCornerSize              0.0125,
+      //    BackdropBackgroundSize          0.256,
+      //    BackdropBackgroundInsets        0.005 0.005 0.005 0.005,
+      //    BackdropEdgeFile                "EscMenuEditBoxBorder",
+      //    BackdropBlendAll                ,
+      //}
     }
 
     // -- HERO DESCRIPTION --------------------------------------------------
@@ -301,29 +301,29 @@ Frame "FRAME" "HeroListItem" {
     }
 
     Frame "GLUEBUTTON" "HeroListItemButton" INHERITS WITHCHILDREN "HeroButtonTemplate" {
-        Width                   0.172,
+        Width                   0.178,
         Height                  0.035,
         UseActiveContext        ,
         SetPoint                TOPLEFT,       "HeroListItemIcon",   TOPRIGHT,      -0.003,  0,
         ControlStyle            "AUTOTRACK",
 
-        Frame "HIGHLIGHT" "HeroListItemSelectedHighlight" {
-            DecorateFileNames   ,
-            HighlightType       "FILETEXTURE",
-            HighlightAlphaFile  "QuestDialogButtonMouseOverHighlight",
-            HighlightAlphaMode  "ADD",
-            UseActiveContext    ,
-            SetAllPoints        ,
-        }
+      //Frame "HIGHLIGHT" "HeroListItemSelectedHighlight" {
+      //    DecorateFileNames   ,
+      //    HighlightType       "FILETEXTURE",
+      //    HighlightAlphaFile  "QuestDialogButtonMouseOverHighlight",
+      //    HighlightAlphaMode  "ADD",
+      //    UseActiveContext    ,
+      //    SetAllPoints        ,
+      //}
 
-        Frame "HIGHLIGHT" "HeroListItemPickedHighlight" {
-            DecorateFileNames,
-            HighlightType "FILETEXTURE",
-            UseActiveContext,
-            SetAllPoints,
-            HighlightAlphaFile "QuestDialogCompletedMouseOverHighlight",
-            HighlightAlphaMode "ADD",
-        }
+      //Frame "HIGHLIGHT" "HeroListItemPickedHighlight" {
+      //    DecorateFileNames,
+      //    HighlightType "FILETEXTURE",
+      //    UseActiveContext,
+      //    SetAllPoints,
+      //    HighlightAlphaFile "QuestDialogCompletedMouseOverHighlight",
+      //    HighlightAlphaMode "ADD",
+      //}
     }
 
     Frame "TEXT" "HeroListItemPicked" INHERITS "EscMenuInfoTextTemplate" {

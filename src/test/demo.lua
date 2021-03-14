@@ -1,13 +1,6 @@
-TimerStart(CreateTimer(), 0.0, false, function()
-    DestroyTimer(GetExpiredTimer())
+Debug = {
 
-    -- body:
-end)
-
-do
-    Debug = { }
-
-    function Debug.onEsc()
+    onEsc = function()
         local group = CreateGroup()
 
         GroupEnumUnitsOfPlayer(group, GetTriggerPlayer(), nil)
@@ -22,16 +15,114 @@ do
         end
 
         DestroyGroup(group)
-    end
+    end,
 
-    function Debug.initialize()
-        local trig = CreateTrigger()
+    initialize = function()
+        Debug.trigger = CreateTrigger()
 
         for i = 0, bj_MAX_PLAYERS - 1 do
-            BlzTriggerRegisterPlayerKeyEvent(trig, Player(i), OSKEY_ESCAPE, 0, true)
+            BlzTriggerRegisterPlayerKeyEvent(Debug.trigger, Player(i), OSKEY_ESCAPE, 0, true)
         end
 
-        TriggerAddAction(trig, Debug.onEsc)
+        TriggerAddAction(Debug.trigger, Debug.onEsc)
     end
 
-end
+}
+
+TimerStart(CreateTimer(), 0.0, false, function()
+    bj_lastCreatedQuest = CreateQuest()
+    QuestSetTitle(bj_lastCreatedQuest, "title")
+    QuestSetDescription(bj_lastCreatedQuest, "description")
+    QuestSetIconPath(bj_lastCreatedQuest, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp")
+    QuestSetRequired(bj_lastCreatedQuest, true)
+    QuestSetDiscovered(bj_lastCreatedQuest, true)
+    QuestSetCompleted(bj_lastCreatedQuest, false)
+
+    bj_lastCreatedQuest = CreateQuest()
+    QuestSetTitle(bj_lastCreatedQuest, "title")
+    QuestSetDescription(bj_lastCreatedQuest, "description")
+    QuestSetIconPath(bj_lastCreatedQuest, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp")
+    QuestSetRequired(bj_lastCreatedQuest, true)
+    QuestSetDiscovered(bj_lastCreatedQuest, true)
+    QuestSetCompleted(bj_lastCreatedQuest, false)
+
+    bj_lastCreatedQuest = CreateQuest()
+    QuestSetTitle(bj_lastCreatedQuest, "title")
+    QuestSetDescription(bj_lastCreatedQuest, "description")
+    QuestSetIconPath(bj_lastCreatedQuest, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp")
+    QuestSetRequired(bj_lastCreatedQuest, true)
+    QuestSetDiscovered(bj_lastCreatedQuest, true)
+    QuestSetCompleted(bj_lastCreatedQuest, false)
+
+    bj_lastCreatedQuest = CreateQuest()
+    QuestSetTitle(bj_lastCreatedQuest, "title")
+    QuestSetDescription(bj_lastCreatedQuest, "description")
+    QuestSetIconPath(bj_lastCreatedQuest, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp")
+    QuestSetRequired(bj_lastCreatedQuest, true)
+    QuestSetDiscovered(bj_lastCreatedQuest, true)
+    QuestSetCompleted(bj_lastCreatedQuest, false)
+
+    bj_lastCreatedQuest = CreateQuest()
+    QuestSetTitle(bj_lastCreatedQuest, "title")
+    QuestSetDescription(bj_lastCreatedQuest, "description")
+    QuestSetIconPath(bj_lastCreatedQuest, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp")
+    QuestSetRequired(bj_lastCreatedQuest, true)
+    QuestSetDiscovered(bj_lastCreatedQuest, true)
+    QuestSetCompleted(bj_lastCreatedQuest, false)
+
+    bj_lastCreatedQuest = CreateQuest()
+    QuestSetTitle(bj_lastCreatedQuest, "title")
+    QuestSetDescription(bj_lastCreatedQuest, "description")
+    QuestSetIconPath(bj_lastCreatedQuest, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp")
+    QuestSetRequired(bj_lastCreatedQuest, true)
+    QuestSetDiscovered(bj_lastCreatedQuest, true)
+    QuestSetCompleted(bj_lastCreatedQuest, false)
+
+    bj_lastCreatedQuest = CreateQuest()
+    QuestSetTitle(bj_lastCreatedQuest, "title")
+    QuestSetDescription(bj_lastCreatedQuest, "description")
+    QuestSetIconPath(bj_lastCreatedQuest, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp")
+    QuestSetRequired(bj_lastCreatedQuest, false)
+    QuestSetDiscovered(bj_lastCreatedQuest, true)
+    QuestSetCompleted(bj_lastCreatedQuest, false)
+
+    bj_lastCreatedQuest = CreateQuest()
+    QuestSetTitle(bj_lastCreatedQuest, "title")
+    QuestSetDescription(bj_lastCreatedQuest, "description")
+    QuestSetIconPath(bj_lastCreatedQuest, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp")
+    QuestSetRequired(bj_lastCreatedQuest, false)
+    QuestSetDiscovered(bj_lastCreatedQuest, true)
+    QuestSetCompleted(bj_lastCreatedQuest, false)
+
+    bj_lastCreatedQuest = CreateQuest()
+    QuestSetTitle(bj_lastCreatedQuest, "title")
+    QuestSetDescription(bj_lastCreatedQuest, "description")
+    QuestSetIconPath(bj_lastCreatedQuest, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp")
+    QuestSetRequired(bj_lastCreatedQuest, false)
+    QuestSetDiscovered(bj_lastCreatedQuest, true)
+    QuestSetCompleted(bj_lastCreatedQuest, false)
+
+    bj_lastCreatedQuest = CreateQuest()
+    QuestSetTitle(bj_lastCreatedQuest, "title")
+    QuestSetDescription(bj_lastCreatedQuest, "description")
+    QuestSetIconPath(bj_lastCreatedQuest, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp")
+    QuestSetRequired(bj_lastCreatedQuest, false)
+    QuestSetDiscovered(bj_lastCreatedQuest, true)
+    QuestSetCompleted(bj_lastCreatedQuest, false)
+
+    bj_lastCreatedQuest = CreateQuest()
+    QuestSetTitle(bj_lastCreatedQuest, "title")
+    QuestSetDescription(bj_lastCreatedQuest, "description")
+    QuestSetIconPath(bj_lastCreatedQuest, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp")
+    QuestSetRequired(bj_lastCreatedQuest, false)
+    QuestSetDiscovered(bj_lastCreatedQuest, true)
+    QuestSetCompleted(bj_lastCreatedQuest, false)
+
+    bj_lastCreatedQuest = CreateQuest()
+    QuestSetTitle(bj_lastCreatedQuest, "title")
+    QuestSetDescription(bj_lastCreatedQuest, "description")
+    QuestSetIconPath(bj_lastCreatedQuest, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp")
+    QuestSetRequired(bj_lastCreatedQuest, false)
+    QuestSetDiscovered(bj_lastCreatedQuest, true)
+    QuestSetCompleted(bj_lastCreatedQuest, false)
+end)

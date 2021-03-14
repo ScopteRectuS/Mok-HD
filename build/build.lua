@@ -3,6 +3,5 @@ require 'build' {
     project = "D:\\Users\\scopterectus\\Documents\\Warcraft III\\Maps\\Test\\Mok-HD",
     map = "map.w3x",
     src = "src",
-    run = nil
+    run = "game"
 }
-
