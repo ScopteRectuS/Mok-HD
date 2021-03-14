@@ -1,5 +1,10 @@
 FloatingTextTag = {
 
+    ---@type function
+    ---@param forPlayer player
+    ---@param whichUnit unit
+    ---@param value string
+    ---@return nothing
     gold = function(forPlayer, whichUnit, value)
         if GetLocalPlayer() == forPlayer then
             local tt = CreateTextTag()
