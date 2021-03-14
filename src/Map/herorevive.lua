@@ -6,7 +6,7 @@ HeroRevive = {
         if IsUnitType(dyingUnit, UNIT_TYPE_HERO) then
             local dyingUnitX = GetUnitX(dyingUnit)
             local dyingUnitY = GetUnitY(dyingUnit)
-            local grave = CreateUnit(GetOwningPlayer(dyingUnit), FourCC('h003'), dyingUnitX, dyingUnitY, 0.0)
+            local grave = CreateUnit(GetOwningPlayer(dyingUnit), HeroRevive.graveTypeId, dyingUnitX, dyingUnitY, 0.0)
             local timer = CreateTimer()
             local graveLife = 1.0
 
@@ -52,8 +52,10 @@ HeroRevive = {
         HeroRevive.trigger = CreateTrigger()
         HeroRevive.graveTypeId = FourCC('h003')
 
-        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x00), EVENT_PLAYER_UNIT_DEATH, nil)
-
+        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x02), EVENT_PLAYER_UNIT_DEATH, nil)
+        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x03), EVENT_PLAYER_UNIT_DEATH, nil)
+        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x04), EVENT_PLAYER_UNIT_DEATH, nil)
+        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x05), EVENT_PLAYER_UNIT_DEATH, nil)
         TriggerAddAction(HeroRevive.trigger, onPlayerUnitDeath)
     end
 

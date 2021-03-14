@@ -1,40 +1,42 @@
 do
-    HeroExperience = { }
+    HeroExperience = {
 
-    function HeroExperience.initialize()
-        local trig  = CreateTrigger()
-        local group = CreateGroup()
-
-        for _, value in pairs(Team.defensiveForce) do
-            SetPlayerHandicapXP(value, 0.0)
-        end
-
-        for _, value in pairs(Team.offensiveForce) do
-            TriggerRegisterPlayerUnitEvent(trig, value, EVENT_PLAYER_UNIT_DEATH, nil)
-        end
-
-        TriggerAddAction(trig, function()
-            local dyingUnit   = GetDyingUnit()
-            local dyingUnitX  = GetUnitX(dyingUnit)
-            local dyingUnitY  = GetUnitY(dyingUnit)
+        onPlayerUnitDeath = function()
+            local dyingUnit = GetDyingUnit()
+            local dyingUnitX = GetUnitX(dyingUnit)
+            local dyingUnitY = GetUnitY(dyingUnit)
             local killingUnit = GetKillingUnit()
 
-            GroupClear(group)
-            GroupEnumUnitsInRange(group, dyingUnitX, dyingUnitY, 1200.0 + MAX_COLLISION_SIZE, nil)
+            GroupClear(HeroExperience.group)
+            GroupEnumUnitsInRange(HeroExperience.group, dyingUnitX, dyingUnitY, 1200.0 + UNIT_MAX_COLLISION_SIZE, nil)
 
-            local life  = BlzGetUnitMaxHP(dyingUnit)
-            local mana  = BlzGetUnitMaxMana(dyingUnit)
+            local life = BlzGetUnitMaxHP(dyingUnit)
+            local mana = BlzGetUnitMaxMana(dyingUnit)
             local level = GetUnitLevel(dyingUnit)
-            local exp   = R2I(2 * math.sqrt((life + mana) * level))
+            local exp = R2I(2 * math.sqrt((life + mana) * level))
 
-            for i = 1, BlzGroupGetSize(group) do
-                local enumUnit = BlzGroupUnitAt(group, i - 1)
+            for i = 1, BlzGroupGetSize(HeroExperience.group) do
+                local enumUnit = BlzGroupUnitAt(HeroExperience.group, i - 1)
 
                 if IsUnitAlly(enumUnit, GetOwningPlayer(killingUnit)) and IsUnitType(enumUnit, UNIT_TYPE_HERO) and IsUnitInRangeXY(enumUnit, dyingUnitX, dyingUnitY, 1200.0) then
                     AddHeroXP(enumUnit, exp, true)
                 end
             end
-        end)
-    end
+        end,
+
+        initialize = function()
+            HeroExperience.trigger = CreateTrigger()
+            HeroExperience.group = CreateGroup()
+
+            SetPlayerHandicapXP(Player(0x02), 0.0)
+            SetPlayerHandicapXP(Player(0x03), 0.0)
+            SetPlayerHandicapXP(Player(0x04), 0.0)
+            SetPlayerHandicapXP(Player(0x05), 0.0)
+
+            TriggerRegisterPlayerUnitEvent(HeroExperience.trigger, Player(0x00), EVENT_PLAYER_UNIT_DEATH, nil)
+            TriggerAddAction(HeroExperience.trigger, HeroExperience.onPlayerUnitDeath)
+        end
+
+    }
 
 end
