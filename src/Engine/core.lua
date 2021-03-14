@@ -1,4 +1,4 @@
-do
+
 
     S2FourCC = function(value)
         return string.unpack(">I4", id)
@@ -7,42 +7,6 @@ do
     FourCC2S = function(value)
         return string.pack(">I4", id)
     end
-
-end
-
------------------------------------------------------------------------------
---                                                                         --
--- C O R E :                                                               --
---                                                                         --
---   Warcraft III lua script                                               --
---   Date: 2020-01-26                                                      --
---   Script Author: ScopteRectuS                                           --
---                                                                         --
------------------------------------------------------------------------------
-
-DEBUG_MODE              = true
-
-HIDDEN_X                = -2048.0
-HIDDEN_Y                =  1024.0
-HIDDEN_Z                =  1024.0
-
-DUMMY_UNIT_ID           = FourCC( 'h002' )
-
-TEMP_ENUM_GROUP         = CreateGroup( )
-MAX_COLLISION_SIZE      = 197.0
-
-STRING_MAP_NAME                = 'Mok: Hero Defense'
-STRING_MAP_VERSION             = '1.0'
-STRING_CHOOSE_YOUR_HERO        = 'Выберите героя'
-STRING_HERO_DESCRIPTION        = 'Описание героя'
-
-function S2FourCC( id )
-    return string.unpack( '>I4', id )
-end
-
-function FourCC2S( id )
-    return string.pack( '>I4', id )
-end
 
 do
     local worldRect   = nil

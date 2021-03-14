@@ -859,16 +859,6 @@ elseif i >= 16 then return "|cFFFFFFFF" .. s .. "|r"
     }
 
 ]]
------------------------------------------------------------------------------
---                                                                         --
--- A B I L I T Y :                                                         --
---                                                                         --
---   Warcraft III lua Script                                               --
---   Date: 2020-02-06                                                      --
---   Script Author: ScopteRectuS                                           --
---                                                                         --
------------------------------------------------------------------------------
-
 do
     Ability = { }
 
@@ -1272,136 +1262,100 @@ do
 end
 
 
-do
+HERO_BLADEMASTER_TYPE_ID = FourCC("H000")
+HERO_BANSHEE_RANGER_TYPE_ID = FourCC("H001")
+HERO_WARDEN_TYPE_ID = FourCC("H002")
+HERO_DEMON_HUNTER_TYPE_ID = FourCC("H003")
+HERO_TAUREN_CHIEFTAIN_TYPE_ID = FourCC("H004")
+HERO_SHADOW_HUNTER_TYPE_ID = FourCC("H005")
+HERO_PANDAREN_BREWMASTER_TYPE_ID = FourCC("H006")
+HERO_FARSEER_TYPE_ID = FourCC("H007")
+HERO_BEASTMASTER_TYPE_ID = FourCC("H008")
+HERO_CRYPT_LORD_TYPE_ID = FourCC("H009")
+HERO_DREAD_LORD_TYPE_ID = FourCC("H00:")
+HERO_FLAME_LORD_TYPE_ID = FourCC("H00;")
+HERO_LICH_TYPE_ID = FourCC("H00<")
+HERO_PRIESTESS_OF_THE_MOON_TYPE_ID = FourCC("H00=")
+HERO_TINKER_TYPE_ID = FourCC("H00>")
+HERO_ALCHEMIST_TYPE_ID = FourCC("H00?")
+HERO_ELDER_DRANAI_TYPE_ID = FourCC("H00@")
+HERO_NAGA_TYPE_ID = FourCC("H00A")
+HERO_ADMIRAL_TYPE_ID = FourCC("H00B")
+HERO_ARCH_MAGE_TYPE_ID = FourCC("H00C")
+HERO_MOUNTAIN_KING_TYPE_ID = FourCC("H00D")
+HERO_TRACKER_TYPE_ID = FourCC("H00E")
+HERO_BLOOD_ELF_TYPE_ID = FourCC("H00F")
+HERO_PALADIN_TYPE_ID = FourCC("H00G")
+HERO_DREAD_KNIGHT_TYPE_ID = FourCC("H00H")
+HERO_ARCH_MAGE_TYPE_ID = FourCC("H00I")
 
-    HERO_BLADEMASTER_TYPE_ID             = FourCC("H000")
-    HERO_BANSHEE_RANGER_TYPE_ID          = FourCC("H001")
-    HERO_WARDEN_TYPE_ID                  = FourCC("H002")
-    HERO_DEMON_HUNTER_TYPE_ID            = FourCC("H003")
-    HERO_TAUREN_CHIEFTAIN_TYPE_ID        = FourCC("H004")
-    HERO_SHADOW_HUNTER_TYPE_ID           = FourCC("H005")
-    HERO_PANDAREN_BREWMASTER_TYPE_ID     = FourCC("H006")
-    HERO_FARSEER_TYPE_ID                 = FourCC("H007")
-    HERO_BEASTMASTER_TYPE_ID             = FourCC("H008")
-    HERO_CRYPT_LORD_TYPE_ID              = FourCC("H009")
-    HERO_DREAD_LORD_TYPE_ID              = FourCC("H00:")
-    HERO_FLAME_LORD_TYPE_ID              = FourCC("H00;")
-    HERO_LICH_TYPE_ID                    = FourCC("H00<")
-    HERO_PRIESTESS_OF_THE_MOON_TYPE_ID   = FourCC("H00=")
-    HERO_TINKER_TYPE_ID                  = FourCC("H00>")
-    HERO_ALCHEMIST_TYPE_ID               = FourCC("H00?")
-    HERO_ELDER_DRANAI_TYPE_ID            = FourCC("H00@")
-    HERO_NAGA_TYPE_ID                    = FourCC("H00A")
-    HERO_ADMIRAL_TYPE_ID                 = FourCC("H00B")
-    HERO_ARCH_MAGE_TYPE_ID               = FourCC("H00C")
-    HERO_MOUNTAIN_KING_TYPE_ID           = FourCC("H00D")
-    HERO_TRACKER_TYPE_ID                 = FourCC("H00E")
-    HERO_BLOOD_ELF_TYPE_ID               = FourCC("H00F")
-    HERO_PALADIN_TYPE_ID                 = FourCC("H00G")
-    HERO_DREAD_KNIGHT_TYPE_ID            = FourCC("H00H")
-    HERO_ARCH_MAGE_TYPE_ID               = FourCC("H00I")
 
+InitGlobals = function()
+
+    -- Map initialization:
+    HeroRevive.initialize()
+    HeroExperience.initialize()
+    SkillPoints.initialize()
+
+    Game.initialize()
+    Ai.initialize()
+end
+Ai = { }
+
+function Ai.start(forPlayer)
+    StartMeleeAI(forPlayer, 'ai scripts\\anmok.lua')
 end
 
-
-Camera = {
-
-    initializeBounds = function()
-        local marginX = 1024.0 + 512.0         
-        local marginY = 1024.0 + 256.0
-
-        local maxX = GetRectMaxX(GetWorldRect())
-        local minX = GetRectMinX(GetWorldRect())
-        local maxY = GetRectMaxY(GetWorldRect())
-        local minY = GetRectMinY(GetWorldRect())
-
-        SetCameraBounds(
-                minX + marginX,
-                minY + marginY,
-                maxX - marginX,
-                maxY - marginY,
-                minX + marginX,
-                maxY - marginY,
-                maxX - marginX,
-                minY + marginY
-       )
-    end,
-     
-    initializeTargetDistance = function()
-        local cameraDist = 1785.0
-             
-        SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, cameraDist, 0.0)
-    
-        TimerStart(CreateTimer(), 0.001, true, function ()
-            SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, cameraDist, 0.0)
-        end)
-    end,
-
-    initialize = function()
-        Camera.initializeBounds()
-        Camera.initializeTargetDistance()
-            
-        if DEBUG_MODE then
-            print('DEBUG_MODE: The Camera library has been initialized.')
+function Ai.initialize()
+    for _, value in pairs(Team.defensiveForce) do
+        if GetPlayerSlotState(value) == PLAYER_SLOT_STATE_PLAYING and GetPlayerController(value) == MAP_CONTROL_COMPUTER then
+            Ai.start(value)
         end
     end
 
-}
-
-
-do
-
-    DEBUG_MODE              = true
-
-    MAP_NAME                = "Mok: Hero Defense"
-    MAP_VERSION             = "1.0"
-    MAP_HIDDEN_X            = 0.0
-    MAP_HIDDEN_Y            = 0.0
-    MAP_HIDDEN_Z            = 0.0
-
-    GROUP_TEMP              = CreateGroup()
-
-    UNIT_DUMMY_TYPE_ID      = FourCC("h000")
-    UNIT_MAX_COLLISION_SIZE = 197.0
-
+    for _, value in pairs(Team.offensiveForce) do
+        if GetPlayerSlotState(value) == PLAYER_SLOT_STATE_PLAYING and GetPlayerController(value) == MAP_CONTROL_COMPUTER then
+            Ai.start(value)
+        end
+    end
 end
+DEBUG_MODE = true
+
+MAP_NAME = "Mok: Hero Defense"
+MAP_VERSION = "1.0"
+MAP_HIDDEN_X = 0.0
+MAP_HIDDEN_Y = 0.0
+MAP_HIDDEN_Z = 0.0
+
+UNIT_DUMMY_TYPE_ID = FourCC("h000")
+UNIT_MAX_COLLISION_SIZE = 197.0
 
 
-do
-    Game = { }
+Game = {
 
-    function Game.displayVictoryMsg(msg)
-        local frame = BlzCreateFrameByType('TEXT', '', BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), '', 0)
+    startDefeat = function()
+    end,
 
-        BlzFrameSetPoint(frame, FRAMEPOINT_TOP, BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), FRAMEPOINT_TOP, 0.0, -0.0195)
-        BlzFrameSetText(frame, msg)
-        BlzFrameSetScale(frame, 2.6)
-        BlzFrameSetVisible(frame, true)
-    end
+    startVictory = function()
+    end,
 
-    function Game.startDefeat()
-        Game.displayVictoryMsg("|cFFFF0303 O F F E N S I V E   F O R C E   V I C T O R Y ! |r")
-    end
+    setStartingVisibility = function()
+        FogEnable( true )
+        FogMaskEnable( true )
+    end,
 
-    function Game.startVictory()
-        Game.displayVictoryMsg("|cFF03FF03 D E F E N S I V E   F O R C E   V I C T O R Y ! |r")
-    end
+    setStartingResources = function()
+    end,
 
-    local function setStartingVisibility()
-    end
-
-    local function setStartingResources()
-    end
-
-    local function createStartingUnits()
+    createStartingUnits = function()
         for _, value in pairs(Team.computerForce) do
-            local id          = GetPlayerId(value)
-            local startLocX   = GetStartLocationX(id)
-            local startLocY   = GetStartLocationY(id)
+            local id = GetPlayerId(value)
+            local startLocX = GetStartLocationX(id)
+            local startLocY = GetStartLocationY(id)
 
             local unitSpacing = 64.00
-            local peonX       = startLocX
-            local peonY       = startLocY - 224.00
+            local peonX = startLocX
+            local peonY = startLocY - 224.00
 
             --  Spawn Great Hall at the start location.
             CreateUnit(value, FourCC('o002'), startLocX, startLocY, bj_UNIT_FACING)
@@ -1413,93 +1367,153 @@ do
             CreateUnit(value, FourCC('opeo'), peonX - 1.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
             CreateUnit(value, FourCC('opeo'), peonX - 2.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
         end
+    end,
+
+    setStartingHeroLimit = function()
+    end,
+
+    setPlayerAlliance = function()
+        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x03), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x04), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x05), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x16), true)
+
+        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x02), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x04), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x05), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x16), true)
+
+        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x02), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x03), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x05), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x16), true)
+
+        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x02), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x03), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x04), true)
+        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x16), true)
+
+        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x03), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x04), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x05), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x16), true)
+
+        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x02), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x04), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x05), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x16), true)
+
+        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x02), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x03), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x05), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x16), true)
+
+        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x02), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x03), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x04), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x16), true)
+
+        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x02), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x03), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x04), true)
+        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x05), true)
+    end,
+
+    setCameraBounds = function()
+        local marginX = 1024.0 + 512.0
+        local marginY = 1024.0 + 256.0
+
+        local maxX = GetRectMaxX(GetWorldRect())
+        local minX = GetRectMinX(GetWorldRect())
+        local maxY = GetRectMaxY(GetWorldRect())
+        local minY = GetRectMinY(GetWorldRect())
+
+        SetCameraBounds(
+            minX + marginX,
+            minY + marginY,
+            maxX - marginX,
+            maxY - marginY,
+            minX + marginX,
+            maxY - marginY,
+            maxX - marginX,
+            minY + marginY
+        )
+    end,
+
+    setCameraTargetDistance = function()
+        local cameraDist = 1785.0
+
+        SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, cameraDist, 0.0)
+
+        TimerStart(CreateTimer(), 0.001, true, function ()
+            SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, cameraDist, 0.0)
+        end)
+    end,
+
+    initialize = function()
+        Game.setStartingVisibility()
+        Game.setStartingResources()
+        Game.createStartingUnits()
+        Game.setStartingHeroLimit()
+        Game.setPlayerAlliance()
+        Game.setCameraBounds()
+        Game.setCameraTargetDistance()
     end
 
-    local function setStartingHeroLimit()
-    end
+}
 
-    function Game.initialize()
-        --  FogEnable( false )
-        --  FogMaskEnable( false )
-        EnableMinimapFilterButtons(true, false)
+function displayTopMsg(msg)
+    local frame = BlzCreateFrameByType('TEXT', '', BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), '', 0)
 
-        setStartingVisibility()
-        setStartingResources()
-        createStartingUnits()
-        setStartingHeroLimit()
-
-        if DEBUG_MODE then
-            print('DEBUG_MODE: The Game library has been initialized.')
-        end
-    end
-
+    BlzFrameSetPoint(frame, FRAMEPOINT_TOP, BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), FRAMEPOINT_TOP, 0.0, -0.0195)
+    BlzFrameSetText(frame, msg)
+    BlzFrameSetScale(frame, 2.6)
+    BlzFrameSetVisible(frame, true)
 end
 
-do
-    Ai = { }
 
-    function Ai.start(forPlayer)
-        StartMeleeAI(forPlayer, 'ai scripts\\anmok.lua')
-    end
+HeroExperience = {
 
-    function Ai.initialize()
-        for _, value in pairs(Team.defensiveForce) do
-            if GetPlayerSlotState(value) == PLAYER_SLOT_STATE_PLAYING and GetPlayerController(value) == MAP_CONTROL_COMPUTER then
-                Ai.start(value)
-            end
-        end
+    onPlayerUnitDeath = function()
+        local dyingUnit = GetDyingUnit()
+        local dyingUnitX = GetUnitX(dyingUnit)
+        local dyingUnitY = GetUnitY(dyingUnit)
+        local killingUnit = GetKillingUnit()
 
-        for _, value in pairs(Team.offensiveForce) do
-            if GetPlayerSlotState(value) == PLAYER_SLOT_STATE_PLAYING and GetPlayerController(value) == MAP_CONTROL_COMPUTER then
-                Ai.start(value)
-            end
-        end
-    end
+        local life = BlzGetUnitMaxHP(dyingUnit)
+        local mana = BlzGetUnitMaxMana(dyingUnit)
+        local level = GetUnitLevel(dyingUnit)
+        local exp = R2I(2 * ((life + mana) * level) ^ 0.5)
 
-end
+        GroupClear(HeroExperience.group)
+        GroupEnumUnitsInRange(HeroExperience.group, dyingUnitX, dyingUnitY, 1200.0 + UNIT_MAX_COLLISION_SIZE, nil)
+        ForGroup(HeroExperience.group, function()
+            local enumUnit = GetEnumUnit()
 
-do
-    HeroExperience = { }
-
-    function HeroExperience.initialize()
-        local trig  = CreateTrigger()
-        local group = CreateGroup()
-
-        for _, value in pairs(Team.defensiveForce) do
-            SetPlayerHandicapXP(value, 0.0)
-        end
-
-        for _, value in pairs(Team.offensiveForce) do
-            TriggerRegisterPlayerUnitEvent(trig, value, EVENT_PLAYER_UNIT_DEATH, nil)
-        end
-
-        TriggerAddAction(trig, function()
-            local dyingUnit   = GetDyingUnit()
-            local dyingUnitX  = GetUnitX(dyingUnit)
-            local dyingUnitY  = GetUnitY(dyingUnit)
-            local killingUnit = GetKillingUnit()
-
-            GroupClear(group)
-            GroupEnumUnitsInRange(group, dyingUnitX, dyingUnitY, 1200.0 + MAX_COLLISION_SIZE, nil)
-
-            local life  = BlzGetUnitMaxHP(dyingUnit)
-            local mana  = BlzGetUnitMaxMana(dyingUnit)
-            local level = GetUnitLevel(dyingUnit)
-            local exp   = R2I(2 * math.sqrt((life + mana) * level))
-
-            for i = 1, BlzGroupGetSize(group) do
-                local enumUnit = BlzGroupUnitAt(group, i - 1)
-
-                if IsUnitAlly(enumUnit, GetOwningPlayer(killingUnit)) and IsUnitType(enumUnit, UNIT_TYPE_HERO) and IsUnitInRangeXY(enumUnit, dyingUnitX, dyingUnitY, 1200.0) then
-                    AddHeroXP(enumUnit, exp, true)
-                end
+            if IsUnitAlly(enumUnit, GetOwningPlayer(killingUnit)) and IsUnitType(enumUnit, UNIT_TYPE_HERO) and IsUnitInRangeXY(enumUnit, dyingUnitX, dyingUnitY, 1200.0) then
+                AddHeroXP(enumUnit, exp, true)
             end
         end)
+    end,
+
+    initialize = function()
+        HeroExperience.trigger = CreateTrigger()
+        HeroExperience.group = CreateGroup()
+
+        SetPlayerHandicapXP(Player(0x02), 0.0)
+        SetPlayerHandicapXP(Player(0x03), 0.0)
+        SetPlayerHandicapXP(Player(0x04), 0.0)
+        SetPlayerHandicapXP(Player(0x05), 0.0)
+
+        TriggerRegisterPlayerUnitEvent(HeroExperience.trigger, Player(0x00), EVENT_PLAYER_UNIT_DEATH, nil)
+        TriggerAddAction(HeroExperience.trigger, HeroExperience.onPlayerUnitDeath)
     end
 
-end
+}
+
+
 do
-    Hero     = { }
+    Hero = { }
     HeroPick = { }
 
     function Hero.getByPlayer(whichPlayer)
@@ -1519,10 +1533,10 @@ do
     end
 
     function HeroPick.displayHint()
-        local snd  = CreateSoundFromLabel('Hint', false, false, false, 10000, 10000)
+        local snd = CreateSoundFromLabel('Hint', false, false, false, 10000, 10000)
         local hint = 'Choose the right character for your game. ' ..
-                'To complete the game, your team must have at least one hero from each class. ' ..
-                'For more information, click on the tavern you are interested in.'
+            'To complete the game, your team must have at least one hero from each class. ' ..
+            'For more information, click on the tavern you are interested in.'
 
         DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 9.0, ' ')
         DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 9.0, '|cff32CD32HINT|r – ' .. hint)
@@ -1532,7 +1546,7 @@ do
 
     function HeroPick.createTavern(x, y, whichColor, ...)
         local tavern = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), FourCC('n00L'), x, y, bj_UNIT_FACING)
-        local arg    = { ... }
+        local arg = { ... }
 
         SelectUnit(tavern, true)
         SetUnitColor(tavern, whichColor)
@@ -1573,7 +1587,7 @@ do
         TriggerRegisterPlayerUnitEvent(trig, Player(PLAYER_NEUTRAL_PASSIVE), EVENT_PLAYER_UNIT_SELL, nil)
         TriggerAddAction(trig, function()
             local soldUnit = GetSoldUnit()
-            local owner    = GetOwningPlayer(soldUnit)
+            local owner = GetOwningPlayer(soldUnit)
 
             for _, value in pairs(Team.defensiveForce) do
                 SetPlayerTechMaxAllowed(value, GetUnitTypeId(soldUnit), IntegerTertiaryOp(value == owner, 1, 0))
@@ -1600,19 +1614,19 @@ do
     function HeroPick.initialize()
         BlzLoadTOCFile("war3mapImported\\FrameDef.toc")
 
-        local game_ui               = BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)
+        local game_ui = BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)
 
-        local hero_pick_dialog      = BlzCreateFrame("HeroPickDialog", game_ui, 0, 0)
+        local hero_pick_dialog = BlzCreateFrame("HeroPickDialog", game_ui, 0, 0)
 
-        local heroPickTitleValue    = BlzGetFrameByName("HeroPickTitleValue", 0)
+        local heroPickTitleValue = BlzGetFrameByName("HeroPickTitleValue", 0)
         local heroPickSubtitleValue = BlzGetFrameByName("HeroPickSubtitleValue", 0)
 
         BlzFrameSetText(heroPickTitleValue, STRING_MAP_NAME)
         BlzFrameSetText(heroPickSubtitleValue, STRING_CHOOSE_YOUR_HERO)
 
-        local heroListTitleValue           = BlzGetFrameByName("HeroListTitleValue", 0)
-        local heroDescriptionTitleValue    = BlzGetFrameByName("HeroDescriptionTitleValue", 0)
-        local abilityListTitleValue        = BlzGetFrameByName("AbilityListTitleValue", 0)
+        local heroListTitleValue = BlzGetFrameByName("HeroListTitleValue", 0)
+        local heroDescriptionTitleValue = BlzGetFrameByName("HeroDescriptionTitleValue", 0)
+        local abilityListTitleValue = BlzGetFrameByName("AbilityListTitleValue", 0)
         local abilityDescriptionTitleValue = BlzGetFrameByName("AbilityDescriptionTitleValue", 0)
 
         BlzFrameSetText(heroListTitleValue, 'Список героев')
@@ -1621,12 +1635,12 @@ do
         BlzFrameSetText(abilityDescriptionTitleValue, 'Описание способности')
 
         local hero_list_container = BlzGetFrameByName("HeroListContainer", 0)
-        local hero_description    = BlzGetFrameByName("HeroDescriptionArea", 0)
+        local hero_description = BlzGetFrameByName("HeroDescriptionArea", 0)
         local abil_list_container = BlzGetFrameByName("AbilityListContainer", 0)
-        local abil_description    = BlzGetFrameByName("AbilityDescriptionArea", 0)
-        local button              = BlzGetFrameByName("HeroPickOkButton", 0)
+        local abil_description = BlzGetFrameByName("AbilityDescriptionArea", 0)
+        local button = BlzGetFrameByName("HeroPickOkButton", 0)
 
-        local hero_list_item_1    = BlzCreateFrame("HeroListItem", hero_list_container, 0, 0)
+        local hero_list_item_1 = BlzCreateFrame("HeroListItem", hero_list_container, 0, 0)
 
         BlzFrameSetTexture(BlzGetFrameByName("HeroListItemIcon", 0), "ReplaceableTextures\\CommandButtons\\BTNSamuro.blp", 0, true)
         BlzFrameSetText(BlzGetFrameByName("HeroListItemTitle", 0), "Мастер клинка")
@@ -1677,195 +1691,147 @@ do
 
 end
 
-do
-    HeroRevive = { }
+HeroRevive = {
 
-    function HeroRevive.initialize()
-        local trig = CreateTrigger()
+    onPlayerUnitDeath = function()
+        local dyingUnit = GetDyingUnit()
 
-        for _, value in pairs(Team.defensiveForce) do
-            TriggerRegisterPlayerUnitEvent(trig, value, EVENT_PLAYER_UNIT_DEATH, nil)
-        end
+        if IsUnitType(dyingUnit, UNIT_TYPE_HERO) then
+            local dyingUnitX = GetUnitX(dyingUnit)
+            local dyingUnitY = GetUnitY(dyingUnit)
+            local grave = CreateUnit(GetOwningPlayer(dyingUnit), HeroRevive.graveTypeId, dyingUnitX, dyingUnitY, 0.0)
+            local timer = CreateTimer()
+            local graveLife = 1.0
 
-        TriggerAddAction(trig, function()
-            local dyingUnit = GetDyingUnit()
+            SetWidgetLife(grave, 1.0)
+            SetUnitPathing(grave, false)
+            BlzSetUnitName(grave, GetHeroProperName(dyingUnit))
 
-            if IsUnitType(dyingUnit, UNIT_TYPE_HERO) then
-                local dyingUnitX = GetUnitX(dyingUnit)
-                local dyingUnitY = GetUnitY(dyingUnit)
-                local grave      = CreateUnit(GetOwningPlayer(dyingUnit), FourCC('h003'), dyingUnitX, dyingUnitY, 0.0)
-                local timer      = CreateTimer()
-                local graveLife  = 1.0
+            if IsUnitSelected(dyingUnit, GetLocalPlayer()) then
+                SelectUnit(dyingUnit, false)
+                SelectUnit(grave, true)
+            end
 
-                SetWidgetLife(grave, 1.0)
-                SetUnitPathing(grave, false)
-                BlzSetUnitName(grave, GetHeroProperName(dyingUnit))
+            TimerStart(timer, 0.1, true, function()
+                local curLife = GetWidgetLife(grave)
 
-                if IsUnitSelected(dyingUnit, GetLocalPlayer()) then
-                    SelectUnit(dyingUnit, false)
-                    SelectUnit(grave, true)
-                end
-
-                TimerStart(timer, 0.1, true, function()
-                    local curLife = GetWidgetLife(grave)
-
-                    if curLife < 100.0 then
-                        if curLife > graveLife then
-                            graveLife = curLife
-                        elseif curLife <= graveLife then
-                            graveLife = 1.0
-                            SetWidgetLife(grave, 1.0)
-                        end
-
-                    else
-                        ReviveHero(dyingUnit, dyingUnitX, dyingUnitY, true)
-                        SetUnitState(dyingUnit, UNIT_STATE_LIFE, BlzGetUnitMaxHP(dyingUnit))
-                        SetUnitState(dyingUnit, UNIT_STATE_MANA, BlzGetUnitMaxMana(dyingUnit))
-
-                        if IsUnitSelected(grave, GetLocalPlayer()) then
-                            SelectUnit(grave, false)
-                            SelectUnit(dyingUnit, true)
-                        end
-
-                        RemoveUnit(grave)
-                        PauseTimer(timer)
-                        DestroyTimer(timer)
+                if curLife < 100.0 then
+                    if curLife > graveLife then
+                        graveLife = curLife
+                    elseif curLife <= graveLife then
+                        graveLife = 1.0
+                        SetWidgetLife(grave, 1.0)
                     end
-                end)
-            end
-        end)
+
+                else
+                    ReviveHero(dyingUnit, dyingUnitX, dyingUnitY, true)
+                    SetUnitState(dyingUnit, UNIT_STATE_LIFE, BlzGetUnitMaxHP(dyingUnit))
+                    SetUnitState(dyingUnit, UNIT_STATE_MANA, BlzGetUnitMaxMana(dyingUnit))
+
+                    if IsUnitSelected(grave, GetLocalPlayer()) then
+                        SelectUnit(grave, false)
+                        SelectUnit(dyingUnit, true)
+                    end
+
+                    RemoveUnit(grave)
+                    PauseTimer(timer)
+                    DestroyTimer(timer)
+                end
+            end)
+        end
+    end,
+
+    initialize = function()
+        HeroRevive.trigger = CreateTrigger()
+        HeroRevive.graveTypeId = FourCC('h003')
+
+        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x02), EVENT_PLAYER_UNIT_DEATH, nil)
+        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x03), EVENT_PLAYER_UNIT_DEATH, nil)
+        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x04), EVENT_PLAYER_UNIT_DEATH, nil)
+        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x05), EVENT_PLAYER_UNIT_DEATH, nil)
+        TriggerAddAction(HeroRevive.trigger, onPlayerUnitDeath)
     end
 
-end
+}
 
-do
-    SkillPoints = { }
 
-    function SkillPoints.initialize()
-        local trig = CreateTrigger()
+SkillPoints = {
 
-        TriggerRegisterAnyUnitEventBJ(trig, EVENT_PLAYER_HERO_LEVEL)
-        TriggerAddAction(trig, function()
-            local hero  = GetLevelingUnit()
-            local level = GetHeroLevel(hero)
+    onPlayerHeroLevel = function()
+        local hero = GetLevelingUnit()
+        local level = GetHeroLevel(hero)
 
-            if level == 1 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 2 then
-                UnitModifySkillPoints(hero, 0) -- 1
-            elseif level == 3 then
-                UnitModifySkillPoints(hero, 0) -- 1
-            elseif level == 4 then
-                UnitModifySkillPoints(hero, 1) -- 2
-            elseif level == 5 then
-                UnitModifySkillPoints(hero, 0) -- 1
-            elseif level == 6 then
-                UnitModifySkillPoints(hero, 2) -- 3
-            elseif level == 7 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 8 then
-                UnitModifySkillPoints(hero, 1)
-            elseif level == 9 then
-                UnitModifySkillPoints(hero, 0)
-            elseif level == 10 then
-                UnitModifySkillPoints(hero, 0)
-            elseif level == 11 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 12 then
-                UnitModifySkillPoints(hero, 2)
-            elseif level == 13 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 14 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 15 then
-                UnitModifySkillPoints(hero, 0)
-            elseif level == 16 then
-                UnitModifySkillPoints(hero, 0)
-            elseif level == 17 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 18 then
-                UnitModifySkillPoints(hero, 0)
-            elseif level == 19 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 20 then
-                UnitModifySkillPoints(hero, 0)
-            elseif level == 21 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 22 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 23 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 24 then
-                UnitModifySkillPoints(hero, 0)
-            elseif level == 25 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 26 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 27 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 28 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 29 then
-                UnitModifySkillPoints(hero, -1) -- empty
-            elseif level == 30 then
-                UnitModifySkillPoints(hero, 0)
-            end
-        end)
-    end
+        if level == 1 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 2 then
+            UnitModifySkillPoints(hero, 0) -- 1
+        elseif level == 3 then
+            UnitModifySkillPoints(hero, 0) -- 1
+        elseif level == 4 then
+            UnitModifySkillPoints(hero, 1) -- 2
+        elseif level == 5 then
+            UnitModifySkillPoints(hero, 0) -- 1
+        elseif level == 6 then
+            UnitModifySkillPoints(hero, 2) -- 3
+        elseif level == 7 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 8 then
+            UnitModifySkillPoints(hero, 1)
+        elseif level == 9 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 10 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 11 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 12 then
+            UnitModifySkillPoints(hero, 2)
+        elseif level == 13 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 14 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 15 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 16 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 17 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 18 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 19 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 20 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 21 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 22 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 23 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 24 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 25 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 26 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 27 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 28 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 29 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 30 then
+            UnitModifySkillPoints(hero, 0)
+        end
+    end,
 
-end
+    initialize = function()
+        SkillPoints.trigger = CreateTrigger()
 
-InitGlobals = function()
-
-end
-
-Map         = {
-
-    initializeTeams = function()
-        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x03), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x04), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x05), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x16), true)
-
-        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x02), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x04), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x05), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x16), true)
-
-        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x02), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x03), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x05), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x16), true)
-
-        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x02), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x03), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x04), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x16), true)
-
-        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x03), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x04), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x05), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x16), true)
-
-        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x02), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x04), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x05), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x16), true)
-
-        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x02), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x03), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x05), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x16), true)
-
-        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x02), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x03), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x04), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x16), true)
-
-        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x02), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x03), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x04), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x05), true)
+        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player( 0x02), EVENT_PLAYER_HERO_LEVEL, nil)
+        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player( 0x03), EVENT_PLAYER_HERO_LEVEL, nil)
+        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player( 0x04), EVENT_PLAYER_HERO_LEVEL, nil)
+        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player( 0x05), EVENT_PLAYER_HERO_LEVEL, nil)
+        TriggerAddAction(SkillPoints.trigger, SkillPoints.onPlayerHeroLevel)
     end
 
 }
