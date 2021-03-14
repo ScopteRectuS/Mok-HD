@@ -1,13 +1,13 @@
 do
-    SpawnCircle      = { }
+    SpawnCircle = { }
 
     local campGround = { }
-    local campAir    = { }
-    local campWater  = { }
+    local campAir = { }
+    local campWater = { }
 
-    local red        = { }
-    local green      = { }
-    local blue       = { }
+    local red = { }
+    local green = { }
+    local blue = { }
 
     function SpawnCircle.getGroundCamp()
         return campGround
@@ -53,44 +53,44 @@ do
     function SpawnCircle.initialize()
         SetAltMinimapIcon('UI\\Minimap\\MinimapIconCircleOfPower.dds')
 
-        red[0x00]   = 0xFF;
+        red[0x00] = 0xFF;
         green[0x00] = 0x03;
-        blue[0x00]  = 0x03;
-        red[0x01]   = 0x00;
+        blue[0x00] = 0x03;
+        red[0x01] = 0x00;
         green[0x01] = 0x42;
-        blue[0x01]  = 0xFF;
-        red[0x02]   = 0x1C;
+        blue[0x01] = 0xFF;
+        red[0x02] = 0x1C;
         green[0x02] = 0xE6;
-        blue[0x02]  = 0xB9;
-        red[0x03]   = 0x54;
+        blue[0x02] = 0xB9;
+        red[0x03] = 0x54;
         green[0x03] = 0x00;
-        blue[0x03]  = 0x81;
+        blue[0x03] = 0x81;
 
-        red[0x04]   = 0xFF;
+        red[0x04] = 0xFF;
         green[0x04] = 0xFF;
-        blue[0x04]  = 0x01;
-        red[0x05]   = 0xFE;
+        blue[0x04] = 0x01;
+        red[0x05] = 0xFE;
         green[0x05] = 0x8A;
-        blue[0x05]  = 0x0E;
-        red[0x06]   = 0x20;
+        blue[0x05] = 0x0E;
+        red[0x06] = 0x20;
         green[0x06] = 0xC0;
-        blue[0x06]  = 0x00;
-        red[0x07]   = 0xE5;
+        blue[0x06] = 0x00;
+        red[0x07] = 0xE5;
         green[0x07] = 0x5B;
-        blue[0x07]  = 0xB0;
+        blue[0x07] = 0xB0;
 
-        red[0x08]   = 0x95;
+        red[0x08] = 0x95;
         green[0x08] = 0x96;
-        blue[0x08]  = 0x97;
-        red[0x09]   = 0x7E;
+        blue[0x08] = 0x97;
+        red[0x09] = 0x7E;
         green[0x09] = 0xBF;
-        blue[0x09]  = 0xF1;
-        red[0x0A]   = 0x10;
+        blue[0x09] = 0xF1;
+        red[0x0A] = 0x10;
         green[0x0A] = 0x62;
-        blue[0x0A]  = 0x46;
-        red[0x0B]   = 0x4E;
+        blue[0x0A] = 0x46;
+        red[0x0B] = 0x4E;
         green[0x0B] = 0x2A;
-        blue[0x0B]  = 0x04;
+        blue[0x0B] = 0x04;
 
         table.insert(campGround, SpawnCircle.create(Player(0x00), 2944.0, -1664.0)) -- Red Color Player
         table.insert(campGround, SpawnCircle.create(Player(0x01), 640.0, -3968.0)) -- Blue Color Player

@@ -3,8 +3,8 @@ do
 
     function PowerUp.initialize()
         local circle = { }
-        local item   = { }
-        local trig   = CreateTrigger()
+        local item = { }
+        local trig = CreateTrigger()
 
         table.insert(circle, AddSpecialEffect('Abilities\\Spells\\NightElf\\Starfall\\StarfallCaster.mdl', 4736.0, -8320.0))
         table.insert(circle, AddSpecialEffect('Abilities\\Spells\\NightElf\\Starfall\\StarfallCaster.mdl', 7296.0, -5760.0))

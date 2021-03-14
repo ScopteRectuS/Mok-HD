@@ -1,20 +1,20 @@
 do
-    Scoreboard              = { }
+    Scoreboard = { }
 
-    local board             = nil
-    local unitsProduced     = { }
-    local unitsKilled       = { }
-    local unitsLost         = { }
+    local board = nil
+    local unitsProduced = { }
+    local unitsKilled = { }
+    local unitsLost = { }
     local buildingsProduced = { }
-    local buildingsRazed    = { }
-    local buildingsLost     = { }
-    local damageDealt       = { }
-    local damageReceived    = { }
-    local goldMined         = { }
-    local lumberHarvested   = { }
-    local techPercentage    = { }
-    local column            = { }
-    local lostToUpkeep      = { }
+    local buildingsRazed = { }
+    local buildingsLost = { }
+    local damageDealt = { }
+    local damageReceived = { }
+    local goldMined = { }
+    local lumberHarvested = { }
+    local techPercentage = { }
+    local column = { }
+    local lostToUpkeep = { }
 
     function Scoreboard.show(flag)
         MultiboardDisplay(board, flag)
@@ -44,8 +44,8 @@ do
         local hName = ""
 
         --  if Player.isHero( p ) then
-        pIcon       = "ReplaceableTextures\\CommandButtons\\BTNHoldPosition.tga"
-        pName       = GetPlayerName(p)
+        pIcon = "ReplaceableTextures\\CommandButtons\\BTNHoldPosition.tga"
+        pName = GetPlayerName(p)
 
         if hero[p] ~= nil then
             hIcon = "UI\\Widgets\\Console\\Human\\CommandButton\\human-multipleselection-heroglow123.blp"
@@ -103,12 +103,12 @@ do
         TimerStart(CreateTimer(), 0.0, false, function()
             DestroyTimer(GetExpiredTimer())
 
-            local unitsIcon     = "ReplaceableTextures\\CommandButtons\\BTNGrunt.tga"
+            local unitsIcon = "ReplaceableTextures\\CommandButtons\\BTNGrunt.tga"
             local buildingsIcon = "ReplaceableTextures\\CommandButtons\\BTNOrcTower.tga"
-            local combatIcon    = "ReplaceableTextures\\CommandButtons\\BTNAttack.tga"
+            local combatIcon = "ReplaceableTextures\\CommandButtons\\BTNAttack.tga"
             local resourcesIcon = "ReplaceableTextures\\CommandButtons\\BTNPillage.tga"
 
-            board               = CreateMultiboard()
+            board = CreateMultiboard()
             MultiboardSetTitleText(board, "Статистика:")
             MultiboardSetTitleTextColor(board, 0xFF, 0xFF, 0xFF, 0xFF)
             MultiboardSetRowCount(board, 24)
@@ -143,19 +143,19 @@ do
             Scoreboard.setItem(23, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
 
             for _, val in pairs(Team.defensiveForce) do
-                unitsProduced[val]     = 0
-                unitsKilled[val]       = 0
-                unitsLost[val]         = 0
+                unitsProduced[val] = 0
+                unitsKilled[val] = 0
+                unitsLost[val] = 0
                 buildingsProduced[val] = 0
-                buildingsRazed[val]    = 0
-                buildingsLost[val]     = 0
-                damageDealt[val]       = 0
-                damageReceived[val]    = 0
-                goldMined[val]         = 0
-                lumberHarvested[val]   = 0
-                techPercentage[val]    = 0
-                column[val]            = 0
-                lostToUpkeep[val]      = 0
+                buildingsRazed[val] = 0
+                buildingsLost[val] = 0
+                damageDealt[val] = 0
+                damageReceived[val] = 0
+                goldMined[val] = 0
+                lumberHarvested[val] = 0
+                techPercentage[val] = 0
+                column[val] = 0
+                lostToUpkeep[val] = 0
 
                 Scoreboard.addPlayerColumn(val)
                 Scoreboard.updatePlayerInfo(val)

@@ -3,10 +3,10 @@ Peon = {
     protectTarget = function(target)
     end,
 
-    restore = function(u)
+    restoreAll = function()
     end,
 
-    setInvulnerable = function(u, flag)
+    setInvulnerableAll = function(flag)
         SetUnitInvulnerable(u, flag)
     end,
 

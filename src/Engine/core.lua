@@ -7,7 +7,7 @@ FourCC2S = function(value)
 end
 
 do
-    local worldRect   = nil
+    local worldRect = nil
     local worldRegion = nil
 
     function GetWorldRect()

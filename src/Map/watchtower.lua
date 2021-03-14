@@ -1,11 +1,11 @@
 do
 
     WatchTower = {
-        id              = FourCC("t000"),
-        owner           = Player(22),
-        group           = CreateGroup(),
+        id = FourCC("t000"),
+        owner = Player(22),
+        group = CreateGroup(),
 
-        create          = function(x, y, face)
+        create = function(x, y, face)
             local u = CreateUnit(WatchTower.owner, WatchTower.id, x, y, face)
 
             --SetUbersplatRenderAlways(CreateUbersplat(x, y, "OLAR", 0xFF, 0xFF, 0xFF, 0xFF, true, true), true)

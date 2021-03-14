@@ -3,21 +3,21 @@ end
 
 --CUSTOM_CODE
 do
-    Creep               = {
+    Creep = {
 
-        Wolves     = {
+        Wolves = {
             initialize = function()
-                Creep.Wolves.round        = 1
-                Creep.Wolves.name         = "Волки"
+                Creep.Wolves.round = 1
+                Creep.Wolves.name = "Волки"
                 Creep.Wolves.stylizedName = "В О Л К И"
-                Creep.Wolves.tip          = ""
-                Creep.Wolves.prepare      = 15.0
-                Creep.Wolves.count        = 215
-                Creep.Wolves.limit        = 100
-                Creep.Wolves.spawnCamp    = { SpawnCircle.getGroundCamp() }
-                Creep.Wolves.startSound   = nil
-                Creep.Wolves.endSound     = nil
-                Creep.Wolves.pool         = CreateUnitPool()
+                Creep.Wolves.tip = ""
+                Creep.Wolves.prepare = 15.0
+                Creep.Wolves.count = 215
+                Creep.Wolves.limit = 100
+                Creep.Wolves.spawnCamp = { SpawnCircle.getGroundCamp() }
+                Creep.Wolves.startSound = nil
+                Creep.Wolves.endSound = nil
+                Creep.Wolves.pool = CreateUnitPool()
 
                 UnitPoolAddUnitType(Creep.Wolves.pool, FourCC("n002"), 30.0)
                 UnitPoolAddUnitType(Creep.Wolves.pool, FourCC("n003"), 20.0)
@@ -31,17 +31,17 @@ do
 
         Lobstrokks = {
             initialize = function()
-                Creep.Lobstrokks.round        = 1
-                Creep.Lobstrokks.name         = "Lobstrokks"
+                Creep.Lobstrokks.round = 1
+                Creep.Lobstrokks.name = "Lobstrokks"
                 Creep.Lobstrokks.stylizedName = "L O B S T R O K K S"
-                Creep.Lobstrokks.tip          = ""
-                Creep.Lobstrokks.prepare      = 15.0
-                Creep.Lobstrokks.count        = 215
-                Creep.Lobstrokks.limit        = 100
-                Creep.Lobstrokks.spawnCamp    = { SpawnCircle.getWaterCamp() }
-                Creep.Lobstrokks.startSound   = nil
-                Creep.Lobstrokks.endSound     = nil
-                Creep.Lobstrokks.pool         = CreateUnitPool()
+                Creep.Lobstrokks.tip = ""
+                Creep.Lobstrokks.prepare = 15.0
+                Creep.Lobstrokks.count = 215
+                Creep.Lobstrokks.limit = 100
+                Creep.Lobstrokks.spawnCamp = { SpawnCircle.getWaterCamp() }
+                Creep.Lobstrokks.startSound = nil
+                Creep.Lobstrokks.endSound = nil
+                Creep.Lobstrokks.pool = CreateUnitPool()
 
                 UnitPoolAddUnitType(Creep.Lobstrokks.pool, FourCC("nlpr"), 60.0)
                 UnitPoolAddUnitType(Creep.Lobstrokks.pool, FourCC("nlpd"), 50.0)
@@ -54,29 +54,29 @@ do
 
     }
 
-    Creep.trolls        = { }
-    Creep.ogres         = { }
-    Creep.gnolls        = { }
-    Creep.centaurs      = { }
-    Creep.turtles       = { }
-    Creep.dragonspawn   = { }
-    Creep.bluedragons   = { }
-    Creep.blackdragons  = { }
+    Creep.trolls = { }
+    Creep.ogres = { }
+    Creep.gnolls = { }
+    Creep.centaurs = { }
+    Creep.turtles = { }
+    Creep.dragonspawn = { }
+    Creep.bluedragons = { }
+    Creep.blackdragons = { }
     Creep.bronzedragons = { }
-    Creep.reddragons    = { }
-    Creep.greendragons  = { }
-    Creep.kamok         = { }
+    Creep.reddragons = { }
+    Creep.greendragons = { }
+    Creep.kamok = { }
 
     function Creep.trolls:initialize()
-        self.round        = 2
-        self.name         = "Тролли"
+        self.round = 2
+        self.name = "Тролли"
         self.stylizedName = "Т Р О Л Л И"
-        self.tip          = ""
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 250
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.pool         = CreateUnitPool()
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 250
+        self.spawnCamp = { SpawnCircle.getGroundCamp() }
+        self.pool = CreateUnitPool()
 
         UnitPoolAddUnitType(self.pool, FourCC("nftr"), 60.0)
         UnitPoolAddUnitType(self.pool, FourCC("nftb"), 50.0)
@@ -87,15 +87,15 @@ do
     end
 
     function Creep.ogres:initialize()
-        self.round        = 2
-        self.name         = "Огры"
+        self.round = 2
+        self.name = "Огры"
         self.stylizedName = "О Г Р Ы"
-        self.tip          = "Огры спокойно могут надавать пиздю*ей неосторожному игроку, так что будьте керифул."
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 250
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.pool         = CreateUnitPool()
+        self.tip = "Огры спокойно могут надавать пиздю*ей неосторожному игроку, так что будьте керифул."
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 250
+        self.spawnCamp = { SpawnCircle.getGroundCamp() }
+        self.pool = CreateUnitPool()
 
         UnitPoolAddUnitType(self.pool, FourCC("nogr"), 40.0)
         UnitPoolAddUnitType(self.pool, FourCC("nomg"), 30.0)
@@ -104,15 +104,15 @@ do
     end
 
     function Creep.gnolls:initialize()
-        self.round        = 2
-        self.name         = "Гноллы"
+        self.round = 2
+        self.name = "Гноллы"
         self.stylizedName = "Г Н О Л Л Ы"
-        self.tip          = ""
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 250
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.pool         = CreateUnitPool()
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 250
+        self.spawnCamp = { SpawnCircle.getGroundCamp() }
+        self.pool = CreateUnitPool()
 
         UnitPoolAddUnitType(self.pool, FourCC("ngna"), 60.0)
         UnitPoolAddUnitType(self.pool, FourCC("ngns"), 50.0)
@@ -123,15 +123,15 @@ do
     end
 
     function Creep.centaurs:initialize()
-        self.round        = 3
-        self.name         = "Кентавры"
+        self.round = 3
+        self.name = "Кентавры"
         self.stylizedName = "К Е Н Т А В Р Ы"
-        self.tip          = ""
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 250
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.pool         = CreateUnitPool()
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 250
+        self.spawnCamp = { SpawnCircle.getGroundCamp() }
+        self.pool = CreateUnitPool()
 
         UnitPoolAddUnitType(self.pool, FourCC("ncea"), 60.0)
         UnitPoolAddUnitType(self.pool, FourCC("ncer"), 50.0)
@@ -142,15 +142,15 @@ do
     end
 
     function Creep.turtles:initialize()
-        self.round        = 4
-        self.name         = "Черепахи"
+        self.round = 4
+        self.name = "Черепахи"
         self.stylizedName = "Ч Е Р Е П А Х И"
-        self.tip          = ""
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 250
-        self.spawnCamp    = { SpawnCircle.getWaterCamp() }
-        self.pool         = CreateUnitPool()
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 250
+        self.spawnCamp = { SpawnCircle.getWaterCamp() }
+        self.pool = CreateUnitPool()
 
         UnitPoolAddUnitType(self.pool, FourCC("ntrh"), 40.0)
         UnitPoolAddUnitType(self.pool, FourCC("ntrs"), 30.0)
@@ -160,15 +160,15 @@ do
     end
 
     function Creep.dragonspawn:initialize()
-        self.round        = 13
-        self.name         = "Дракониды"
+        self.round = 13
+        self.name = "Дракониды"
         self.stylizedName = "Д Р А К О Н И Д Ы"
-        self.tip          = ""
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 120
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.pool         = CreateUnitPool()
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 120
+        self.spawnCamp = { SpawnCircle.getGroundCamp() }
+        self.pool = CreateUnitPool()
 
         UnitPoolAddUnitType(self.pool, FourCC("nbdm"), 50.0)
         UnitPoolAddUnitType(self.pool, FourCC("nbda"), 40.0)
@@ -178,15 +178,15 @@ do
     end
 
     function Creep.reddragons:initialize()
-        self.round        = 14
-        self.name         = "Red Dragons"
+        self.round = 14
+        self.name = "Red Dragons"
         self.stylizedName = "R E D   D R A G O N S"
-        self.tip          = ""
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 120
-        self.spawnCamp    = { SpawnCircle.getAirCamp() }
-        self.pool         = CreateUnitPool()
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 120
+        self.spawnCamp = { SpawnCircle.getAirCamp() }
+        self.pool = CreateUnitPool()
 
         UnitPoolAddUnitType(self.pool, FourCC("nrdk"), 40.0)
         UnitPoolAddUnitType(self.pool, FourCC("nrdr"), 30.0)
@@ -194,15 +194,15 @@ do
     end
 
     function Creep.blackdragons:initialize()
-        self.round        = 14
-        self.name         = "Black Dragons"
+        self.round = 14
+        self.name = "Black Dragons"
         self.stylizedName = "B L A C K   D R A G O N S"
-        self.tip          = ""
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 120
-        self.spawnCamp    = { SpawnCircle.getAirCamp() }
-        self.pool         = CreateUnitPool()
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 120
+        self.spawnCamp = { SpawnCircle.getAirCamp() }
+        self.pool = CreateUnitPool()
 
         UnitPoolAddUnitType(self.pool, FourCC("nbdr"), 40.0)
         UnitPoolAddUnitType(self.pool, FourCC("nbdd"), 30.0)
@@ -210,15 +210,15 @@ do
     end
 
     function Creep.bronzedragons:initialize()
-        self.round        = 14
-        self.name         = "Bronze Dragons"
+        self.round = 14
+        self.name = "Bronze Dragons"
         self.stylizedName = "B R O N Z E   D R A G O N S"
-        self.tip          = ""
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 120
-        self.spawnCamp    = { SpawnCircle.getAirCamp() }
-        self.pool         = CreateUnitPool()
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 120
+        self.spawnCamp = { SpawnCircle.getAirCamp() }
+        self.pool = CreateUnitPool()
 
         UnitPoolAddUnitType(self.pool, FourCC("nbzw"), 40.0)
         UnitPoolAddUnitType(self.pool, FourCC("nbzk"), 30.0)
@@ -226,15 +226,15 @@ do
     end
 
     function Creep.greendragons:initialize()
-        self.round        = 14
-        self.name         = "Green Dragons"
+        self.round = 14
+        self.name = "Green Dragons"
         self.stylizedName = "G R E E N   D R A G O N S"
-        self.tip          = ""
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 120
-        self.spawnCamp    = { SpawnCircle.getAirCamp() }
-        self.pool         = CreateUnitPool()
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 120
+        self.spawnCamp = { SpawnCircle.getAirCamp() }
+        self.pool = CreateUnitPool()
 
         UnitPoolAddUnitType(self.pool, FourCC("ngrw"), 40.0)
         UnitPoolAddUnitType(self.pool, FourCC("ngdk"), 30.0)
@@ -242,15 +242,15 @@ do
     end
 
     function Creep.bluedragons:initialize()
-        self.round        = 14
-        self.name         = "Blue Dragons"
+        self.round = 14
+        self.name = "Blue Dragons"
         self.stylizedName = "B L U E   D R A G O N S"
-        self.tip          = ""
-        self.prepare      = 15.0
-        self.count        = 300
-        self.limit        = 120
-        self.spawnCamp    = { SpawnCircle.getAirCamp() }
-        self.pool         = CreateUnitPool()
+        self.tip = ""
+        self.prepare = 15.0
+        self.count = 300
+        self.limit = 120
+        self.spawnCamp = { SpawnCircle.getAirCamp() }
+        self.pool = CreateUnitPool()
 
         UnitPoolAddUnitType(self.pool, FourCC("nadw"), 40.0)
         UnitPoolAddUnitType(self.pool, FourCC("nadk"), 30.0)
@@ -258,15 +258,15 @@ do
     end
 
     function Creep.kamok:initialize()
-        self.round        = 20
-        self.name         = "Ka\"mok"
+        self.round = 20
+        self.name = "Ka\"mok"
         self.stylizedName = "K A \" M O K"
-        self.tip          = ""
-        self.prepare      = 45.0
-        self.count        = 1
-        self.limit        = 1
-        self.spawnCamp    = { SpawnCircle.getGroundCamp() }
-        self.pool         = CreateUnitPool()
+        self.tip = ""
+        self.prepare = 45.0
+        self.count = 1
+        self.limit = 1
+        self.spawnCamp = { SpawnCircle.getGroundCamp() }
+        self.pool = CreateUnitPool()
 
         UnitPoolAddUnitType(self.pool, FourCC("n00D"), 100.0)
     end
@@ -274,15 +274,15 @@ do
 end
 
 do
-    SpawnCircle      = { }
+    SpawnCircle = { }
 
     local campGround = { }
-    local campAir    = { }
-    local campWater  = { }
+    local campAir = { }
+    local campWater = { }
 
-    local red        = { }
-    local green      = { }
-    local blue       = { }
+    local red = { }
+    local green = { }
+    local blue = { }
 
     function SpawnCircle.getGroundCamp()
         return campGround
@@ -328,44 +328,44 @@ do
     function SpawnCircle.initialize()
         SetAltMinimapIcon('UI\\Minimap\\MinimapIconCircleOfPower.dds')
 
-        red[0x00]   = 0xFF;
+        red[0x00] = 0xFF;
         green[0x00] = 0x03;
-        blue[0x00]  = 0x03;
-        red[0x01]   = 0x00;
+        blue[0x00] = 0x03;
+        red[0x01] = 0x00;
         green[0x01] = 0x42;
-        blue[0x01]  = 0xFF;
-        red[0x02]   = 0x1C;
+        blue[0x01] = 0xFF;
+        red[0x02] = 0x1C;
         green[0x02] = 0xE6;
-        blue[0x02]  = 0xB9;
-        red[0x03]   = 0x54;
+        blue[0x02] = 0xB9;
+        red[0x03] = 0x54;
         green[0x03] = 0x00;
-        blue[0x03]  = 0x81;
+        blue[0x03] = 0x81;
 
-        red[0x04]   = 0xFF;
+        red[0x04] = 0xFF;
         green[0x04] = 0xFF;
-        blue[0x04]  = 0x01;
-        red[0x05]   = 0xFE;
+        blue[0x04] = 0x01;
+        red[0x05] = 0xFE;
         green[0x05] = 0x8A;
-        blue[0x05]  = 0x0E;
-        red[0x06]   = 0x20;
+        blue[0x05] = 0x0E;
+        red[0x06] = 0x20;
         green[0x06] = 0xC0;
-        blue[0x06]  = 0x00;
-        red[0x07]   = 0xE5;
+        blue[0x06] = 0x00;
+        red[0x07] = 0xE5;
         green[0x07] = 0x5B;
-        blue[0x07]  = 0xB0;
+        blue[0x07] = 0xB0;
 
-        red[0x08]   = 0x95;
+        red[0x08] = 0x95;
         green[0x08] = 0x96;
-        blue[0x08]  = 0x97;
-        red[0x09]   = 0x7E;
+        blue[0x08] = 0x97;
+        red[0x09] = 0x7E;
         green[0x09] = 0xBF;
-        blue[0x09]  = 0xF1;
-        red[0x0A]   = 0x10;
+        blue[0x09] = 0xF1;
+        red[0x0A] = 0x10;
         green[0x0A] = 0x62;
-        blue[0x0A]  = 0x46;
-        red[0x0B]   = 0x4E;
+        blue[0x0A] = 0x46;
+        red[0x0B] = 0x4E;
         green[0x0B] = 0x2A;
-        blue[0x0B]  = 0x04;
+        blue[0x0B] = 0x04;
 
         table.insert(campGround, SpawnCircle.create(Player(0x00), 2944.0, -1664.0)) -- Red Color Player
         table.insert(campGround, SpawnCircle.create(Player(0x01), 640.0, -3968.0)) -- Blue Color Player
@@ -390,29 +390,29 @@ do
 end
 
 do
-    Wave               = { }
+    Wave = { }
 
-    local round        = 1
-    local name         = { }
+    local round = 1
+    local name = { }
     local stylizedName = { }
-    local tip          = { }
-    local prepare      = { }
-    local count        = { }
-    local limit        = { }
-    local spawnCamp    = { }
-    local startSound   = { }
-    local endSound     = { }
-    local pool         = { }
+    local tip = { }
+    local prepare = { }
+    local count = { }
+    local limit = { }
+    local spawnCamp = { }
+    local startSound = { }
+    local endSound = { }
+    local pool = { }
 
-    local tickSound    = nil
-    local hintSound    = nil
-    local timer        = nil
-    local timerWindow  = nil
+    local tickSound = nil
+    local hintSound = nil
+    local timer = nil
+    local timerWindow = nil
 
     function Wave.displayTopMsg()
         local gameui = BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)
-        local frame  = BlzCreateFrameByType('TEXT', '', gameui, '', 0)
-        local alpha  = 0xFF
+        local frame = BlzCreateFrameByType('TEXT', '', gameui, '', 0)
+        local alpha = 0xFF
 
         BlzFrameSetPoint(frame, FRAMEPOINT_TOP, gameui, FRAMEPOINT_TOP, 0.0, -0.0195)
         BlzFrameSetVisible(frame, true)
@@ -498,10 +498,10 @@ do
                 end
 
                 local circle = SpawnCircle.getRandom(spawnCamp[round])
-                local owner  = GetOwningPlayer(circle)
-                local x      = GetUnitX(circle) + GetRandomReal(-16.0, 16.0)
-                local y      = GetUnitY(circle) + GetRandomReal(-16.0, 16.0)
-                local unit   = PlaceRandomUnit(pool[round], owner, x, y, 0.0)
+                local owner = GetOwningPlayer(circle)
+                local x = GetUnitX(circle) + GetRandomReal(-16.0, 16.0)
+                local y = GetUnitY(circle) + GetRandomReal(-16.0, 16.0)
+                local unit = PlaceRandomUnit(pool[round], owner, x, y, 0.0)
 
                 for _, value in pairs(Team.defensiveForce) do
                     UnitShareVision(unit, value, true)
@@ -524,7 +524,7 @@ do
 
     function Wave.startSpawnTimeout()
         if timer == nil then
-            timer       = CreateTimer()
+            timer = CreateTimer()
             timerWindow = CreateTimerDialog(timer)
 
             TimerDialogSetTitleColor(timerWindow, 0xFF, 0xFF, 0xFF, 0xFF)
@@ -600,18 +600,18 @@ do
         end
 
         for key, value in pairs(data) do
-            local i           = math.random(1, #value)
+            local i = math.random(1, #value)
 
-            name[key]         = value[i].name
+            name[key] = value[i].name
             stylizedName[key] = value[i].stylizedName
-            tip[key]          = value[i].tip
-            prepare[key]      = value[i].prepare
-            count[key]        = value[i].count
-            limit[key]        = value[i].limit
-            spawnCamp[key]    = value[i].spawnCamp
-            startSound[key]   = value[i].startSound
-            endSound[key]     = value[i].endSound
-            pool[key]         = value[i].pool
+            tip[key] = value[i].tip
+            prepare[key] = value[i].prepare
+            count[key] = value[i].count
+            limit[key] = value[i].limit
+            spawnCamp[key] = value[i].spawnCamp
+            startSound[key] = value[i].startSound
+            endSound[key] = value[i].endSound
+            pool[key] = value[i].pool
 
             --  print('Round ' .. key .. ': ' .. name[ key ])
         end
@@ -1009,13 +1009,13 @@ do
 
 end
 
-DEBUG_MODE              = true
+DEBUG_MODE = true
 
-MAP_NAME                = "Mok: Hero Defense"
-MAP_VERSION             = "1.0"
-MAP_HIDDEN_X            = 0.0
-MAP_HIDDEN_Y            = 0.0
-MAP_HIDDEN_Z            = 0.0
+MAP_NAME = "Mok: Hero Defense"
+MAP_VERSION = "1.0"
+MAP_HIDDEN_X = 0.0
+MAP_HIDDEN_Y = 0.0
+MAP_HIDDEN_Z = 0.0
 
 UNIT_MAX_COLLISION_SIZE = 197.0
 
@@ -1028,7 +1028,7 @@ FourCC2S = function(value)
 end
 
 do
-    local worldRect   = nil
+    local worldRect = nil
     local worldRegion = nil
 
     function GetWorldRect()
@@ -1091,7 +1091,7 @@ function UnitRestoreMana(source, target, amount)
 end
 
 DummyUnit = {
-    id     = FourCC("h000"),
+    id = FourCC("h000"),
 
     ---@param owner player
     ---@param x real
@@ -1121,7 +1121,7 @@ FloatingTextTag = {
     ---@param whichUnit unit
     ---@param value string
     ---@return nothing
-    gold           = function(forPlayer, whichUnit, value)
+    gold = function(forPlayer, whichUnit, value)
         if GetLocalPlayer() == forPlayer then
             local tt = CreateTextTag()
 
@@ -1136,7 +1136,7 @@ FloatingTextTag = {
         end
     end,
 
-    lumber         = function(forPlayer, whichUnit, value)
+    lumber = function(forPlayer, whichUnit, value)
         if GetLocalPlayer() == forPlayer then
             local tt = CreateTextTag()
 
@@ -1151,7 +1151,7 @@ FloatingTextTag = {
         end
     end,
 
-    miss           = function(whichUnit, value)
+    miss = function(whichUnit, value)
         local tt = CreateTextTag()
 
         SetTextTagText(tt, value, 0.023)
@@ -1177,7 +1177,7 @@ FloatingTextTag = {
         SetTextTagFadepoint(tt, 2.0)
     end,
 
-    shadowstrike   = function(whichUnit, value)
+    shadowstrike = function(whichUnit, value)
         local tt = CreateTextTag()
 
         SetTextTagText(tt, value, 0.023)
@@ -1190,7 +1190,7 @@ FloatingTextTag = {
         SetTextTagFadepoint(tt, 2.0)
     end,
 
-    manaburn       = function(whichUnit, value)
+    manaburn = function(whichUnit, value)
         local tt = CreateTextTag()
 
         SetTextTagText(tt, value, 0.023)
@@ -1210,15 +1210,15 @@ Preload = {
 
     dummyUnit = nil,
 
-    unit      = function(id)
+    unit = function(id)
         RemoveUnit(CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), id, MAP_HIDDEN_X, MAP_HIDDEN_Y, 0.0))
     end,
 
-    item      = function(id)
+    item = function(id)
         RemoveItem(CreateItem(id, MAP_HIDDEN_X, MAP_HIDDEN_Y))
     end,
 
-    effect    = function(path)
+    effect = function(path)
         DestroyEffect(AddSpecialEffect(path, MAP_HIDDEN_X, MAP_HIDDEN_Y))
     end,
 
@@ -1226,7 +1226,7 @@ Preload = {
         DestroyLightning(AddLightning(name, true, MAP_HIDDEN_X, MAP_HIDDEN_Y, MAP_HIDDEN_X, MAP_HIDDEN_Y))
     end,
 
-    sound     = function(path)
+    sound = function(path)
         local sound = CreateSound(path, false, false, false, 10, 10, "")
 
         SetSoundVolume(sound, 0)
@@ -1234,7 +1234,7 @@ Preload = {
         KillSoundWhenDone(sound)
     end,
 
-    ability   = function(id)
+    ability = function(id)
         if Preload.dummyUnit == nil then
             Preload.dummyUnit = DummyUnit.create(Player(PLAYER_NEUTRAL_PASSIVE), MAP_HIDDEN_X, MAP_HIDDEN_Y, MAP_HIDDEN_Z, 0.0)
         end
@@ -1247,7 +1247,7 @@ Preload = {
 do
 
     ---@type location
-    local loc   = Location(MAP_HIDDEN_X, MAP_HIDDEN_Y)
+    local loc = Location(MAP_HIDDEN_X, MAP_HIDDEN_Y)
 
     ---@type function
     ---@param x real
@@ -1261,33 +1261,32 @@ do
 
 end
 
-HERO_BLADEMASTER_TYPE_ID           = FourCC("H000")
-HERO_BANSHEE_RANGER_TYPE_ID        = FourCC("H001")
-HERO_WARDEN_TYPE_ID                = FourCC("H002")
-HERO_DEMON_HUNTER_TYPE_ID          = FourCC("H003")
-HERO_TAUREN_CHIEFTAIN_TYPE_ID      = FourCC("H004")
-HERO_SHADOW_HUNTER_TYPE_ID         = FourCC("H005")
-HERO_PANDAREN_BREWMASTER_TYPE_ID   = FourCC("H006")
-HERO_FARSEER_TYPE_ID               = FourCC("H007")
-HERO_BEASTMASTER_TYPE_ID           = FourCC("H008")
-HERO_CRYPT_LORD_TYPE_ID            = FourCC("H009")
-HERO_DREAD_LORD_TYPE_ID            = FourCC("H00:")
-HERO_FLAME_LORD_TYPE_ID            = FourCC("H00;")
-HERO_LICH_TYPE_ID                  = FourCC("H00<")
+HERO_BLADEMASTER_TYPE_ID = FourCC("H000")
+HERO_BANSHEE_RANGER_TYPE_ID = FourCC("H001")
+HERO_WARDEN_TYPE_ID = FourCC("H002")
+HERO_DEMON_HUNTER_TYPE_ID = FourCC("H003")
+HERO_TAUREN_CHIEFTAIN_TYPE_ID = FourCC("H004")
+HERO_SHADOW_HUNTER_TYPE_ID = FourCC("H005")
+HERO_PANDAREN_BREWMASTER_TYPE_ID = FourCC("H006")
+HERO_FARSEER_TYPE_ID = FourCC("H007")
+HERO_BEASTMASTER_TYPE_ID = FourCC("H008")
+HERO_CRYPT_LORD_TYPE_ID = FourCC("H009")
+HERO_DREAD_LORD_TYPE_ID = FourCC("H00:")
+HERO_FLAME_LORD_TYPE_ID = FourCC("H00;")
+HERO_LICH_TYPE_ID = FourCC("H00<")
 HERO_PRIESTESS_OF_THE_MOON_TYPE_ID = FourCC("H00=")
-HERO_TINKER_TYPE_ID                = FourCC("H00>")
-HERO_ALCHEMIST_TYPE_ID             = FourCC("H00?")
-HERO_ELDER_DRANAI_TYPE_ID          = FourCC("H00@")
-HERO_NAGA_TYPE_ID                  = FourCC("H00A")
-HERO_ADMIRAL_TYPE_ID               = FourCC("H00B")
-HERO_ARCH_MAGE_TYPE_ID             = FourCC("H00C")
-HERO_MOUNTAIN_KING_TYPE_ID         = FourCC("H00D")
-HERO_TRACKER_TYPE_ID               = FourCC("H00E")
-HERO_BLOOD_ELF_TYPE_ID             = FourCC("H00F")
-HERO_PALADIN_TYPE_ID               = FourCC("H00G")
-HERO_DREAD_KNIGHT_TYPE_ID          = FourCC("H00H")
-HERO_ARCH_MAGE_TYPE_ID             = FourCC("H00I")
-
+HERO_TINKER_TYPE_ID = FourCC("H00>")
+HERO_ALCHEMIST_TYPE_ID = FourCC("H00?")
+HERO_ELDER_DRANAI_TYPE_ID = FourCC("H00@")
+HERO_NAGA_TYPE_ID = FourCC("H00A")
+HERO_ADMIRAL_TYPE_ID = FourCC("H00B")
+HERO_ARCH_MAGE_TYPE_ID = FourCC("H00C")
+HERO_MOUNTAIN_KING_TYPE_ID = FourCC("H00D")
+HERO_TRACKER_TYPE_ID = FourCC("H00E")
+HERO_BLOOD_ELF_TYPE_ID = FourCC("H00F")
+HERO_PALADIN_TYPE_ID = FourCC("H00G")
+HERO_DREAD_KNIGHT_TYPE_ID = FourCC("H00H")
+HERO_ARCH_MAGE_TYPE_ID = FourCC("H00I")
 
 InitGlobals = function()
 
@@ -1300,51 +1299,41 @@ InitGlobals = function()
     Ai.initialize()
 end
 
-Ai = { }
+Ai = {
 
-function Ai.start(forPlayer)
-    StartMeleeAI(forPlayer, 'ai scripts\\anmok.lua')
-end
+    start = function(forPlayer)
+    end,
 
-function Ai.initialize()
-    for _, value in pairs(Team.defensiveForce) do
-        if GetPlayerSlotState(value) == PLAYER_SLOT_STATE_PLAYING and GetPlayerController(value) == MAP_CONTROL_COMPUTER then
-            Ai.start(value)
-        end
+    initialize = function()
     end
 
-    for _, value in pairs(Team.offensiveForce) do
-        if GetPlayerSlotState(value) == PLAYER_SLOT_STATE_PLAYING and GetPlayerController(value) == MAP_CONTROL_COMPUTER then
-            Ai.start(value)
-        end
-    end
-end
+}
 
 Game = {
 
-    startDefeat             = function()
+    startDefeat = function()
     end,
 
-    startVictory            = function()
+    startVictory = function()
     end,
 
-    setStartingVisibility   = function()
+    setStartingVisibility = function()
         FogEnable(true)
         FogMaskEnable(true)
     end,
 
-    setStartingResources    = function()
+    setStartingResources = function()
     end,
 
-    createStartingUnits     = function()
+    createStartingUnits = function()
         for _, value in pairs(Team.computerForce) do
-            local id          = GetPlayerId(value)
-            local startLocX   = GetStartLocationX(id)
-            local startLocY   = GetStartLocationY(id)
+            local id = GetPlayerId(value)
+            local startLocX = GetStartLocationX(id)
+            local startLocY = GetStartLocationY(id)
 
             local unitSpacing = 64.00
-            local peonX       = startLocX
-            local peonY       = startLocY - 224.00
+            local peonX = startLocX
+            local peonY = startLocY - 224.00
 
             --  Spawn Great Hall at the start location.
             CreateUnit(value, FourCC('o002'), startLocX, startLocY, bj_UNIT_FACING)
@@ -1358,10 +1347,10 @@ Game = {
         end
     end,
 
-    setStartingHeroLimit    = function()
+    setStartingHeroLimit = function()
     end,
 
-    setPlayerAlliance       = function()
+    setPlayerAlliance = function()
         SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x03), true)
         SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x04), true)
         SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x05), true)
@@ -1408,14 +1397,14 @@ Game = {
         SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x05), true)
     end,
 
-    setCameraBounds         = function()
+    setCameraBounds = function()
         local marginX = 1024.0 + 512.0
         local marginY = 1024.0 + 256.0
 
-        local maxX    = GetRectMaxX(GetWorldRect())
-        local minX    = GetRectMinX(GetWorldRect())
-        local maxY    = GetRectMaxY(GetWorldRect())
-        local minY    = GetRectMinY(GetWorldRect())
+        local maxX = GetRectMaxX(GetWorldRect())
+        local minX = GetRectMinX(GetWorldRect())
+        local maxY = GetRectMaxY(GetWorldRect())
+        local minY = GetRectMinY(GetWorldRect())
 
         SetCameraBounds(
             minX + marginX,
@@ -1439,7 +1428,7 @@ Game = {
         end)
     end,
 
-    initialize              = function()
+    initialize = function()
         Game.setStartingVisibility()
         Game.setStartingResources()
         Game.createStartingUnits()
@@ -1463,15 +1452,15 @@ end
 HeroExperience = {
 
     onPlayerUnitDeath = function()
-        local dyingUnit   = GetDyingUnit()
-        local dyingUnitX  = GetUnitX(dyingUnit)
-        local dyingUnitY  = GetUnitY(dyingUnit)
+        local dyingUnit = GetDyingUnit()
+        local dyingUnitX = GetUnitX(dyingUnit)
+        local dyingUnitY = GetUnitY(dyingUnit)
         local killingUnit = GetKillingUnit()
 
-        local life        = BlzGetUnitMaxHP(dyingUnit)
-        local mana        = BlzGetUnitMaxMana(dyingUnit)
-        local level       = GetUnitLevel(dyingUnit)
-        local exp         = math.ceil(2 * ((life + mana) * level) ^ 0.5)
+        local life = BlzGetUnitMaxHP(dyingUnit)
+        local mana = BlzGetUnitMaxMana(dyingUnit)
+        local level = GetUnitLevel(dyingUnit)
+        local exp = math.ceil(2 * ((life + mana) * level) ^ 0.5)
 
         GroupClear(HeroExperience.group)
         GroupEnumUnitsInRange(HeroExperience.group, dyingUnitX, dyingUnitY, 1200.0 + UNIT_MAX_COLLISION_SIZE, nil)
@@ -1484,9 +1473,9 @@ HeroExperience = {
         end)
     end,
 
-    initialize        = function()
+    initialize = function()
         HeroExperience.trigger = CreateTrigger()
-        HeroExperience.group   = CreateGroup()
+        HeroExperience.group = CreateGroup()
 
         SetPlayerHandicapXP(Player(0x02), 0.0)
         SetPlayerHandicapXP(Player(0x03), 0.0)
@@ -1499,141 +1488,135 @@ HeroExperience = {
 
 }
 
-Hero     = { }
-HeroPick = { }
+Hero = { }
+HeroPick = {
+
+    getSpawnX = function(id)
+        return 5360.0
+    end,
+
+    getSpawnY = function(id)
+        return -6300.0
+    end,
+
+    getSpawnFacing = function(id)
+        return bj_UNIT_FACING
+    end,
+
+    initialize = function()
+        BlzLoadTOCFile("war3mapImported\\FrameDef.toc")
+
+        local game_ui = BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)
+
+        local hero_pick_dialog = BlzCreateFrame("HeroPickDialog", game_ui, 0, 0)
+
+        local heroPickTitleValue = BlzGetFrameByName("HeroPickTitleValue", 0)
+        local heroPickSubtitleValue = BlzGetFrameByName("HeroPickSubtitleValue", 0)
+
+        BlzFrameSetText(heroPickTitleValue, MAP_NAME)
+        BlzFrameSetText(heroPickSubtitleValue, "Выберите себе героя")
+
+        BlzFrameSetText(BlzGetFrameByName("HeroListTitleValue", 0), "Список героев")
+        BlzFrameSetText(BlzGetFrameByName("HeroDescriptionTitleValue", 0), "Описание героя")
+        BlzFrameSetText(BlzGetFrameByName("AbilityListTitleValue", 0), "Список способностей")
+        BlzFrameSetText(BlzGetFrameByName("AbilityDescriptionTitleValue", 0), "Описание способности")
+
+        local hero_list_container = BlzGetFrameByName("HeroListContainer", 0)
+        local hero_description = BlzGetFrameByName("HeroDescriptionArea", 0)
+        local abil_list_container = BlzGetFrameByName("AbilityListContainer", 0)
+        local abil_description = BlzGetFrameByName("AbilityDescriptionArea", 0)
+        local button = BlzGetFrameByName("HeroPickOkButton", 0)
+
+        local hero_list_item_1 = BlzCreateFrame("HeroListItem", hero_list_container, 0, 0)
+
+        BlzFrameSetTexture(BlzGetFrameByName("HeroListItemIcon", 0), "ReplaceableTextures\\CommandButtons\\BTNSamuro.blp", 0, true)
+        BlzFrameSetText(BlzGetFrameByName("HeroListItemTitle", 0), "Мастер клинка")
+
+        local hero_list_item_2 = BlzCreateFrame("HeroListItem", hero_list_container, 0, 0)
+
+        BlzFrameSetTexture(BlzGetFrameByName("HeroListItemIcon", 0), "ReplaceableTextures\\CommandButtons\\BTNShadowHunter.blp", 0, true)
+        BlzFrameSetText(BlzGetFrameByName("HeroListItemTitle", 0), "Темный охотник")
+
+        local hero_list_item_3 = BlzCreateFrame("HeroListItem", hero_list_container, 0, 0)
+
+        BlzFrameSetTexture(BlzGetFrameByName("HeroListItemIcon", 0), "ReplaceableTextures\\CommandButtons\\BTNThrall.blp", 0, true)
+        BlzFrameSetText(BlzGetFrameByName("HeroListItemTitle", 0), "Предсказатель")
+
+        BlzFrameSetPoint(hero_pick_dialog, FRAMEPOINT_CENTER, game_ui, FRAMEPOINT_CENTER, 0.0, 0.0)
+        BlzFrameSetPoint(hero_list_item_1, FRAMEPOINT_TOPLEFT, hero_list_container, FRAMEPOINT_TOPLEFT, 0.0, 0.0)
+        BlzFrameSetPoint(hero_list_item_2, FRAMEPOINT_TOPLEFT, hero_list_item_1, FRAMEPOINT_BOTTOMLEFT, 0.0, -0.0025)
+        BlzFrameSetPoint(hero_list_item_3, FRAMEPOINT_TOPLEFT, hero_list_item_2, FRAMEPOINT_BOTTOMLEFT, 0.0, -0.0025)
+
+        BlzFrameAddText(hero_description, "|cFF808080Базовый урон:|r 14-36")
+        BlzFrameAddText(hero_description, "|cFF808080БВА:|r 1.77")
+        BlzFrameAddText(hero_description, "|cFF808080Дальность атаки:|r 100 (melee)")
+        BlzFrameAddText(hero_description, "|cFF808080 - base hit points:|r 250")
+        BlzFrameAddText(hero_description, "|cFF808080 - base mana points:|r 250")
+        BlzFrameAddText(hero_description, "|cFF808080 - movement speed:|r 300")
+        BlzFrameAddText(hero_description, "|cFF808080 - strength:|r 36 ( +4.00 )")
+        BlzFrameAddText(hero_description, "|cFF808080 - agility ( primary attribute ):|r 46 ( +3.50 )")
+        BlzFrameAddText(hero_description, "|cFF808080 - inteligence:|r 32 ( +4.50 )")
+        BlzFrameAddText(hero_description, " ")
+        BlzFrameAddText(hero_description, "Samuro once lived in a village with his brethren. Unfortunately for him, a bloodthirsty Wildkin known as Bloodbeak destroyed his village. With vengeance in mind, Samuro hunted Bloodbeak until he finally met with success. Bloodbeak was slain, and Samuro could pay attention to his newly assigned task of sabotaging a Kul Tiras base camp near the coast. Samuro was successful in this as well by using stealth to place demolition charges near vital structures of the Kul Tiras base ( likely Tiragarde Keep in World of Warcraft ). With his mission accomplished, Rexxar, Rokhan, and Chen Stormstout could continue with a mission of their own, and Samuro was free to continue as he wished.")
+        BlzFrameAddText(hero_description, " ")
+        BlzFrameAddText(hero_description, "|cFFFFCC00Attacks land units.|r")
+
+        BlzFrameAddText(abil_description, "|cFF808080Тип урона:|r |cFFFF2020Физический|r")
+        BlzFrameAddText(abil_description, "|cFF808080Урона в секунду:|r DMG")
+        BlzFrameAddText(abil_description, "|cFF808080Длительность:|r 4 + LVL")
+        BlzFrameAddText(abil_description, "|cFF808080Радиус действия:|r 320")
+        BlzFrameAddText(abil_description, "|cFF808080Перезарядка:|r 33 - 3 * LVL")
+        BlzFrameAddText(abil_description, " ")
+        BlzFrameAddText(abil_description, "Causes a bladestorm of destructive force around the Blademaster, rendering him immune to magic and dealing damage to nearby enemy land units.")
+
+        local trig = CreateTrigger()
+        BlzTriggerRegisterFrameEvent(trig, button, FRAMEEVENT_CONTROL_CLICK)
+        TriggerAddAction(trig, function()
+            BlzDestroyFrame(hero_pick_dialog)
+        end)
+    end
+}
 
 function Hero.getByPlayer(whichPlayer)
     return Hero[whichPlayer]
 end
 
-function HeroPick.getSpawnX(id)
-    return 5360.0
-end
-
-function HeroPick.getSpawnY(id)
-    return -6300.0
-end
-
-function HeroPick.getSpawnFacing(id)
-    return bj_UNIT_FACING
-end
-
 function HeroPick.displayHint()
-    local snd  = CreateSoundFromLabel('Hint', false, false, false, 10000, 10000)
-    local hint = 'Choose the right character for your game. ' ..
-        'To complete the game, your team must have at least one hero from each class. ' ..
-        'For more information, click on the tavern you are interested in.'
+    local snd = CreateSoundFromLabel("Hint", false, false, false, 10000, 10000)
+    local hint = "Choose the right character for your game. " ..
+        "To complete the game, your team must have at least one hero from each class. " ..
+        "For more information, click on the tavern you are interested in."
 
-    DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 9.0, ' ')
-    DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 9.0, '|cff32CD32HINT|r – ' .. hint)
+    DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 9.0, " ")
+    DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 9.0, "|cff32CD32HINT|r – " .. hint)
     StartSound(snd)
     KillSoundWhenDone(snd)
 end
 
 function HeroPick.initializeTavernPick()
-        local soldUnit = GetSoldUnit()
-        local owner    = GetOwningPlayer(soldUnit)
+    local soldUnit = GetSoldUnit()
+    local owner = GetOwningPlayer(soldUnit)
 
-        for _, value in pairs(Team.defensiveForce) do
-            SetPlayerTechMaxAllowed(value, GetUnitTypeId(soldUnit), IntegerTertiaryOp(value == owner, 1, 0))
-        end
+    for _, value in pairs(Team.defensiveForce) do
+        SetPlayerTechMaxAllowed(value, GetUnitTypeId(soldUnit), IntegerTertiaryOp(value == owner, 1, 0))
+    end
 
-        UnitModifySkillPoints(soldUnit, -1)
-        SetUnitX(soldUnit, HeroPick.getSpawnX(owner))
-        SetUnitY(soldUnit, HeroPick.getSpawnY(owner))
-        SetUnitFacing(soldUnit, HeroPick.getSpawnFacing(owner))
-        SetUnitState(soldUnit, UNIT_STATE_LIFE, BlzGetUnitMaxHP(soldUnit))
-        SetUnitState(soldUnit, UNIT_STATE_MANA, BlzGetUnitMaxMana(soldUnit))
-        BlzSetHeroProperName(soldUnit, GetPlayerName(owner))
+    UnitModifySkillPoints(soldUnit, -1)
+    SetUnitX(soldUnit, HeroPick.getSpawnX(owner))
+    SetUnitY(soldUnit, HeroPick.getSpawnY(owner))
+    SetUnitFacing(soldUnit, HeroPick.getSpawnFacing(owner))
+    SetUnitState(soldUnit, UNIT_STATE_LIFE, BlzGetUnitMaxHP(soldUnit))
+    SetUnitState(soldUnit, UNIT_STATE_MANA, BlzGetUnitMaxMana(soldUnit))
+    BlzSetHeroProperName(soldUnit, GetPlayerName(owner))
 
-        if GetLocalPlayer() == owner then
-            ClearSelection()
-            ClearTextMessages()
-            SelectUnit(soldUnit, true)
-            BlzFrameSetVisible(topMsg, false)
-            SetCameraPosition(GetUnitX(soldUnit), GetUnitY(soldUnit))
-        end
+    if GetLocalPlayer() == owner then
+        ClearSelection()
+        ClearTextMessages()
+        SelectUnit(soldUnit, true)
+        BlzFrameSetVisible(topMsg, false)
+        SetCameraPosition(GetUnitX(soldUnit), GetUnitY(soldUnit))
+    end
 end
-
-function HeroPick.initialize()
-    BlzLoadTOCFile("war3mapImported\\FrameDef.toc")
-
-    local game_ui               = BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)
-
-    local hero_pick_dialog      = BlzCreateFrame("HeroPickDialog", game_ui, 0, 0)
-
-    local heroPickTitleValue    = BlzGetFrameByName("HeroPickTitleValue", 0)
-    local heroPickSubtitleValue = BlzGetFrameByName("HeroPickSubtitleValue", 0)
-
-    BlzFrameSetText(heroPickTitleValue, STRING_MAP_NAME)
-    BlzFrameSetText(heroPickSubtitleValue, STRING_CHOOSE_YOUR_HERO)
-
-    local heroListTitleValue           = BlzGetFrameByName("HeroListTitleValue", 0)
-    local heroDescriptionTitleValue    = BlzGetFrameByName("HeroDescriptionTitleValue", 0)
-    local abilityListTitleValue        = BlzGetFrameByName("AbilityListTitleValue", 0)
-    local abilityDescriptionTitleValue = BlzGetFrameByName("AbilityDescriptionTitleValue", 0)
-
-    BlzFrameSetText(heroListTitleValue, 'Список героев')
-    BlzFrameSetText(heroDescriptionTitleValue, 'Описание героя')
-    BlzFrameSetText(abilityListTitleValue, 'Список способностей')
-    BlzFrameSetText(abilityDescriptionTitleValue, 'Описание способности')
-
-    local hero_list_container = BlzGetFrameByName("HeroListContainer", 0)
-    local hero_description    = BlzGetFrameByName("HeroDescriptionArea", 0)
-    local abil_list_container = BlzGetFrameByName("AbilityListContainer", 0)
-    local abil_description    = BlzGetFrameByName("AbilityDescriptionArea", 0)
-    local button              = BlzGetFrameByName("HeroPickOkButton", 0)
-
-    local hero_list_item_1    = BlzCreateFrame("HeroListItem", hero_list_container, 0, 0)
-
-    BlzFrameSetTexture(BlzGetFrameByName("HeroListItemIcon", 0), "ReplaceableTextures\\CommandButtons\\BTNSamuro.blp", 0, true)
-    BlzFrameSetText(BlzGetFrameByName("HeroListItemTitle", 0), "Мастер клинка")
-
-    local hero_list_item_2 = BlzCreateFrame("HeroListItem", hero_list_container, 0, 0)
-
-    BlzFrameSetTexture(BlzGetFrameByName("HeroListItemIcon", 0), "ReplaceableTextures\\CommandButtons\\BTNShadowHunter.blp", 0, true)
-    BlzFrameSetText(BlzGetFrameByName("HeroListItemTitle", 0), "Темный охотник")
-
-    local hero_list_item_3 = BlzCreateFrame("HeroListItem", hero_list_container, 0, 0)
-
-    BlzFrameSetTexture(BlzGetFrameByName("HeroListItemIcon", 0), "ReplaceableTextures\\CommandButtons\\BTNThrall.blp", 0, true)
-    BlzFrameSetText(BlzGetFrameByName("HeroListItemTitle", 0), "Предсказатель")
-
-    BlzFrameSetPoint(hero_pick_dialog, FRAMEPOINT_CENTER, game_ui, FRAMEPOINT_CENTER, 0.0, 0.0)
-    BlzFrameSetPoint(hero_list_item_1, FRAMEPOINT_TOPLEFT, hero_list_container, FRAMEPOINT_TOPLEFT, 0.0, 0.0)
-    BlzFrameSetPoint(hero_list_item_2, FRAMEPOINT_TOPLEFT, hero_list_item_1, FRAMEPOINT_BOTTOMLEFT, 0.0, -0.0025)
-    BlzFrameSetPoint(hero_list_item_3, FRAMEPOINT_TOPLEFT, hero_list_item_2, FRAMEPOINT_BOTTOMLEFT, 0.0, -0.0025)
-
-    BlzFrameAddText(hero_description, "|cFF808080Базовый урон:|r 14-36")
-    BlzFrameAddText(hero_description, "|cFF808080БВА:|r 1.77")
-    BlzFrameAddText(hero_description, "|cFF808080Дальность атаки:|r 100 (melee)")
-    BlzFrameAddText(hero_description, "|cFF808080 - base hit points:|r 250")
-    BlzFrameAddText(hero_description, "|cFF808080 - base mana points:|r 250")
-    BlzFrameAddText(hero_description, "|cFF808080 - movement speed:|r 300")
-    BlzFrameAddText(hero_description, "|cFF808080 - strength:|r 36 ( +4.00 )")
-    BlzFrameAddText(hero_description, "|cFF808080 - agility ( primary attribute ):|r 46 ( +3.50 )")
-    BlzFrameAddText(hero_description, "|cFF808080 - inteligence:|r 32 ( +4.50 )")
-    BlzFrameAddText(hero_description, " ")
-    BlzFrameAddText(hero_description, "Samuro once lived in a village with his brethren. Unfortunately for him, a bloodthirsty Wildkin known as Bloodbeak destroyed his village. With vengeance in mind, Samuro hunted Bloodbeak until he finally met with success. Bloodbeak was slain, and Samuro could pay attention to his newly assigned task of sabotaging a Kul Tiras base camp near the coast. Samuro was successful in this as well by using stealth to place demolition charges near vital structures of the Kul Tiras base ( likely Tiragarde Keep in World of Warcraft ). With his mission accomplished, Rexxar, Rokhan, and Chen Stormstout could continue with a mission of their own, and Samuro was free to continue as he wished.")
-    BlzFrameAddText(hero_description, " ")
-    BlzFrameAddText(hero_description, "|cFFFFCC00Attacks land units.|r")
-
-    BlzFrameAddText(abil_description, "|cFF808080Тип урона:|r |cFFFF2020Физический|r")
-    BlzFrameAddText(abil_description, "|cFF808080Урона в секунду:|r DMG")
-    BlzFrameAddText(abil_description, "|cFF808080Длительность:|r 4 + LVL")
-    BlzFrameAddText(abil_description, "|cFF808080Радиус действия:|r 320")
-    BlzFrameAddText(abil_description, "|cFF808080Перезарядка:|r 33 - 3 * LVL")
-    BlzFrameAddText(abil_description, " ")
-    BlzFrameAddText(abil_description, "Causes a bladestorm of destructive force around the Blademaster, rendering him immune to magic and dealing damage to nearby enemy land units.")
-
-    local trig = CreateTrigger()
-    BlzTriggerRegisterFrameEvent(trig, button, FRAMEEVENT_CONTROL_CLICK)
-    TriggerAddAction(trig, function()
-        BlzDestroyFrame(hero_pick_dialog)
-    end)
-end
-
-
 
 HeroRevive = {
 
@@ -1643,9 +1626,9 @@ HeroRevive = {
         if IsUnitType(dyingUnit, UNIT_TYPE_HERO) then
             local dyingUnitX = GetUnitX(dyingUnit)
             local dyingUnitY = GetUnitY(dyingUnit)
-            local grave      = CreateUnit(GetOwningPlayer(dyingUnit), HeroRevive.graveTypeId, dyingUnitX, dyingUnitY, 0.0)
-            local timer      = CreateTimer()
-            local graveLife  = 1.0
+            local grave = CreateUnit(GetOwningPlayer(dyingUnit), HeroRevive.graveTypeId, dyingUnitX, dyingUnitY, 0.0)
+            local timer = CreateTimer()
+            local graveLife = 1.0
 
             SetWidgetLife(grave, 1.0)
             SetUnitPathing(grave, false)
@@ -1685,8 +1668,8 @@ HeroRevive = {
         end
     end,
 
-    initialize        = function()
-        HeroRevive.trigger     = CreateTrigger()
+    initialize = function()
+        HeroRevive.trigger = CreateTrigger()
         HeroRevive.graveTypeId = FourCC('h003')
 
         TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x02), EVENT_PLAYER_UNIT_DEATH, nil)
@@ -1701,7 +1684,7 @@ HeroRevive = {
 SkillPoints = {
 
     onPlayerHeroLevel = function()
-        local hero  = GetLevelingUnit()
+        local hero = GetLevelingUnit()
         local level = GetHeroLevel(hero)
 
         if level == 1 then
@@ -1767,7 +1750,7 @@ SkillPoints = {
         end
     end,
 
-    initialize        = function()
+    initialize = function()
         SkillPoints.trigger = CreateTrigger()
 
         TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x02), EVENT_PLAYER_HERO_LEVEL, nil)
@@ -1784,10 +1767,10 @@ Peon = {
     protectTarget = function(target)
     end,
 
-    restore = function(u)
+    restoreAll = function()
     end,
 
-    setInvulnerable = function(u, flag)
+    setInvulnerableAll = function(flag)
         SetUnitInvulnerable(u, flag)
     end,
 
@@ -1819,8 +1802,8 @@ do
 
     function PowerUp.initialize()
         local circle = { }
-        local item   = { }
-        local trig   = CreateTrigger()
+        local item = { }
+        local trig = CreateTrigger()
 
         table.insert(circle, AddSpecialEffect('Abilities\\Spells\\NightElf\\Starfall\\StarfallCaster.mdl', 4736.0, -8320.0))
         table.insert(circle, AddSpecialEffect('Abilities\\Spells\\NightElf\\Starfall\\StarfallCaster.mdl', 7296.0, -5760.0))
@@ -1881,22 +1864,22 @@ end
 TimerStart(CreateTimer(), 0.0, false, PowerUp.initialize)
 
 do
-    Scoreboard              = { }
+    Scoreboard = { }
 
-    local board             = nil
-    local unitsProduced     = { }
-    local unitsKilled       = { }
-    local unitsLost         = { }
+    local board = nil
+    local unitsProduced = { }
+    local unitsKilled = { }
+    local unitsLost = { }
     local buildingsProduced = { }
-    local buildingsRazed    = { }
-    local buildingsLost     = { }
-    local damageDealt       = { }
-    local damageReceived    = { }
-    local goldMined         = { }
-    local lumberHarvested   = { }
-    local techPercentage    = { }
-    local column            = { }
-    local lostToUpkeep      = { }
+    local buildingsRazed = { }
+    local buildingsLost = { }
+    local damageDealt = { }
+    local damageReceived = { }
+    local goldMined = { }
+    local lumberHarvested = { }
+    local techPercentage = { }
+    local column = { }
+    local lostToUpkeep = { }
 
     function Scoreboard.show(flag)
         MultiboardDisplay(board, flag)
@@ -1926,8 +1909,8 @@ do
         local hName = ""
 
         --  if Player.isHero( p ) then
-        pIcon       = "ReplaceableTextures\\CommandButtons\\BTNHoldPosition.tga"
-        pName       = GetPlayerName(p)
+        pIcon = "ReplaceableTextures\\CommandButtons\\BTNHoldPosition.tga"
+        pName = GetPlayerName(p)
 
         if hero[p] ~= nil then
             hIcon = "UI\\Widgets\\Console\\Human\\CommandButton\\human-multipleselection-heroglow123.blp"
@@ -1985,12 +1968,12 @@ do
         TimerStart(CreateTimer(), 0.0, false, function()
             DestroyTimer(GetExpiredTimer())
 
-            local unitsIcon     = "ReplaceableTextures\\CommandButtons\\BTNGrunt.tga"
+            local unitsIcon = "ReplaceableTextures\\CommandButtons\\BTNGrunt.tga"
             local buildingsIcon = "ReplaceableTextures\\CommandButtons\\BTNOrcTower.tga"
-            local combatIcon    = "ReplaceableTextures\\CommandButtons\\BTNAttack.tga"
+            local combatIcon = "ReplaceableTextures\\CommandButtons\\BTNAttack.tga"
             local resourcesIcon = "ReplaceableTextures\\CommandButtons\\BTNPillage.tga"
 
-            board               = CreateMultiboard()
+            board = CreateMultiboard()
             MultiboardSetTitleText(board, "Статистика:")
             MultiboardSetTitleTextColor(board, 0xFF, 0xFF, 0xFF, 0xFF)
             MultiboardSetRowCount(board, 24)
@@ -2025,19 +2008,19 @@ do
             Scoreboard.setItem(23, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
 
             for _, val in pairs(Team.defensiveForce) do
-                unitsProduced[val]     = 0
-                unitsKilled[val]       = 0
-                unitsLost[val]         = 0
+                unitsProduced[val] = 0
+                unitsKilled[val] = 0
+                unitsLost[val] = 0
                 buildingsProduced[val] = 0
-                buildingsRazed[val]    = 0
-                buildingsLost[val]     = 0
-                damageDealt[val]       = 0
-                damageReceived[val]    = 0
-                goldMined[val]         = 0
-                lumberHarvested[val]   = 0
-                techPercentage[val]    = 0
-                column[val]            = 0
-                lostToUpkeep[val]      = 0
+                buildingsRazed[val] = 0
+                buildingsLost[val] = 0
+                damageDealt[val] = 0
+                damageReceived[val] = 0
+                goldMined[val] = 0
+                lumberHarvested[val] = 0
+                techPercentage[val] = 0
+                column[val] = 0
+                lostToUpkeep[val] = 0
 
                 Scoreboard.addPlayerColumn(val)
                 Scoreboard.updatePlayerInfo(val)
@@ -2054,11 +2037,11 @@ end
 do
 
     WatchTower = {
-        id              = FourCC("t000"),
-        owner           = Player(22),
-        group           = CreateGroup(),
+        id = FourCC("t000"),
+        owner = Player(22),
+        group = CreateGroup(),
 
-        create          = function(x, y, face)
+        create = function(x, y, face)
             local u = CreateUnit(WatchTower.owner, WatchTower.id, x, y, face)
 
             --SetUbersplatRenderAlways(CreateUbersplat(x, y, "OLAR", 0xFF, 0xFF, 0xFF, 0xFF, true, true), true)

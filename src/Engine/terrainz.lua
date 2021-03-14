@@ -1,7 +1,7 @@
 do
 
     ---@type location
-    local loc   = Location(MAP_HIDDEN_X, MAP_HIDDEN_Y)
+    local loc = Location(MAP_HIDDEN_X, MAP_HIDDEN_Y)
 
     ---@type function
     ---@param x real

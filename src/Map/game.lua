@@ -1,28 +1,28 @@
 Game = {
 
-    startDefeat             = function()
+    startDefeat = function()
     end,
 
-    startVictory            = function()
+    startVictory = function()
     end,
 
-    setStartingVisibility   = function()
+    setStartingVisibility = function()
         FogEnable(true)
         FogMaskEnable(true)
     end,
 
-    setStartingResources    = function()
+    setStartingResources = function()
     end,
 
-    createStartingUnits     = function()
+    createStartingUnits = function()
         for _, value in pairs(Team.computerForce) do
-            local id          = GetPlayerId(value)
-            local startLocX   = GetStartLocationX(id)
-            local startLocY   = GetStartLocationY(id)
+            local id = GetPlayerId(value)
+            local startLocX = GetStartLocationX(id)
+            local startLocY = GetStartLocationY(id)
 
             local unitSpacing = 64.00
-            local peonX       = startLocX
-            local peonY       = startLocY - 224.00
+            local peonX = startLocX
+            local peonY = startLocY - 224.00
 
             --  Spawn Great Hall at the start location.
             CreateUnit(value, FourCC('o002'), startLocX, startLocY, bj_UNIT_FACING)
@@ -36,10 +36,10 @@ Game = {
         end
     end,
 
-    setStartingHeroLimit    = function()
+    setStartingHeroLimit = function()
     end,
 
-    setPlayerAlliance       = function()
+    setPlayerAlliance = function()
         SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x03), true)
         SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x04), true)
         SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x05), true)
@@ -86,14 +86,14 @@ Game = {
         SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x05), true)
     end,
 
-    setCameraBounds         = function()
+    setCameraBounds = function()
         local marginX = 1024.0 + 512.0
         local marginY = 1024.0 + 256.0
 
-        local maxX    = GetRectMaxX(GetWorldRect())
-        local minX    = GetRectMinX(GetWorldRect())
-        local maxY    = GetRectMaxY(GetWorldRect())
-        local minY    = GetRectMinY(GetWorldRect())
+        local maxX = GetRectMaxX(GetWorldRect())
+        local minX = GetRectMinX(GetWorldRect())
+        local maxY = GetRectMaxY(GetWorldRect())
+        local minY = GetRectMinY(GetWorldRect())
 
         SetCameraBounds(
             minX + marginX,
@@ -117,7 +117,7 @@ Game = {
         end)
     end,
 
-    initialize              = function()
+    initialize = function()
         Game.setStartingVisibility()
         Game.setStartingResources()
         Game.createStartingUnits()

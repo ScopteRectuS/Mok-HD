@@ -1,27 +1,27 @@
 do
-    Wave               = { }
+    Wave = { }
 
-    local round        = 1
-    local name         = { }
+    local round = 1
+    local name = { }
     local stylizedName = { }
-    local tip          = { }
-    local prepare      = { }
-    local count        = { }
-    local limit        = { }
-    local spawnCamp    = { }
-    local startSound   = { }
-    local endSound     = { }
-    local pool         = { }
+    local tip = { }
+    local prepare = { }
+    local count = { }
+    local limit = { }
+    local spawnCamp = { }
+    local startSound = { }
+    local endSound = { }
+    local pool = { }
 
-    local tickSound    = nil
-    local hintSound    = nil
-    local timer        = nil
-    local timerWindow  = nil
+    local tickSound = nil
+    local hintSound = nil
+    local timer = nil
+    local timerWindow = nil
 
     function Wave.displayTopMsg()
         local gameui = BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)
-        local frame  = BlzCreateFrameByType('TEXT', '', gameui, '', 0)
-        local alpha  = 0xFF
+        local frame = BlzCreateFrameByType('TEXT', '', gameui, '', 0)
+        local alpha = 0xFF
 
         BlzFrameSetPoint(frame, FRAMEPOINT_TOP, gameui, FRAMEPOINT_TOP, 0.0, -0.0195)
         BlzFrameSetVisible(frame, true)
@@ -107,10 +107,10 @@ do
                 end
 
                 local circle = SpawnCircle.getRandom(spawnCamp[round])
-                local owner  = GetOwningPlayer(circle)
-                local x      = GetUnitX(circle) + GetRandomReal(-16.0, 16.0)
-                local y      = GetUnitY(circle) + GetRandomReal(-16.0, 16.0)
-                local unit   = PlaceRandomUnit(pool[round], owner, x, y, 0.0)
+                local owner = GetOwningPlayer(circle)
+                local x = GetUnitX(circle) + GetRandomReal(-16.0, 16.0)
+                local y = GetUnitY(circle) + GetRandomReal(-16.0, 16.0)
+                local unit = PlaceRandomUnit(pool[round], owner, x, y, 0.0)
 
                 for _, value in pairs(Team.defensiveForce) do
                     UnitShareVision(unit, value, true)
@@ -133,7 +133,7 @@ do
 
     function Wave.startSpawnTimeout()
         if timer == nil then
-            timer       = CreateTimer()
+            timer = CreateTimer()
             timerWindow = CreateTimerDialog(timer)
 
             TimerDialogSetTitleColor(timerWindow, 0xFF, 0xFF, 0xFF, 0xFF)
@@ -209,18 +209,18 @@ do
         end
 
         for key, value in pairs(data) do
-            local i           = math.random(1, #value)
+            local i = math.random(1, #value)
 
-            name[key]         = value[i].name
+            name[key] = value[i].name
             stylizedName[key] = value[i].stylizedName
-            tip[key]          = value[i].tip
-            prepare[key]      = value[i].prepare
-            count[key]        = value[i].count
-            limit[key]        = value[i].limit
-            spawnCamp[key]    = value[i].spawnCamp
-            startSound[key]   = value[i].startSound
-            endSound[key]     = value[i].endSound
-            pool[key]         = value[i].pool
+            tip[key] = value[i].tip
+            prepare[key] = value[i].prepare
+            count[key] = value[i].count
+            limit[key] = value[i].limit
+            spawnCamp[key] = value[i].spawnCamp
+            startSound[key] = value[i].startSound
+            endSound[key] = value[i].endSound
+            pool[key] = value[i].pool
 
             --  print('Round ' .. key .. ': ' .. name[ key ])
         end

@@ -1,15 +1,15 @@
 HeroExperience = {
 
     onPlayerUnitDeath = function()
-        local dyingUnit   = GetDyingUnit()
-        local dyingUnitX  = GetUnitX(dyingUnit)
-        local dyingUnitY  = GetUnitY(dyingUnit)
+        local dyingUnit = GetDyingUnit()
+        local dyingUnitX = GetUnitX(dyingUnit)
+        local dyingUnitY = GetUnitY(dyingUnit)
         local killingUnit = GetKillingUnit()
 
-        local life        = BlzGetUnitMaxHP(dyingUnit)
-        local mana        = BlzGetUnitMaxMana(dyingUnit)
-        local level       = GetUnitLevel(dyingUnit)
-        local exp         = math.ceil(2 * ((life + mana) * level) ^ 0.5)
+        local life = BlzGetUnitMaxHP(dyingUnit)
+        local mana = BlzGetUnitMaxMana(dyingUnit)
+        local level = GetUnitLevel(dyingUnit)
+        local exp = math.ceil(2 * ((life + mana) * level) ^ 0.5)
 
         GroupClear(HeroExperience.group)
         GroupEnumUnitsInRange(HeroExperience.group, dyingUnitX, dyingUnitY, 1200.0 + UNIT_MAX_COLLISION_SIZE, nil)
@@ -22,9 +22,9 @@ HeroExperience = {
         end)
     end,
 
-    initialize        = function()
+    initialize = function()
         HeroExperience.trigger = CreateTrigger()
-        HeroExperience.group   = CreateGroup()
+        HeroExperience.group = CreateGroup()
 
         SetPlayerHandicapXP(Player(0x02), 0.0)
         SetPlayerHandicapXP(Player(0x03), 0.0)

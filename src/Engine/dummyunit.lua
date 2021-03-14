@@ -1,5 +1,5 @@
 DummyUnit = {
-    id     = FourCC("h000"),
+    id = FourCC("h000"),
 
     ---@param owner player
     ---@param x real
