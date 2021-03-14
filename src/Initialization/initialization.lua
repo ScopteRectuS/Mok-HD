@@ -1,4 +1,6 @@
 InitGlobals = function()
+
+    -- Map initialization:
     HeroRevive.initialize()
     HeroExperience.initialize()
     SkillPoints.initialize()
