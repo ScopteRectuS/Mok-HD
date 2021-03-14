@@ -30,13 +30,6 @@ function HeroPick.displayHint()
 end
 
 function HeroPick.initializeTavernPick()
-    HeroPick.createTaverns()
-    HeroPick.displayTopMsg()
-    HeroPick.displayHint()
-
-    local trig = CreateTrigger()
-    TriggerRegisterPlayerUnitEvent(trig, Player(PLAYER_NEUTRAL_PASSIVE), EVENT_PLAYER_UNIT_SELL, nil)
-    TriggerAddAction(trig, function()
         local soldUnit = GetSoldUnit()
         local owner    = GetOwningPlayer(soldUnit)
 
@@ -59,7 +52,6 @@ function HeroPick.initializeTavernPick()
             BlzFrameSetVisible(topMsg, false)
             SetCameraPosition(GetUnitX(soldUnit), GetUnitY(soldUnit))
         end
-    end)
 end
 
 function HeroPick.initialize()
