@@ -1,0 +1,67 @@
+﻿STRING 2
+{
+Force 1
+}
+
+STRING 3
+// Units: t000 (Watch Tower), Name (Name)
+{
+Watch Tower
+}
+
+STRING 8
+{
+Bloodsports.TV
+}
+
+STRING 9
+{
+1-4
+}
+
+STRING 10
+{
+Nondescript
+}
+
+STRING 11
+{
+scopterectus
+}
+
+STRING 12
+{
+Enemy
+}
+
+STRING 13
+{
+Hero 1
+}
+
+STRING 14
+{
+Hero 2
+}
+
+STRING 15
+{
+Hero 3
+}
+
+STRING 16
+{
+Hero 4
+}
+
+STRING 18
+{
+Force 2
+}
+
+STRING 39
+// Units: h000 (Dummy Unit), Name (Name)
+{
+Dummy Unit
+}
+

@@ -11,7 +11,7 @@ Watch Tower
 
 STRING 8
 {
-Bloodsports.TV
+Mokk: Hero Defense
 }
 
 STRING 9
@@ -63,5 +63,29 @@ STRING 39
 // Units: h000 (Dummy Unit), Name (Name)
 {
 Dummy Unit
+}
+
+STRING 40
+// Units: peon (Peon), Name (Name)
+{
+Peon
+}
+
+STRING 41
+// Units: peon (Peon), Tip (Tooltip - Basic)
+{
+Обучить «Peon»
+}
+
+STRING 42
+// Units: peon (Peon), Ubertip (Tooltip - Extended)
+{
+Базовый рабочий и орк-воин. Может оборонять базу и ремонтировать здания.
+}
+
+STRING 43
+// Units: grve (Grave), Name (Name)
+{
+Grave
 }
 
