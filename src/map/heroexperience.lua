@@ -31,8 +31,10 @@ HeroExperience = {
         SetPlayerHandicapXP(Player(0x04), 0.0)
         SetPlayerHandicapXP(Player(0x05), 0.0)
 
-        TriggerRegisterPlayerUnitEvent(HeroExperience.trigger, Player(0x00), EVENT_PLAYER_UNIT_DEATH, nil)
         TriggerAddAction(HeroExperience.trigger, HeroExperience.onPlayerUnitDeath)
+        ForForce(Force.offensivePlayers, function()
+            TriggerRegisterPlayerUnitEvent(HeroExperience.trigger, GetEnumPlayer(), EVENT_PLAYER_UNIT_DEATH, nil)
+        end)
     end
 
 }

@@ -2,6 +2,8 @@ InitGlobals = function()
 
     -- Map initialization:
     TOC.initialize()
+    Force.initialize()
+
     HeroPick.initialize()
 
     HeroRevive.initialize()

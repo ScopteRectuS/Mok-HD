@@ -1,6 +1,6 @@
 PeonsBurrow = {
     id = FourCC("t000"),
-    owner = Player(0x16),
+    owner = Force.getPeonOwnerPlayer(),
     group = CreateGroup(),
 
     restore = function(u)

@@ -52,11 +52,10 @@ HeroRevive = {
         HeroRevive.trigger = CreateTrigger()
         HeroRevive.graveTypeId = FourCC('h003')
 
-        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x02), EVENT_PLAYER_UNIT_DEATH, nil)
-        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x03), EVENT_PLAYER_UNIT_DEATH, nil)
-        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x04), EVENT_PLAYER_UNIT_DEATH, nil)
-        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x05), EVENT_PLAYER_UNIT_DEATH, nil)
         TriggerAddAction(HeroRevive.trigger, onPlayerUnitDeath)
+        ForForce(Force.heroOwnerPlayers, function()
+            TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, GetEnumPlayer(), EVENT_PLAYER_UNIT_DEATH, nil)
+        end)
     end
 
 }
