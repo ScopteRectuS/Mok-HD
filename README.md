@@ -1,20 +1,7 @@
-# Mok: Hero Defense
+# Mokk: Hero Defense
 
 ---
 
 ##Сюжет
-
-
-PlotText.
-
-
 ##Игровой процесс
-
-
-GameplayText.
-
-
 ##Ссылки
-
-
-Text.
