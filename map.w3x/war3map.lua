@@ -1035,6 +1035,8 @@ InitGlobals = function()
 
     -- Map initialization:
     TOC.initialize()
+    Force.initialize()
+
     HeroPick.initialize()
 
     HeroRevive.initialize()
@@ -1082,65 +1084,66 @@ Game = {
             local peonY = startLocY - 224.00
 
             --  Spawn Great Hall at the start location.
-            CreateUnit(value, FourCC('o002'), startLocX, startLocY, bj_UNIT_FACING)
+            CreateUnit(value, FourCC("o002"), startLocX, startLocY, bj_UNIT_FACING)
 
             --  Spawn Peons directly south of the town hall.
-            CreateUnit(value, FourCC('opeo'), peonX + 2.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
-            CreateUnit(value, FourCC('opeo'), peonX + 1.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
-            CreateUnit(value, FourCC('opeo'), peonX + 0.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
-            CreateUnit(value, FourCC('opeo'), peonX - 1.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
-            CreateUnit(value, FourCC('opeo'), peonX - 2.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
+            CreateUnit(value, FourCC("opeo"), peonX + 2.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
+            CreateUnit(value, FourCC("opeo"), peonX + 1.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
+            CreateUnit(value, FourCC("opeo"), peonX + 0.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
+            CreateUnit(value, FourCC("opeo"), peonX - 1.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
+            CreateUnit(value, FourCC("opeo"), peonX - 2.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
         end
     end,
 
     setStartingHeroLimit = function()
     end,
 
-    setPlayerAlliance = function()
-        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x03), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x04), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x05), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x02), Player(0x16), true)
+    setPlayerAllianceStateAlly = function(sourcePlayer, otherPlayer, flag)
+        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_PASSIVE, flag)
+        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_HELP_REQUEST, flag)
+        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_HELP_RESPONSE, flag)
+        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_XP, flag)
+        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_SPELLS, flag)
+        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_VISION, flag)
+    end,
+    
+    setAllPlayersAlliance = function()
+        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x02), false)
+        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x03), false)
+        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x04), false)
+        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x05), false)
+        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x16), false)
 
-        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x02), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x04), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x05), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x03), Player(0x16), true)
+        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x00), false)
+        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x00), false)
+        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x00), false)
+        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x00), false)
+        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x00), false)
+        
+        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x03), true)
+        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x04), true)
+        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x05), true)
+        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x16), true)
 
-        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x02), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x03), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x05), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x04), Player(0x16), true)
+        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x02), true)
+        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x04), true)
+        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x05), true)
+        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x16), true)
 
-        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x02), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x03), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x04), true)
-        SetPlayerAllianceStateAllyBJ(Player(0x05), Player(0x16), true)
+        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x02), true)
+        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x03), true)
+        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x05), true)
+        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x16), true)
 
-        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x03), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x04), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x05), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x02), Player(0x16), true)
+        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x02), true)
+        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x03), true)
+        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x04), true)
+        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x16), true)
 
-        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x02), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x04), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x05), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x03), Player(0x16), true)
-
-        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x02), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x03), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x05), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x04), Player(0x16), true)
-
-        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x02), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x03), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x04), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x05), Player(0x16), true)
-
-        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x02), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x03), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x04), true)
-        SetPlayerAllianceStateVisionBJ(Player(0x16), Player(0x05), true)
+        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x02), true)
+        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x03), true)
+        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x04), true)
+        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x05), true)
     end,
 
     setCameraBounds = function()
@@ -1177,17 +1180,17 @@ Game = {
     initialize = function()
         Game.setStartingVisibility()
         Game.setStartingResources()
-        Game.createStartingUnits()
         Game.setStartingHeroLimit()
-        Game.setPlayerAlliance()
+        Game.setAllPlayersAlliance()
         Game.setCameraBounds()
         Game.setCameraTargetDistance()
+        Game.createStartingUnits()
     end
 
 }
 
 function displayTopMsg(msg)
-    local frame = BlzCreateFrameByType('TEXT', '', BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), '', 0)
+    local frame = BlzCreateFrameByType("TEXT", "", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "", 0)
 
     BlzFrameSetPoint(frame, FRAMEPOINT_TOP, BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), FRAMEPOINT_TOP, 0.0, -0.0195)
     BlzFrameSetText(frame, msg)
@@ -1228,8 +1231,10 @@ HeroExperience = {
         SetPlayerHandicapXP(Player(0x04), 0.0)
         SetPlayerHandicapXP(Player(0x05), 0.0)
 
-        TriggerRegisterPlayerUnitEvent(HeroExperience.trigger, Player(0x00), EVENT_PLAYER_UNIT_DEATH, nil)
         TriggerAddAction(HeroExperience.trigger, HeroExperience.onPlayerUnitDeath)
+        ForForce(Force.offensivePlayers, function()
+            TriggerRegisterPlayerUnitEvent(HeroExperience.trigger, GetEnumPlayer(), EVENT_PLAYER_UNIT_DEATH, nil)
+        end)
     end
 
 }
@@ -1416,11 +1421,10 @@ HeroRevive = {
         HeroRevive.trigger = CreateTrigger()
         HeroRevive.graveTypeId = FourCC('h003')
 
-        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x02), EVENT_PLAYER_UNIT_DEATH, nil)
-        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x03), EVENT_PLAYER_UNIT_DEATH, nil)
-        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x04), EVENT_PLAYER_UNIT_DEATH, nil)
-        TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, Player(0x05), EVENT_PLAYER_UNIT_DEATH, nil)
         TriggerAddAction(HeroRevive.trigger, onPlayerUnitDeath)
+        ForForce(Force.heroOwnerPlayers, function()
+            TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, GetEnumPlayer(), EVENT_PLAYER_UNIT_DEATH, nil)
+        end)
     end
 
 }
@@ -1508,7 +1512,7 @@ SkillPoints = {
 
 Peon = {
     id = FourCC("t000"),
-    owner = Player(0x16),
+    owner = Force.getPeonOwnerPlayer(),
     group = CreateGroup(),
 
     protectTarget = function(target)
@@ -1532,7 +1536,7 @@ Peon = {
 
 PeonsBurrow = {
     id = FourCC("t000"),
-    owner = Player(0x16),
+    owner = Force.getPeonOwnerPlayer(),
     group = CreateGroup(),
 
     restore = function(u)
@@ -1543,6 +1547,63 @@ PeonsBurrow = {
     end,
 
     create = function(x, y, face)
+    end
+
+}
+
+Force = {
+
+    -- function CreateForce() end
+    -- function DestroyForce(whichForce) end
+
+    -- function ForceAddPlayer(whichForce, whichPlayer) end
+    -- function ForceRemovePlayer(whichForce, whichPlayer) end
+    -- function BlzForceHasPlayer(whichForce, whichPlayer) end
+    -- function ForceClear(whichForce) end
+
+    -- function ForceEnumPlayers(whichForce, filter) end
+    -- function ForceEnumPlayersCounted(whichForce, filter, countLimit) end
+    -- function ForceEnumAllies(whichForce, whichPlayer, filter) end
+    -- function ForceEnumEnemies(whichForce, whichPlayer, filter) end
+    -- function ForForce(whichForce, callback) end
+
+    offensivePlayers = CreateForce(),
+    defensivePlayers = CreateForce(),
+    heroOwnerPlayers = CreateForce(),
+    peonOwnerPlayers = CreateForce(),
+
+    allMapPlayers = CreateForce(),
+
+    getMokkOwnerPlayer = function()
+        return Player(0x00)
+    end,
+
+    getPeonOwnerPlayer = function()
+        return Player(0x16)
+    end,
+
+    initialize = function()
+        -- Initialize offensive players:
+        ForceAddPlayer(Force.offensivePlayers, Player(0x00))
+
+        -- Initialize defensive players:
+        ForceAddPlayer(Force.defensivePlayers, Player(0x02))
+        ForceAddPlayer(Force.defensivePlayers, Player(0x03))
+        ForceAddPlayer(Force.defensivePlayers, Player(0x04))
+        ForceAddPlayer(Force.defensivePlayers, Player(0x05))
+        ForceAddPlayer(Force.defensivePlayers, Player(0x16))
+
+        -- Initialize hero owner players:
+        ForceAddPlayer(Force.heroOwnerPlayers, Player(0x02))
+        ForceAddPlayer(Force.heroOwnerPlayers, Player(0x03))
+        ForceAddPlayer(Force.heroOwnerPlayers, Player(0x04))
+        ForceAddPlayer(Force.heroOwnerPlayers, Player(0x05))
+
+        -- Initialize peon owner players:
+        ForceAddPlayer(Force.peonOwnerPlayers, Player(0x00))
+
+        SetPlayerOnScoreScreen(Player(0x00), false)
+        SetPlayerOnScoreScreen(Player(0x16), false)
     end
 
 }
@@ -1786,7 +1847,7 @@ end
 
 SentryWard = {
     id = FourCC("t000"),
-    owner = Player(0x16),
+    owner = Force.getPeonOwnerPlayer(),
     group = CreateGroup(),
 
     create = function(x, y, face)
@@ -1797,7 +1858,7 @@ SentryWard = {
 
 WatchTower = {
     id = FourCC("t000"),
-    owner = Player(0x16),
+    owner = Force.getPeonOwnerPlayer(),
     group = CreateGroup(),
 
     setInvulnerable = function(u, flag)
