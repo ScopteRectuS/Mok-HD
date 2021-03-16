@@ -119,6 +119,7 @@ Game = {
     end,
 
     initialize = function()
+        --[[
         Game.setStartingVisibility()
         Game.setStartingResources()
         Game.setStartingHeroLimit()
@@ -126,6 +127,11 @@ Game = {
         Game.setCameraBounds()
         Game.setCameraTargetDistance()
         Game.createStartingUnits()
+        ]]
+
+        if DEBUG_MODE then
+            print("DEBUG_MODE: the Game library has been initialized.")
+        end
     end
 
 }

@@ -1,7 +1,4 @@
 WatchTower = {
-    id = FourCC("t000"),
-    owner = Force.getPeonOwnerPlayer(),
-    group = CreateGroup(),
 
     setInvulnerable = function(u, flag)
         SetUnitInvulnerable(u, flag)
@@ -27,6 +24,12 @@ WatchTower = {
         --SetAltMinimapIcon("UI\\Minimap\\MiniMap-Tower.tga")
 
         return CreateUnit(WatchTower.owner, WatchTower.id, x, y, face)
+    end,
+
+    initialize = function()
+        WatchTower.id = FourCC("t000")
+        WatchTower.owner = Force.getPeonOwnerPlayer()
+        WatchTower.group = CreateGroup()
     end
 
 }

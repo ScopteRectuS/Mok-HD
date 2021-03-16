@@ -1,7 +1,7 @@
 TOC = {
 
     initialize = function()
-        BlzLoadTOCFile("UI\\FrameDef\\FrameDef.toc")
+        BlzLoadTOCFile("war3mapImported\\FrameDef.toc")
     end
 
 }

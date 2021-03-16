@@ -8,8 +8,8 @@ do
                 Creep.Wolves.stylizedName = "В О Л К И"
                 Creep.Wolves.tip = ""
                 Creep.Wolves.prepare = 15.0
-                Creep.Wolves.count = 215
-                Creep.Wolves.limit = 100
+                Creep.Wolves.count = 36
+                Creep.Wolves.limit = 60
                 Creep.Wolves.spawnCamp = { SpawnCircle.getGroundCamp() }
                 Creep.Wolves.startSound = nil
                 Creep.Wolves.endSound = nil
@@ -18,10 +18,6 @@ do
                 UnitPoolAddUnitType(Creep.Wolves.pool, FourCC("n002"), 30.0)
                 UnitPoolAddUnitType(Creep.Wolves.pool, FourCC("n003"), 20.0)
                 UnitPoolAddUnitType(Creep.Wolves.pool, FourCC("n004"), 10.0)
-
-                Preload.unit(FourCC("n002"))
-                Preload.unit(FourCC("n003"))
-                Preload.unit(FourCC("n004"))
             end
         },
 

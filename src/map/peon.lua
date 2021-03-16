@@ -1,7 +1,4 @@
 Peon = {
-    id = FourCC("t000"),
-    owner = Force.getPeonOwnerPlayer(),
-    group = CreateGroup(),
 
     protectTarget = function(target)
     end,
@@ -18,6 +15,12 @@ Peon = {
 
     create = function(x, y, face)
         return CreateUnit(Player(0x16), FourCC("opeo"), x, y, face)
+    end,
+
+    initialize = function()
+        Peon.id = FourCC("peon")
+        Peon.owner = Force.getPeonOwnerPlayer()
+        Peon.group = CreateGroup()
     end
 
 }

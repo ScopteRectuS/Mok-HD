@@ -1,7 +1,4 @@
 PeonsBurrow = {
-    id = FourCC("t000"),
-    owner = Force.getPeonOwnerPlayer(),
-    group = CreateGroup(),
 
     restore = function(u)
     end,
@@ -11,6 +8,12 @@ PeonsBurrow = {
     end,
 
     create = function(x, y, face)
+    end,
+
+    initialize = function()
+        PeonsBurrow.id = FourCC("t000")
+        PeonsBurrow.owner = Force.getPeonOwnerPlayer()
+        PeonsBurrow.group = CreateGroup()
     end
 
 }
