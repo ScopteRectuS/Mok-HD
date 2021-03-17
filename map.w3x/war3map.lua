@@ -717,7 +717,9 @@ HeroPick = {
 
         -- Hero list container initialization:
         local heroListContainer = BlzCreateFrameByType("FRAME", "", heroPickDialog, "", 0)
-        BlzFrameSetSize(heroListContainer, 0.2085, 0.11)
+        local heroListContainerWidth = 0.2085
+        local heroListContainerHeight = 0.11
+        BlzFrameSetSize(heroListContainer, heroListContainerWidth, heroListContainerHeight)
         BlzFrameSetPoint(heroListContainer, FRAMEPOINT_TOPLEFT, heroPickDialog, FRAMEPOINT_TOPLEFT,  0.030, -0.076125)
         BlzFrameSetPoint(heroListContainer, FRAMEPOINT_TOPLEFT, heroPickDialog, FRAMEPOINT_TOPLEFT,  0.030, -0.080)
 
@@ -735,20 +737,19 @@ HeroPick = {
         local heroListScrollbarHeight = BlzFrameGetHeight(heroListContainer) - heroListScrollbarOffset * 2
         local heroListScrollbarWidth = 0.012
         BlzFrameSetSize(heroListScrollbar, heroListScrollbarWidth, heroListScrollbarHeight)
-        --BlzFrameSetPoint(heroListScrollbar, FRAMEPOINT_TOPRIGHT, heroListContainer, FRAMEPOINT_TOPRIGHT, -heroListScrollbarOffset, -heroListScrollbarOffset)
         BlzFrameSetPoint(heroListScrollbar, FRAMEPOINT_TOPRIGHT, heroListContainer, FRAMEPOINT_TOPRIGHT, 0.0, -heroListScrollbarOffset)
         BlzFrameSetMinMaxValue(heroListScrollbar, 0, 4)
         BlzFrameSetStepSize(heroListScrollbar, 1)
         BlzFrameSetValue(heroListScrollbar, 4)
 
-        local createHeroListItem = function()
-        end
+
 
         -- Hero list item initialization:
         local heroListItem = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)
-        local heroListItemWidth = 0.2085 - 0.010 * 2
+        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
+        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
         local heroListItemHeight = 0.035
-        --BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
+        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
         BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
 
         local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
@@ -765,6 +766,8 @@ HeroPick = {
         BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
         BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, -0.003, 0.0)
 
+        print( BlzFrameGetChildrenCount(heroListItemButton) )
+
         local heroListItemButtonFailedHighlight = BlzGetFrameByName("QuestListItemFailedHighlight", 0)
         BlzFrameSetVisible(heroListItemButtonFailedHighlight, false)
 
@@ -774,10 +777,26 @@ HeroPick = {
         local heroListItemButtonSelectedHighlight = BlzGetFrameByName("QuestListItemSelectedHighlight", 0)
         BlzFrameSetVisible(heroListItemButtonSelectedHighlight, false)
 
+
+
+        --[[
+        -------------------------------------------------------------------------------------------------------------------------
+        BlzFrameSetVisible(heroListItemButton, false)
+
+        local heroListItemButton = BlzCreateFrameByType("GLUEBUTTON", "", heroListItem, "QuestButtonTemplate", 0)
+        local heroListItemButtonWidth = 0.2085 - 0.035 + 0.003 - 0.012 - 0.0025
+        local heroListItemButtonHeight = 0.035
+        BlzFrameClearAllPoints(heroListItemButton)
+        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
+        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, -0.003, 0.0)
+        -------------------------------------------------------------------------------------------------------------------------
+        ]]
+
+
+
         local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
         BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
-        --BlzFrameSetText(heroListItemButtonText, "Пеон, Король Батраков")
-        BlzFrameSetText(heroListItemButtonText, "")
+        BlzFrameSetText(heroListItemButtonText, "Пеон, Король Батраков")
         BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
 
         local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
@@ -786,8 +805,7 @@ HeroPick = {
         BlzFrameClearAllPoints(heroListItemButtonStatusText)
         BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
         BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
-        --BlzFrameSetText(heroListItemButtonStatusText, "герой уже выбран")
-        BlzFrameSetText(heroListItemButtonStatusText, "")
+        BlzFrameSetText(heroListItemButtonStatusText, "герой уже выбран")
         BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
 
 
@@ -875,10 +893,10 @@ HeroPick = {
 
         local chatLogTextArea = BlzCreateFrameByType("TEXTAREA", "", chatLogContainer, "EscMenuTextAreaTemplate", 0)
         BlzFrameSetAllPoints(chatLogTextArea, chatLogContainer)
+
+        BlzFrameAddText(chatLogTextArea, "|cff32CD32HINT|r – Выбор правильного персонажа поможет вам проще пройти игру. Обратите внимание на то, чтобы в вашей команде был хотя бы один герой из каждого класса.")
+        BlzFrameAddText(chatLogTextArea, " ")
         BlzFrameAddText(chatLogTextArea, "|cFFFF0303scopterectus|r: привет, модмейкеры!")
-        BlzFrameAddText(chatLogTextArea, "|cFFFF0303scopterectus|r: хватит флудить в чат!")
-        BlzFrameAddText(chatLogTextArea, "|cFF4E2A04ScorpioT1000|r: хочу и буду.")
-        BlzFrameAddText(chatLogTextArea, "|cFF4E2A04ScorpioT1000|r: ты мне не указ!")
         BlzFrameAddText(chatLogTextArea, "|cFFFE8A0EBergi-bear|r: ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо!")
         BlzFrameAddText(chatLogTextArea, "|cFFFE8A0EBergi-bear|r: Peony i translit rulit!! )))]]]")
         BlzFrameAddText(chatLogTextArea, "|cFFFF0303scopterectus|r: ну всё, я обиделся...............")
