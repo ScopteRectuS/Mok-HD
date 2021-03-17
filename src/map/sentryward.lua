@@ -5,7 +5,7 @@ SentryWard = {
     end,
 
     initialize = function()
-        SentryWard.id = FourCC("t000")
+        SentryWard.id = FourCC("")
         SentryWard.owner = Force.getPeonOwnerPlayer()
         SentryWard.group = CreateGroup()
     end
