@@ -1,15 +1,15 @@
 Hero = { }
 HeroPick = {
 
-    getSpawnX = function(id)
+    getSpawnX = function()
         return 5360.0
     end,
 
-    getSpawnY = function(id)
+    getSpawnY = function()
         return -6300.0
     end,
 
-    getSpawnFacing = function(id)
+    getSpawnFacing = function()
         return bj_UNIT_FACING
     end,
 
@@ -37,7 +37,7 @@ HeroPick = {
 
 
         -- Hero list container initialization:
-        local heroListContainer = BlzCreateFrameByType("FRAME", "", heroPickDialog, "", 0)
+        local heroListContainer = BlzCreateFrameByType("LISTBOX", "", heroPickDialog, "", 0)
         local heroListContainerWidth = 0.2085
         local heroListContainerHeight = 0.11
         BlzFrameSetSize(heroListContainer, heroListContainerWidth, heroListContainerHeight)
@@ -50,18 +50,25 @@ HeroPick = {
         BlzFrameSetText(heroListTitle, "Cписок героев:")
         BlzFrameSetTextColor(heroListTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
 
-        --local heroListContainerBackdrop = BlzCreateFrameByType("BACKDROP", "", heroListContainer, "EscMenuControlBackdropTemplate", 0)
-        --BlzFrameSetAllPoints(heroListContainerBackdrop, heroListContainer)
-
         local heroListScrollbar = BlzCreateFrameByType("SLIDER", "", heroListContainer, "EscMenuScrollBarTemplate", 0)
         local heroListScrollbarOffset = 0.010
         local heroListScrollbarHeight = BlzFrameGetHeight(heroListContainer) - heroListScrollbarOffset * 2
         local heroListScrollbarWidth = 0.012
         BlzFrameSetSize(heroListScrollbar, heroListScrollbarWidth, heroListScrollbarHeight)
         BlzFrameSetPoint(heroListScrollbar, FRAMEPOINT_TOPRIGHT, heroListContainer, FRAMEPOINT_TOPRIGHT, 0.0, -heroListScrollbarOffset)
-        BlzFrameSetMinMaxValue(heroListScrollbar, 0, 4)
+        BlzFrameSetMinMaxValue(heroListScrollbar, 1, 5)
         BlzFrameSetStepSize(heroListScrollbar, 1)
-        BlzFrameSetValue(heroListScrollbar, 4)
+        BlzFrameSetValue(heroListScrollbar, 5)
+
+        local trig = CreateTrigger()
+        BlzTriggerRegisterFrameEvent(trig, heroListContainer, FRAMEEVENT_MOUSE_WHEEL)
+        TriggerAddAction(trig, function()
+            if BlzGetTriggerFrameValue() > 0.0 then
+                BlzFrameSetValue(heroListScrollbar, BlzFrameGetValue(heroListScrollbar) + 1)
+            elseif BlzGetTriggerFrameValue() < 0.0 then
+                BlzFrameSetValue(heroListScrollbar, BlzFrameGetValue(heroListScrollbar) - 1)
+            end
+        end)
 
 
 
@@ -81,22 +88,70 @@ HeroPick = {
         BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNPeon", 0, true)
 
         local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
-        local heroListItemButtonWidth = 0.2085 - 0.035 + 0.003 - 0.012 - 0.0025
+        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
+        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
         local heroListItemButtonHeight = 0.035
         BlzFrameClearAllPoints(heroListItemButton)
         BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
-        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, -0.003, 0.0)
+        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
 
-        print( BlzFrameGetChildrenCount(heroListItemButton) )
+        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
+        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
+        BlzFrameSetText(heroListItemButtonText, "Пеон, Король Батраков")
+        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
 
-        local heroListItemButtonFailedHighlight = BlzGetFrameByName("QuestListItemFailedHighlight", 0)
-        BlzFrameSetVisible(heroListItemButtonFailedHighlight, false)
+        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
+        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
+        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
+        BlzFrameClearAllPoints(heroListItemButtonStatusText)
+        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
+        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
+        BlzFrameSetText(heroListItemButtonStatusText, "герой уже выбран")
+        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
 
-        local heroListItemButtonCompletedHighlight = BlzGetFrameByName("QuestListItemCompletedHighlight", 0)
-        BlzFrameSetVisible(heroListItemButtonCompletedHighlight, false)
 
-        local heroListItemButtonSelectedHighlight = BlzGetFrameByName("QuestListItemSelectedHighlight", 0)
-        BlzFrameSetVisible(heroListItemButtonSelectedHighlight, false)
+
+        ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        local heroListItem = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)
+        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
+        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemHeight = 0.035
+        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
+        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, -(heroListItemHeight + heroListItemStepOffset) )
+
+        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
+        local heroListItemIconWidth = 0.035
+        local heroListItemIconHeight = 0.035
+        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
+        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster", 0, true)
+
+        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
+        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
+        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemButtonHeight = 0.035
+        BlzFrameClearAllPoints(heroListItemButton)
+        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
+        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
+
+        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
+        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
+        BlzFrameSetText(heroListItemButtonText, "Самуро, Мастер Клинка")
+        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
+
+        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
+        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
+        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
+        BlzFrameClearAllPoints(heroListItemButtonStatusText)
+        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
+        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
+        BlzFrameSetText(heroListItemButtonStatusText, "")
+        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
+        ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 
 
@@ -115,28 +170,6 @@ HeroPick = {
 
 
 
-        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
-        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
-        BlzFrameSetText(heroListItemButtonText, "Пеон, Король Батраков")
-        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
-
-        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
-        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
-        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
-        BlzFrameClearAllPoints(heroListItemButtonStatusText)
-        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
-        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
-        BlzFrameSetText(heroListItemButtonStatusText, "герой уже выбран")
-        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
-
-
-
-        local trig = CreateTrigger()
-        TriggerAddAction(trig, function() print("Button Clicked") end)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemButton, FRAMEEVENT_CONTROL_CLICK)
-
-
-
         -- Hero description container initialization:
         local heroDescriptionContainer = BlzCreateFrameByType("FRAME", "", heroPickDialog, "", 0)
         BlzFrameSetSize(heroDescriptionContainer, 0.2085, 0.11)
@@ -151,33 +184,151 @@ HeroPick = {
 
         local heroDescriptionTextArea = BlzCreateFrameByType("TEXTAREA", "", heroDescriptionContainer, "EscMenuTextAreaTemplate", 0)
         BlzFrameSetAllPoints(heroDescriptionTextArea, heroDescriptionContainer)
-        BlzFrameAddText(heroDescriptionTextArea, "Some text can be here. Some text can be here. Some text can be here. Some text can be here.")
+        BlzFrameAddText(heroDescriptionTextArea, "Базовый рабочий. Добывает золото и древесину, а также строит и ремонтирует здания. Может оборонять базу, засев в землянке.")
 
 
 
         -- Ability list container initialization:
-        local abilityListContainer = BlzCreateFrameByType("FRAME", "", heroPickDialog, "", 0)
+        local abilityListContainer = BlzCreateFrameByType("LISTBOX", "", heroPickDialog, "", 0)
         BlzFrameSetSize(abilityListContainer, 0.2085, 0.11)
-        --BlzFrameSetPoint(abilityListContainer, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_BOTTOMLEFT,  0.0, -0.026375)
         BlzFrameSetPoint(abilityListContainer, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_BOTTOMLEFT,  0.0, -0.020)
 
         local abilityListTitle = BlzCreateFrameByType("TEXT", "", abilityListContainer, "EscMenuLabelTextTemplate", 0)
-        BlzFrameSetPoint(abilityListTitle, FRAMEPOINT_BOTTOMLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT, 0.003, 0.002)
         BlzFrameSetPoint(abilityListTitle, FRAMEPOINT_BOTTOMLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
         BlzFrameSetText(abilityListTitle, "Cписок способностей:")
         BlzFrameSetTextColor(abilityListTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
-
-        local abilityListContainerBackdrop = BlzCreateFrameByType("BACKDROP", "", abilityListContainer, "EscMenuControlBackdropTemplate", 0)
-        BlzFrameSetAllPoints(abilityListContainerBackdrop, abilityListContainer)
 
         local abilityListScrollbar = BlzCreateFrameByType("SLIDER", "", abilityListContainer, "EscMenuScrollBarTemplate", 0)
         local abilityListScrollbarOffset = 0.010
         local abilityListScrollbarHeight = BlzFrameGetHeight(abilityListContainer) - abilityListScrollbarOffset * 2
         BlzFrameSetSize(abilityListScrollbar, 0.012, abilityListScrollbarHeight)
-        BlzFrameSetPoint(abilityListScrollbar, FRAMEPOINT_TOPRIGHT, abilityListContainer, FRAMEPOINT_TOPRIGHT, -abilityListScrollbarOffset, -abilityListScrollbarOffset)
+        BlzFrameSetPoint(abilityListScrollbar, FRAMEPOINT_TOPRIGHT, abilityListContainer, FRAMEPOINT_TOPRIGHT, 0.0, -abilityListScrollbarOffset)
         BlzFrameSetMinMaxValue(abilityListScrollbar, 0, 4)
         BlzFrameSetStepSize(abilityListScrollbar, 1)
-        BlzFrameSetValue(abilityListScrollbar, 0)
+        BlzFrameSetValue(abilityListScrollbar, 4)
+
+        local trig = CreateTrigger()
+        BlzTriggerRegisterFrameEvent(trig, abilityListContainer, FRAMEEVENT_MOUSE_WHEEL)
+        TriggerAddAction(trig, function()
+            if BlzGetTriggerFrameValue() > 0.0 then
+                BlzFrameSetValue(abilityListScrollbar, BlzFrameGetValue(abilityListScrollbar) + 1)
+            elseif BlzGetTriggerFrameValue() < 0.0 then
+                BlzFrameSetValue(abilityListScrollbar, BlzFrameGetValue(abilityListScrollbar) - 1)
+            end
+        end)
+
+        -----------------------------
+        local heroListItem = BlzCreateFrame("QuestListItem", abilityListContainer, 0, 0)
+        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
+        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemHeight = 0.035
+        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
+        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+
+        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
+        local heroListItemIconWidth = 0.035
+        local heroListItemIconHeight = 0.035
+        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
+        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNWindWalkOn.blp", 0, true)
+
+        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
+        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
+        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemButtonHeight = 0.035
+        BlzFrameClearAllPoints(heroListItemButton)
+        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
+        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
+
+        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
+        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
+        BlzFrameSetText(heroListItemButtonText, "Shadow Walk")
+        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
+
+        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
+        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
+        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
+        BlzFrameClearAllPoints(heroListItemButtonStatusText)
+        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
+        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
+        BlzFrameSetText(heroListItemButtonStatusText, "")
+        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
+
+
+        local heroListItem = BlzCreateFrame("QuestListItem", abilityListContainer, 0, 0)
+        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
+        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemHeight = 0.035
+        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
+        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT,  0.0, -1 * (heroListItemHeight + heroListItemStepOffset))
+
+        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
+        local heroListItemIconWidth = 0.035
+        local heroListItemIconHeight = 0.035
+        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
+        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNMirrorImage.blp", 0, true)
+
+        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
+        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
+        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemButtonHeight = 0.035
+        BlzFrameClearAllPoints(heroListItemButton)
+        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
+        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
+
+        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
+        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
+        BlzFrameSetText(heroListItemButtonText, "Mirror Image")
+        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
+
+        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
+        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
+        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
+        BlzFrameClearAllPoints(heroListItemButtonStatusText)
+        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
+        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
+        BlzFrameSetText(heroListItemButtonStatusText, "")
+        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
+
+
+        local heroListItem = BlzCreateFrame("QuestListItem", abilityListContainer, 0, 0)
+        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
+        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemHeight = 0.035
+        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
+        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT,  0.0, -2 * (heroListItemHeight + heroListItemStepOffset))
+
+        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
+        local heroListItemIconWidth = 0.035
+        local heroListItemIconHeight = 0.035
+        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
+        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNCriticalStrike.blp", 0, true)
+
+        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
+        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
+        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemButtonHeight = 0.035
+        BlzFrameClearAllPoints(heroListItemButton)
+        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
+        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
+
+        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
+        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
+        BlzFrameSetText(heroListItemButtonText, "Critical Strike")
+        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
+
+        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
+        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
+        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
+        BlzFrameClearAllPoints(heroListItemButtonStatusText)
+        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
+        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
+        BlzFrameSetText(heroListItemButtonStatusText, "")
+        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
+        -----------------------------
+        -----------------------------
 
 
 
