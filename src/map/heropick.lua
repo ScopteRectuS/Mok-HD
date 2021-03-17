@@ -62,130 +62,59 @@ HeroPick = {
         BlzFrameSetStepSize(heroListScrollbar, 1)
         BlzFrameSetValue(heroListScrollbar, 4)
 
+        local createHeroListItem = function()
+        end
+
         -- Hero list item initialization:
-        local heroListItem = BlzCreateFrame("HeroListItem", heroListContainer, 0, 0)
-        local heroListItemHeight = 0.025
-        --BlzFrameSetSize(heroListItem, 0.2085 - 0.010 * 2, heroListItemHeight)
+        local heroListItem = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)
+        local heroListItemWidth = 0.2085 - 0.010 * 2
+        local heroListItemHeight = 0.035
+        --BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
         BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
 
-        local heroListItemIcon = BlzGetFrameByName("HeroListItemIcon", 0)
-        --BlzFrameSetSize(heroListItemIcon, 0.025, 0.025)
-        --BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
+        local heroListItemIconWidth = 0.035
+        local heroListItemIconHeight = 0.035
+        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
+        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
         BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNPeon", 0, true)
 
-        local heroListItemButton = BlzGetFrameByName("HeroListItemButton", 0)
-        BlzFrameSetSize(heroListItemButton, (0.2085 - 0.035 + 0.003 - 0.012 - 0.0025), 0.035)
+        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
+        local heroListItemButtonWidth = 0.2085 - 0.035 + 0.003 - 0.012 - 0.0025
+        local heroListItemButtonHeight = 0.035
+        BlzFrameClearAllPoints(heroListItemButton)
+        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
         BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, -0.003, 0.0)
-        --BlzFrameSetTexture(heroListItemButton, "UI\\Widgets\\ToolTips\\Human\\human-tooltip-background.dds", 0, true)
 
+        local heroListItemButtonFailedHighlight = BlzGetFrameByName("QuestListItemFailedHighlight", 0)
+        BlzFrameSetVisible(heroListItemButtonFailedHighlight, false)
 
-        local heroListItemButtonText = BlzGetFrameByName("HeroListItemTitle", 0)
-        --BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_TOPLEFT, heroListItemButton, FRAMEPOINT_TOPLEFT, 0.0075, -0.0075)
+        local heroListItemButtonCompletedHighlight = BlzGetFrameByName("QuestListItemCompletedHighlight", 0)
+        BlzFrameSetVisible(heroListItemButtonCompletedHighlight, false)
+
+        local heroListItemButtonSelectedHighlight = BlzGetFrameByName("QuestListItemSelectedHighlight", 0)
+        BlzFrameSetVisible(heroListItemButtonSelectedHighlight, false)
+
+        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
+        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
         BlzFrameSetText(heroListItemButtonText, "Пеон, Король Батраков")
         BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
 
-        local heroListItemButtonStatusText = BlzGetFrameByName("HeroListItemPicked", 0)
-        BlzFrameSetSize(heroListItemButtonStatusText, BlzFrameGetWidth(heroListItemButton), BlzFrameGetHeight(heroListItemButtonStatusText))
-        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.0085, 0.0085)
+        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
+        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
+        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
+        BlzFrameClearAllPoints(heroListItemButtonStatusText)
+        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
+        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
         BlzFrameSetText(heroListItemButtonStatusText, "герой уже выбран")
         BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
 
 
-        local heroListItem_2 = BlzCreateFrame("HeroListItem", heroListContainer, 0, 0)
-        BlzFrameSetPoint(heroListItem_2, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_BOTTOMLEFT,  0.0, -0.0025)
 
-        local heroListItemIcon_2 = BlzGetFrameByName("HeroListItemIcon", 0)
+        local trig = CreateTrigger()
+        TriggerAddAction(trig, function() print("Button Clicked") end)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButton, FRAMEEVENT_CONTROL_CLICK)
 
-        local heroListItemButton_2 = BlzGetFrameByName("HeroListItemButton", 0)
-        BlzFrameSetSize(heroListItemButton_2, (0.2085 - 0.035 + 0.003 - 0.012 - 0.0025), 0.035)
-        BlzFrameSetPoint(heroListItemButton_2, FRAMEPOINT_TOPLEFT, heroListItemIcon_2, FRAMEPOINT_TOPRIGHT, -0.003, 0.0)
-
-
-        local heroListItem_3 = BlzCreateFrame("HeroListItem", heroListContainer, 0, 0)
-        BlzFrameSetPoint(heroListItem_3, FRAMEPOINT_TOPLEFT, heroListItem_2, FRAMEPOINT_BOTTOMLEFT,  0.0, -0.0025)
-
-        local heroListItemIcon_3 = BlzGetFrameByName("HeroListItemIcon", 0)
-
-        local heroListItemButton_2 = BlzGetFrameByName("HeroListItemButton", 0)
-        BlzFrameSetSize(heroListItemButton_2, (0.2085 - 0.035 + 0.003 - 0.012 - 0.0025), 0.035)
-        BlzFrameSetPoint(heroListItemButton_2, FRAMEPOINT_TOPLEFT, heroListItemIcon_3, FRAMEPOINT_TOPRIGHT, -0.003, 0.0)
-
-
-
-        --[[
-        local heroListItem = BlzCreateFrameByType("FRAME", "", heroListContainer, "", 0)
-        local heroListItemHeight = 0.025
-        BlzFrameSetSize(heroListItem, 0.2085 - 0.010 * 2, heroListItemHeight)
-        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.010, -0.010)
-
-        local heroListItemIcon = BlzCreateFrameByType("BACKDROP", "", heroListItem, "", 0)
-        BlzFrameSetSize(heroListItemIcon, 0.025, 0.025)
-        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
-        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.dds", 0, true)
-
-        local heroListItemButton = BlzCreateFrameByType("BACKDROP", "", heroListItem, "", 0)
-        BlzFrameSetSize(heroListItemButton, (0.2085 - 0.010 - 0.025 - 0.0075 - 0.010 - 0.012 - 0.0075), 0.025)
-        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, 0.0075, 0.0)
-        BlzFrameSetTexture(heroListItemButton, "UI\\Widgets\\ToolTips\\Human\\human-tooltip-background.dds", 0, true)
-
-        local heroListItemButtonText = BlzCreateFrameByType("TEXT", "", heroListItemButton, "QuestListItemTitle", 0)
-        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_TOPLEFT, heroListItemButton, FRAMEPOINT_TOPLEFT, 0.002, -0.002)
-        BlzFrameSetText(heroListItemButtonText, "Самуро, Мастер Клинка")
-        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
-
-        local heroListItemButtonStatusText = BlzCreateFrameByType("TEXT", "", heroListItemButton, "QuestListItemComplete", 0)
-        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.002, 0.002)
-        BlzFrameSetText(heroListItemButtonStatusText, "")
-        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
-
-
-
-        --------
-        local heroListItem_2 = BlzCreateFrameByType("FRAME", "", heroListContainer, "", 0)
-        BlzFrameSetSize(heroListItem_2, 0.2085 - 0.010 * 2, heroListItemHeight)
-        BlzFrameSetPoint(heroListItem_2, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_BOTTOMLEFT,  0.0, -0.0075)
-
-        local heroListItemIcon = BlzCreateFrameByType("BACKDROP", "", heroListItem_2, "", 0)
-        BlzFrameSetSize(heroListItemIcon, 0.025, 0.025)
-        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem_2, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
-        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNThrall.dds", 0, true)
-
-        local heroListItemButton = BlzCreateFrameByType("BACKDROP", "", heroListItem_2, "", 0)
-        BlzFrameSetSize(heroListItemButton, (0.2085 - 0.010 - 0.025 - 0.0075 - 0.010 - 0.012 - 0.0075), 0.025)
-        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, 0.0075, 0.0)
-        BlzFrameSetTexture(heroListItemButton, "UI\\Widgets\\ToolTips\\Human\\human-tooltip-background.dds", 0, true)
-
-        local heroListItemButtonText = BlzCreateFrameByType("TEXT", "", heroListItemButton, "QuestListItemTitle", 0)
-        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_TOPLEFT, heroListItemButton, FRAMEPOINT_TOPLEFT, 0.002, -0.002)
-        BlzFrameSetText(heroListItemButtonText, "Тралл, Вождь Орды")
-        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
-
-
-        local heroListItem_3 = BlzCreateFrameByType("FRAME", "", heroListContainer, "", 0)
-        BlzFrameSetSize(heroListItem_3, 0.2085 - 0.010 * 2, heroListItemHeight)
-        BlzFrameSetPoint(heroListItem_3, FRAMEPOINT_TOPLEFT, heroListItem_2, FRAMEPOINT_BOTTOMLEFT,  0.0, -0.0075)
-
-        local heroListItemIcon = BlzCreateFrameByType("BACKDROP", "", heroListItem_3, "", 0)
-        BlzFrameSetSize(heroListItemIcon, 0.025, 0.025)
-        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem_3, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
-        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNPeon.dds", 0, true)
-
-        local heroListItemButton = BlzCreateFrameByType("BACKDROP", "", heroListItem_3, "", 0)
-        BlzFrameSetSize(heroListItemButton, (0.2085 - 0.010 - 0.025 - 0.0075 - 0.010 - 0.012 - 0.0075), 0.025)
-        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, 0.0075, 0.0)
-        BlzFrameSetTexture(heroListItemButton, "UI\\Widgets\\ToolTips\\Human\\human-tooltip-background.dds", 0, true)
-
-        local heroListItemButtonText = BlzCreateFrameByType("TEXT", "", heroListItemButton, "QuestListItemTitle", 0)
-        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_TOPLEFT, heroListItemButton, FRAMEPOINT_TOPLEFT, 0.002, -0.002)
-        BlzFrameSetText(heroListItemButtonText, "Пеон, Король Батраков")
-        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
-
-        local heroListItemButtonStatusText = BlzCreateFrameByType("TEXT", "", heroListItemButton, "QuestListItemComplete", 0)
-        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.002, 0.002)
-        BlzFrameSetText(heroListItemButtonStatusText, "герой уже выбран")
-        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
-        --------
-        ]]
 
 
         -- Hero description container initialization:
@@ -246,7 +175,7 @@ HeroPick = {
 
         local abilityDescriptionTextArea = BlzCreateFrameByType("TEXTAREA", "", abilityDescriptionContainer, "EscMenuTextAreaTemplate", 0)
         BlzFrameSetAllPoints(abilityDescriptionTextArea, abilityDescriptionContainer)
-        BlzFrameAddText(abilityDescriptionTextArea, "Some text can be here. Some text can be here. Some text can be here. Some text can be here. Some text can be here. Some text can be here. Some text can be here. Some text can be here. Some text can be here. Some text can be here.")
+        BlzFrameAddText(abilityDescriptionTextArea, "Some text can be here. Some text can be here. Some text can be here.")
 
 
 
@@ -300,84 +229,8 @@ HeroPick = {
         BlzFrameSetPoint(tempButtonText, FRAMEPOINT_CENTER, tempButton, FRAMEPOINT_CENTER, 0.0, 0.0)
         BlzFrameSetText(tempButtonText, "CANCEL")
         BlzFrameSetTextColor(tempButtonText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
-
-
-
-        --[[local heroListItem_1 = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)
-        BlzFrameSetPoint(heroListItem_1, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
-
-        local heroListItemIconContainer_1 = BlzGetFrameByName("QuestListItemIconContainer", 0)
-        BlzFrameSetTexture(heroListItemIconContainer_1, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.dds", 0, true)
-
-        local heroListItemButton_1 = BlzGetFrameByName("QuestListItemButton", 0)
-        BlzFrameSetSize(heroListItemButton_1, 0.035, 0.035)
-
-        local heroListItemTitle_1 = BlzGetFrameByName("QuestListItemTitle", 0)
-        BlzFrameSetText(heroListItemTitle_1, "Blademaster")
-
-
-
-        local heroListItem_2 = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)
-        BlzFrameSetPoint(heroListItem_2, FRAMEPOINT_TOPLEFT, heroListItem_1, FRAMEPOINT_BOTTOMLEFT,  0.0, -0.0025)
-
-        local heroListItemIconContainer_2 = BlzGetFrameByName("QuestListItemIconContainer", 0)
-        BlzFrameSetTexture(heroListItemIconContainer_2, "ReplaceableTextures\\CommandButtons\\BTNShadowHunter.dds", 0, true)
-
-        local heroListItemTitle_2 = BlzGetFrameByName("QuestListItemTitle", 0)
-        BlzFrameSetText(heroListItemTitle_2, "Shadow Hunter")]]
-
-
-
-        --[[local heroDescriptionTextArea = BlzCreateFrameByType("TEXTAREA", heroDescriptionBackdrop, "LogArea", 0)
-        BlzFrameSetAllPoints(heroDescriptionTextArea, heroDescriptionBackdrop)
-        BlzFrameSetTextColor(heroDescriptionTextArea, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
-        BlzFrameSetFont(heroDescriptionTextArea, "Fonts\\BLQ55Web.ttf", 0.011, 0)
-        BlzFrameSetText(heroDescriptionTextArea, "Cunning Hero, adept at quickly killing individual units and creating confusion among enemies. Can learn Mirror Image, Wind Walk, Critical Strike and Bladestorm. Cunning Hero, adept at quickly killing individual units and creating confusion among enemies. Can learn Mirror Image, Wind Walk, Critical Strike and Bladestorm.")
-
-
-        --[[local abilityListTitle = BlzCreateFrameByType("TEXT", "", heroPickDialog, "EscMenuTitleTextTemplate", 0)
-        BlzFrameSetPoint(abilityListTitle, FRAMEPOINT_TOPLEFT, heroPickDialog, FRAMEPOINT_TOPLEFT, 0.033, -0.06475)
-        BlzFrameSetText(abilityListTitle, "Cписок способностей героя:")
-        BlzFrameSetTextColor(abilityListTitle, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
-        BlzFrameSetFont(abilityListTitle, "Fonts\\BLQ55Web.ttf", 0.015, 0)
-        ]]
-
-        --[[
-                local heroListContainer = BlzCreateFrameByType("FRAME", "HeroListContainer", heroPickDialog, "", 0)
-                BlzFrameSetSize(heroListContainer, 0.11, 0.21)
-                BlzFrameSetPoint(heroListContainer, FRAMEPOINT_TOPLEFT, heroListTitleValue, FRAMEPOINT_BOTTOMLEFT, -0.003, -0.002)
-
-
-                        local heroListItem = { }
-                        local heroListItemIcon = { }
-                        local heroListItemTitle = { }
-
-                        heroListItem[1] = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)
-                        heroListItemIcon[1] = BlzGetFrameByName("QuestListItemIconContainer", 0)
-                        heroListItemTitle[1] = BlzGetFrameByName("QuestListItemTitle", 0)
-
-                        BlzFrameSetTexture(heroListItemIcon[1], "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp", 0, true)
-                        BlzFrameSetText(heroListItemTitle[1], "Мастер клинка")
-                        BlzFrameSetPoint(heroListItem[1], FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT, 0.0, 0.0)
-
-                        heroListItem[2] = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)
-                        heroListItemIcon[2] = BlzGetFrameByName("QuestListItemIconContainer", 0)
-                        heroListItemTitle[2] = BlzGetFrameByName("QuestListItemTitle", 0)
-
-                        BlzFrameSetTexture(heroListItemIcon[2], "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp", 0, true)
-                        BlzFrameSetText(heroListItemTitle[2], "Мастер клинка")
-                        BlzFrameSetPoint(heroListItem[2], FRAMEPOINT_TOPLEFT, heroListItem[1], FRAMEPOINT_BOTTOMLEFT, 0.0, -0.0025)
-
-                        heroListItem[3] = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)
-                        heroListItemIcon[3] = BlzGetFrameByName("QuestListItemIconContainer", 0)
-                        heroListItemTitle[3] = BlzGetFrameByName("QuestListItemTitle", 0)
-
-                        BlzFrameSetTexture(heroListItemIcon[3], "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp", 0, true)
-                        BlzFrameSetText(heroListItemTitle[3], "Мастер клинка")
-                        BlzFrameSetPoint(heroListItem[3], FRAMEPOINT_TOPLEFT, heroListItem[2], FRAMEPOINT_BOTTOMLEFT, 0.0, -0.0025)
-                ]]
-
     end
+
 }
 
 function Hero.getByPlayer(whichPlayer)
