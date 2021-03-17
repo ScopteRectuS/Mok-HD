@@ -15,6 +15,7 @@ HeroPick = {
 
     initialize = function()
         BlzHideOriginFrames(true)
+        PauseGame(true)
 
         -- Hero pick dialog initialization: 0.48 - 0.2085 * 2 - 0.030 * 2
         local heroPickDialog = BlzCreateFrameByType("BACKDROP", "", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "EscMenuBackdrop", 0)
@@ -203,12 +204,15 @@ HeroPick = {
         local abilityListScrollbarHeight = BlzFrameGetHeight(abilityListContainer) - abilityListScrollbarOffset * 2
         BlzFrameSetSize(abilityListScrollbar, 0.012, abilityListScrollbarHeight)
         BlzFrameSetPoint(abilityListScrollbar, FRAMEPOINT_TOPRIGHT, abilityListContainer, FRAMEPOINT_TOPRIGHT, 0.0, -abilityListScrollbarOffset)
-        BlzFrameSetMinMaxValue(abilityListScrollbar, 0, 4)
+        BlzFrameSetMinMaxValue(abilityListScrollbar, 1, 50)
         BlzFrameSetStepSize(abilityListScrollbar, 1)
         BlzFrameSetValue(abilityListScrollbar, 4)
 
+
+
         local trig = CreateTrigger()
         BlzTriggerRegisterFrameEvent(trig, abilityListContainer, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, abilityListScrollbar, FRAMEEVENT_MOUSE_WHEEL)
         TriggerAddAction(trig, function()
             if BlzGetTriggerFrameValue() > 0.0 then
                 BlzFrameSetValue(abilityListScrollbar, BlzFrameGetValue(abilityListScrollbar) + 1)
@@ -216,6 +220,8 @@ HeroPick = {
                 BlzFrameSetValue(abilityListScrollbar, BlzFrameGetValue(abilityListScrollbar) - 1)
             end
         end)
+
+
 
         -----------------------------
         local heroListItem = BlzCreateFrame("QuestListItem", abilityListContainer, 0, 0)
@@ -255,6 +261,15 @@ HeroPick = {
         BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
 
 
+
+        BlzTriggerRegisterFrameEvent(trig, heroListItem, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemIcon, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButton, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonText, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonStatusText, FRAMEEVENT_MOUSE_WHEEL)
+
+
+
         local heroListItem = BlzCreateFrame("QuestListItem", abilityListContainer, 0, 0)
         local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
         local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
@@ -292,6 +307,15 @@ HeroPick = {
         BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
 
 
+
+        BlzTriggerRegisterFrameEvent(trig, heroListItem, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemIcon, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButton, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonText, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonStatusText, FRAMEEVENT_MOUSE_WHEEL)
+
+
+
         local heroListItem = BlzCreateFrame("QuestListItem", abilityListContainer, 0, 0)
         local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
         local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
@@ -327,6 +351,15 @@ HeroPick = {
         BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
         BlzFrameSetText(heroListItemButtonStatusText, "")
         BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
+
+
+
+        BlzTriggerRegisterFrameEvent(trig, heroListItem, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemIcon, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButton, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonText, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonStatusText, FRAMEEVENT_MOUSE_WHEEL)
+
         -----------------------------
         -----------------------------
 
