@@ -11,7 +11,7 @@ PeonsBurrow = {
     end,
 
     initialize = function()
-        PeonsBurrow.id = FourCC("t000")
+        PeonsBurrow.id = FourCC("pbrw")
         PeonsBurrow.owner = Force.getPeonOwnerPlayer()
         PeonsBurrow.group = CreateGroup()
     end

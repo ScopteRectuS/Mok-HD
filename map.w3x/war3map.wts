@@ -89,3 +89,25 @@ STRING 43
 Grave
 }
 
+STRING 44
+{
+Mokk
+}
+
+STRING 45
+{
+Hero Defense
+}
+
+STRING 46
+// Units: swrd (Sentry Ward), Name (Name)
+{
+Sentry Ward
+}
+
+STRING 47
+// Units: pbrw (Peon Burrow), Name (Name)
+{
+Peon Burrow
+}
+

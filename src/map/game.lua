@@ -88,8 +88,8 @@ Game = {
     end,
 
     setCameraBounds = function()
-        local marginX = 1024.0 + 512.0
-        local marginY = 1024.0 + 256.0
+        local marginX = 1024.0 + 512.0 + 512.0
+        local marginY = 1024.0 + 512.0 + 256.0
 
         local maxX = GetRectMaxX(GetWorldRect())
         local minX = GetRectMinX(GetWorldRect())
@@ -123,11 +123,14 @@ Game = {
         Game.setStartingVisibility()
         Game.setStartingResources()
         Game.setStartingHeroLimit()
-        Game.setAllPlayersAlliance()
-        Game.setCameraBounds()
+
+
         Game.setCameraTargetDistance()
         Game.createStartingUnits()
         ]]
+
+        Game.setCameraBounds()
+        Game.setAllPlayersAlliance()
 
         if DEBUG_MODE then
             print("DEBUG_MODE: the Game library has been initialized.")

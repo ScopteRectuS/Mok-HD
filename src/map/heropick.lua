@@ -14,8 +14,8 @@ HeroPick = {
     end,
 
     initialize = function()
-        BlzHideOriginFrames(true)
-        PauseGame(true)
+        --BlzHideOriginFrames(true)
+        --PauseGame(true)
 
         -- Hero pick dialog initialization: 0.48 - 0.2085 * 2 - 0.030 * 2
         local heroPickDialog = BlzCreateFrameByType("BACKDROP", "", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "EscMenuBackdrop", 0)
@@ -42,11 +42,9 @@ HeroPick = {
         local heroListContainerWidth = 0.2085
         local heroListContainerHeight = 0.11
         BlzFrameSetSize(heroListContainer, heroListContainerWidth, heroListContainerHeight)
-        BlzFrameSetPoint(heroListContainer, FRAMEPOINT_TOPLEFT, heroPickDialog, FRAMEPOINT_TOPLEFT,  0.030, -0.076125)
         BlzFrameSetPoint(heroListContainer, FRAMEPOINT_TOPLEFT, heroPickDialog, FRAMEPOINT_TOPLEFT,  0.030, -0.080)
 
         local heroListTitle = BlzCreateFrameByType("TEXT", "", heroListContainer, "EscMenuLabelTextTemplate", 0)
-        BlzFrameSetPoint(heroListTitle, FRAMEPOINT_BOTTOMLEFT, heroListContainer, FRAMEPOINT_TOPLEFT, 0.003, 0.002)
         BlzFrameSetPoint(heroListTitle, FRAMEPOINT_BOTTOMLEFT, heroListContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
         BlzFrameSetText(heroListTitle, "Cписок героев:")
         BlzFrameSetTextColor(heroListTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
@@ -174,11 +172,9 @@ HeroPick = {
         -- Hero description container initialization:
         local heroDescriptionContainer = BlzCreateFrameByType("FRAME", "", heroPickDialog, "", 0)
         BlzFrameSetSize(heroDescriptionContainer, 0.2085, 0.11)
-        BlzFrameSetPoint(heroDescriptionContainer, FRAMEPOINT_TOPRIGHT, heroPickDialog, FRAMEPOINT_TOPRIGHT, -0.030, -0.076125)
         BlzFrameSetPoint(heroDescriptionContainer, FRAMEPOINT_TOPRIGHT, heroPickDialog, FRAMEPOINT_TOPRIGHT, -0.030, -0.08)
 
         local heroDescriptionTitle = BlzCreateFrameByType("TEXT", "", heroDescriptionContainer, "EscMenuLabelTextTemplate", 0)
-        BlzFrameSetPoint(heroDescriptionTitle, FRAMEPOINT_BOTTOMLEFT, heroDescriptionContainer, FRAMEPOINT_TOPLEFT, 0.003, 0.002)
         BlzFrameSetPoint(heroDescriptionTitle, FRAMEPOINT_BOTTOMLEFT, heroDescriptionContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
         BlzFrameSetText(heroDescriptionTitle, "Описание героя:")
         BlzFrameSetTextColor(heroDescriptionTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
@@ -417,7 +413,6 @@ HeroPick = {
         local okButton = BlzCreateFrameByType("GLUETEXTBUTTON", "", heroPickDialog, "EscMenuButtonTemplate", 0)
         BlzFrameSetSize(okButton, 0.15, 0.03)
         BlzFrameSetPoint(okButton, FRAMEPOINT_BOTTOMRIGHT, heroPickDialog, FRAMEPOINT_BOTTOMRIGHT, -0.03, 0.03)
-        BlzFrameSetEnable(okButton, false)
 
         local okButtonText = BlzCreateFrameByType("TEXT", "",okButton, "EscMenuButtonTextTemplate", 0)
         BlzFrameSetPoint(okButtonText, FRAMEPOINT_CENTER, okButton, FRAMEPOINT_CENTER, 0.0, 0.0)
@@ -433,6 +428,17 @@ HeroPick = {
         BlzFrameSetPoint(tempButtonText, FRAMEPOINT_CENTER, tempButton, FRAMEPOINT_CENTER, 0.0, 0.0)
         BlzFrameSetText(tempButtonText, "CANCEL")
         BlzFrameSetTextColor(tempButtonText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
+
+        local trg = CreateTrigger()
+        BlzTriggerRegisterFrameEvent(trg, okButton, FRAMEEVENT_CONTROL_CLICK)
+        TriggerAddAction(trg, function() BlzDestroyFrame(heroPickDialog) end)
+    end,
+
+    initialize = function()
+        local heroPickDialog = BlzCreateFrame("HeroPickDialog", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), 0, 0)
+        BlzFrameSetPoint(heroPickDialog, FRAMEPOINT_CENTER, BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), FRAMEPOINT_CENTER, 0.0, 0.0)
+
+        print(BlzFrameGetName(heroPickDialog))
     end
 
 }

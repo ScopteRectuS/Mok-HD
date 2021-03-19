@@ -5,6 +5,12 @@ WatchTower = {
         SetUnitVertexColor(u, 0xFF, 0xFF, 0xFF, IntegerTertiaryOp(flag, 0xA0, 0xFF))
     end,
 
+    setInvulnerableAll = function(flag)
+        ForGroup(WatchTower.group, function()
+            WatchTower.setInvulnerable(GetEnumUnit(), flag)
+        end)
+    end,
+
     restore = function(u)
         if not UnitAlive(u) then
             ReviveUnit(u)
@@ -15,21 +21,33 @@ WatchTower = {
         DestroyEffect(AddSpecialEffectTarget("", u,"origin"))
     end,
 
-    createUbersplat = function(x, y)
-        SetUbersplatRenderAlways(CreateUbersplat(x, y, "OLAR", 0xFF, 0xFF, 0xFF, 0xFF, true, true), true)
+    restoreAll = function()
+        ForGroup(WatchTower.group, function()
+            WatchTower.restore(GetEnumUnit())
+        end)
     end,
 
-    create = function(x, y, face)
-        --UnitSetUsesAltIcon(tower[i], true)
-        --SetAltMinimapIcon("UI\\Minimap\\MiniMap-Tower.tga")
+    create = function(x, y)
+        local unit = CreateUnit(WatchTower.owner, WatchTower.id, x, y, bj_UNIT_FACING)
+        GroupAddUnit(WatchTower.group, unit)
+        CreateMinimapIconOnUnit(unit, 0xFF, 0xFF, 0xFF, "UI\\MiniMap\\minimap-neutralbuilding.mdx", FOG_OF_WAR_VISIBLE)
 
-        return CreateUnit(WatchTower.owner, WatchTower.id, x, y, face)
+        local splat = CreateUbersplat(x, y, "OLAR", 0xFF, 0xFF, 0xFF, 0xFF, true, true)
+        SetUbersplatRenderAlways(splat, true)
+
+        return unit
+    end,
+
+    createAll = function()
+        WatchTower.create(0.0, 0.0)
     end,
 
     initialize = function()
         WatchTower.id = FourCC("t000")
         WatchTower.owner = Force.getPeonOwnerPlayer()
         WatchTower.group = CreateGroup()
+
+        WatchTower.createAll()
     end
 
 }

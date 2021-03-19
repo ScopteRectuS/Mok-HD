@@ -1,0 +1,353 @@
+// -- INCLUDE FILES ---------------------------------------------------------
+
+IncludeFile "UI\FrameDef\UI\EscMenuTemplates.fdf",
+
+// -- LOCAL TEMPLATES -------------------------------------------------------
+
+Frame "BACKDROP" "HeroButtonBaseTemplate" {
+    DecorateFileNames,
+    BackdropTileBackground,
+    BackdropBackground          "QuestDialogNormalBackground",
+    BackdropCornerFlags         "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize          0.0125,
+    BackdropBackgroundSize      0.128,
+    BackdropBackgroundInsets    0.005 0.005 0.005 0.005,
+    BackdropEdgeFile            "QuestDialogNormalBorder",
+}
+
+Frame "BACKDROP" "HeroButtonBackdropTemplate" INHERITS "HeroButtonBaseTemplate" {
+}
+
+Frame "BACKDROP" "HeroButtonPushedBackdropTemplate" {
+    DecorateFileNames,
+    BackdropTileBackground,
+    BackdropBackground          "QuestDialogCompletedBackground",
+    BackdropEdgeFile            "QuestDialogCompletedBorder",
+    BackdropCornerFlags         "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize          0.0125,
+    BackdropBackgroundSize      0.128,
+    BackdropBackgroundInsets    0.005 0.005 0.005 0.005,
+}
+
+Frame "BACKDROP" "HeroButtonDisabledBackdropTemplate" {
+    DecorateFileNames,
+    BackdropBackground          "EscMenuEditBoxBackground",
+    BackdropEdgeFile            "EscMenuButtonBorder",
+    BackdropCornerFlags         "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize          0.0125,
+    BackdropBackgroundSize      0.128,
+    BackdropBackgroundInsets    0.005 0.005 0.005 0.005,
+}
+
+Frame "BACKDROP" "HeroButtonDisabledPushedBackdropTemplate" {
+    DecorateFileNames,
+    BackdropTileBackground,
+    BackdropBackground  "QuestDialogFailedBackground",
+    BackdropEdgeFile    "QuestDialogFailedBorder",
+    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize          0.0125,
+    BackdropBackgroundSize      0.128,
+    BackdropBackgroundInsets    0.005 0.005 0.005 0.005,
+}
+
+Frame "HIGHLIGHT" "HeroButtonMouseOverHighlightTemplate" {
+    DecorateFileNames,
+    HighlightType "FILETEXTURE",
+    HighlightAlphaFile "QuestDialogButtonMouseOverHighlight",
+    HighlightAlphaMode "ADD",
+}
+
+Frame "GLUEBUTTON" "HeroButtonTemplate" {
+    Width           0.18,
+    Height          0.06,
+    ControlStyle    "AUTOTRACK",
+
+    ControlBackdrop "ButtonBackdropTemplate",
+    Frame "BACKDROP" "ButtonBackdropTemplate" INHERITS "HeroButtonBackdropTemplate" {
+    }
+
+    ControlPushedBackdrop "ButtonPushedBackdropTemplate",
+    Frame "BACKDROP" "ButtonPushedBackdropTemplate" INHERITS "HeroButtonPushedBackdropTemplate" {
+    }
+
+    ControlDisabledBackdrop "ButtonDisabledBackdropTemplate",
+    Frame "BACKDROP" "ButtonDisabledBackdropTemplate" INHERITS "HeroButtonDisabledBackdropTemplate" {
+    }
+
+    ControlDisabledPushedBackdrop "ButtonDisabledPushedBackdropTemplate",
+    Frame "BACKDROP" "ButtonDisabledPushedBackdropTemplate" INHERITS "HeroButtonDisabledPushedBackdropTemplate" {
+    }
+
+    ControlMouseOverHighlight "ButtonMouseOverHighlightTemplate",
+    Frame "HIGHLIGHT" "ButtonMouseOverHighlightTemplate" INHERITS "HeroButtonMouseOverHighlightTemplate" {
+    }
+}
+
+Frame "GLUECHECKBOX" "HeroCheckBox" INHERITS WITHCHILDREN "EscMenuCheckBoxTemplate" {
+    Width  0.024,
+    Height 0.024,
+}
+
+// -- FRAMES ----------------------------------------------------------------
+
+Frame "FRAME" "HeroPickDialog" {
+    Width   0.48f,      // max 0.8
+    Height  0.41875f,   // max 0.6
+
+    Frame "BACKDROP" "HeroPickBackdrop" {
+        SetAllPoints                    ,
+        DecorateFileNames               ,
+        BackdropTileBackground          ,
+        BackdropBackground              "EscMenuBackground",
+        BackdropCornerFlags             "UL|UR|BL|BR|T|L|B|R",
+        BackdropCornerSize              0.048,
+        BackdropBackgroundSize          0.256,
+        BackdropBackgroundInsets        0.01 0.01 0.01 0.01,
+        BackdropEdgeFile                "EscMenuBorder",
+        BackdropBlendAll                ,
+    }
+
+    Frame "TEXT" "HeroPickTitleValue" INHERITS "EscMenuLabelTextTemplate" {
+        SetPoint    TOP, "HeroPickDialog", TOP, 0.0, -0.03,
+        FontColor   0.99 0.827 0.0705 1.0,
+        Text        "HeroPickTitleValue",
+    }
+
+    Frame "TEXT" "HeroPickSubtitleValue" INHERITS "EscMenuTitleTextTemplate" {
+        SetPoint    TOP, "HeroPickTitleValue", BOTTOM, 0.0, -0.002,
+        FontColor   1.0 1.0 1.0 1.0,
+        Text        "HeroPickSubtitleValue",
+    }
+
+    // -- HERO LIST ---------------------------------------------------------
+
+    Frame "TEXT" "HeroListTitleValue" INHERITS "EscMenuTitleTextTemplate" {
+        Width               0.2,
+        DecorateFileNames   ,
+        SetPoint            TOPLEFT, "HeroPickBackdrop", TOPLEFT, 0.033, -0.06475,
+        FontFlags           "FIXEDSIZE",
+        FontJustificationH  JUSTIFYLEFT,
+        Text                "HeroListTitleValue",
+    }
+    
+    Frame "FRAME" "HeroListContainer" {
+        Height      0.11f,
+        Width       0.21f,
+        SetPoint    TOPLEFT, "HeroListTitleValue", BOTTOMLEFT,  -0.003, -0.002,
+
+        Frame "BACKDROP" "HeroListContainerBackdrop" {
+            SetAllPoints                    ,
+            DecorateFileNames               ,
+            BackdropTileBackground          ,
+            BackdropBackground              "EscMenuEditBoxBackground",
+            BackdropCornerFlags             "UL|UR|BL|BR|T|L|B|R",
+            BackdropCornerSize              0.0125,
+            BackdropBackgroundSize          0.256,
+            BackdropBackgroundInsets        0.005 0.005 0.005 0.005,
+            BackdropEdgeFile                "EscMenuEditBoxBorder",
+            BackdropBlendAll                ,
+        }
+    }
+
+    // -- HERO DESCRIPTION --------------------------------------------------
+
+    Frame "TEXT" "HeroDescriptionTitleValue" INHERITS "EscMenuTitleTextTemplate" {
+        Width               0.2,
+        DecorateFileNames   ,
+        SetPoint            TOPLEFT, "HeroListTitleValue", TOPLEFT, 0.212, 0.0,
+        FontJustificationH  JUSTIFYLEFT,
+        Text                "HeroDescriptionTitleValue",
+    }
+
+    Frame "BACKDROP" "HeroDescriptionBackdrop" {
+        Height                          0.11f,
+        Width                           0.21f,
+        SetPoint                        TOPLEFT, "HeroListContainer", TOPRIGHT, 0.003, 0.00,
+        DecorateFileNames               ,
+        BackdropTileBackground          ,
+        BackdropBackground              "EscMenuEditBoxBackground",
+        BackdropCornerFlags             "UL|UR|BL|BR|T|L|B|R",
+        BackdropCornerSize              0.0125,
+        BackdropBackgroundSize          0.256,
+        BackdropBackgroundInsets        0.005 0.005 0.005 0.005,
+        BackdropEdgeFile                "EscMenuEditBoxBorder",
+        BackdropBlendAll                ,
+
+        Frame "TEXTAREA" "HeroDescriptionArea" {
+            SetPoint                    TOPLEFT,     "HeroDescriptionBackdrop", TOPLEFT,      0.0,  0.0,
+            SetPoint                    BOTTOMRIGHT, "HeroDescriptionBackdrop", BOTTOMRIGHT,  0.0,  0.0,
+            DecorateFileNames           ,
+            FrameFont                   "MasterFont", 0.011, "",
+            TextAreaLineGap             0.0015,
+            TextAreaMaxLines            256,
+            TextAreaLineHeight          0.01,
+            TextAreaInset               0.0125,
+
+            TextAreaScrollBar "HeroDescriptionAreaScrollBar",
+            Frame "SCROLLBAR" "HeroDescriptionAreaScrollBar" INHERITS WITHCHILDREN "EscMenuScrollBarTemplate" {
+            }
+        }
+    }
+
+    // -- ABILITY LIST ------------------------------------------------------
+
+    Frame "TEXT" "AbilityListTitleValue" INHERITS "EscMenuTitleTextTemplate" {
+        Width               0.2,
+        DecorateFileNames   ,
+        SetPoint            TOPLEFT, "HeroListContainer", BOTTOMLEFT, 0.001, -0.015,
+        FontFlags           "FIXEDSIZE",
+        FontJustificationH  JUSTIFYLEFT,
+        Text                "Ability List",
+    }
+
+    Frame "FRAME" "AbilityListContainer" {
+        Height      0.11f,
+        Width       0.21f,
+        SetPoint    TOPLEFT, "AbilityListTitleValue", BOTTOMLEFT,  -0.003, -0.002,
+
+        Frame "BACKDROP" "AbilityListContainerBackdrop" {
+            SetAllPoints                    ,
+            DecorateFileNames               ,
+            BackdropTileBackground          ,
+            BackdropBackground              "EscMenuEditBoxBackground",
+            BackdropCornerFlags             "UL|UR|BL|BR|T|L|B|R",
+            BackdropCornerSize              0.0125,
+            BackdropBackgroundSize          0.256,
+            BackdropBackgroundInsets        0.005 0.005 0.005 0.005,
+            BackdropEdgeFile                "EscMenuEditBoxBorder",
+            BackdropBlendAll                ,
+        }
+    }
+
+    // -- ABILITY DESCRIPTION -----------------------------------------------
+
+    Frame "TEXT" "AbilityDescriptionTitleValue" INHERITS "EscMenuTitleTextTemplate" {
+        Width               0.2,
+        DecorateFileNames   ,
+        SetPoint            TOPLEFT, "AbilityListTitleValue", TOPLEFT, 0.212, 0.0,
+        FontJustificationH  JUSTIFYLEFT,
+        Text                "Ability description",
+    }
+
+    Frame "BACKDROP" "AbilityDescriptionBackdrop" {
+        Height                          0.11f,
+        Width                           0.21f,
+        SetPoint                        TOPLEFT, "AbilityListContainer", TOPRIGHT, 0.003, 0.00,
+        DecorateFileNames               ,
+        BackdropTileBackground          ,
+        BackdropBackground              "EscMenuEditBoxBackground",
+        BackdropCornerFlags             "UL|UR|BL|BR|T|L|B|R",
+        BackdropCornerSize              0.0125,
+        BackdropBackgroundSize          0.256,
+        BackdropBackgroundInsets        0.005 0.005 0.005 0.005,
+        BackdropEdgeFile                "EscMenuEditBoxBorder",
+        BackdropBlendAll                ,
+
+        Frame "TEXTAREA" "AbilityDescriptionArea" {
+            SetPoint                    TOPLEFT,     "AbilityDescriptionBackdrop", TOPLEFT,      0.0,  0.0,
+            SetPoint                    BOTTOMRIGHT, "AbilityDescriptionBackdrop", BOTTOMRIGHT,  0.0,  0.0,
+            DecorateFileNames           ,
+            FrameFont                   "MasterFont", 0.011, "",
+            TextAreaLineGap             0.0015,
+            TextAreaMaxLines            256,
+            TextAreaLineHeight          0.01,
+            TextAreaInset               0.0125,
+
+            TextAreaScrollBar "AbilityDescriptionAreaScrollBar",
+            Frame "SCROLLBAR" "AbilityDescriptionAreaScrollBar" INHERITS WITHCHILDREN "EscMenuScrollBarTemplate" {
+            }
+        }
+    }
+
+    // -- OK BUTTON ---------------------------------------------------------
+
+    Frame "GLUETEXTBUTTON" "HeroPickOkButton" INHERITS WITHCHILDREN "EscMenuButtonTemplate" {
+        Width       0.15f,
+        Height      0.03f,
+        SetPoint    BOTTOM, "HeroPickDialog", BOTTOM, 0.0, 0.03,
+
+        ButtonText "HeroPickOkButtonText",
+	    Frame "TEXT" "HeroPickOkButtonText" INHERITS "EscMenuButtonTextTemplate" {
+		    Text "|cFFFFFFFFC|rhoose",
+	    }        
+    }
+}
+
+Frame "FRAME" "HeroListItem" {
+    Height      0.035,
+    Width       0.210,
+
+    Frame "BACKDROP" "HeroListItemIcon" {
+        UseActiveContext            ,
+        Width                       0.035,
+        Height                      0.035,
+        SetPoint                    TOPLEFT, "HeroListItem", TOPLEFT, 0, 0,
+        DecorateFileNames           ,
+        BackdropBackground          "EscMenuBackground",
+        BackdropBackgroundInsets    0.005 0.005 0.005 0.005,
+
+        Frame "BACKDROP" "HeroListItemBorder" {
+            UseActiveContext            ,
+            SetAllPoints                ,            
+            DecorateFileNames           ,
+            BackdropBackground          "EscMenuBlankBackground",
+            BackdropCornerFlags         "UL|UR|BL|BR|T|L|B|R",
+            BackdropCornerSize          0.0125,
+            BackdropBackgroundSize      0.032,
+            BackdropEdgeFile            "EscMenuButtonBorder",
+	    	BackdropBackgroundInsets    0.005 0.005 0.005 0.005,
+            BackdropBlendAll            ,    
+        }
+    }
+
+    Frame "GLUEBUTTON" "HeroListItemButton" INHERITS WITHCHILDREN "HeroButtonTemplate" {
+        Width                   0.172,
+        Height                  0.035,
+        UseActiveContext        ,
+        SetPoint                TOPLEFT,       "HeroListItemIcon",   TOPRIGHT,      0.003,  0,
+        ControlStyle            "AUTOTRACK",
+
+      //Frame "HIGHLIGHT" "HeroListItemSelectedHighlight" {
+      //    DecorateFileNames   ,
+      //    HighlightType       "FILETEXTURE",
+      //    HighlightAlphaFile  "QuestDialogButtonMouseOverHighlight",
+      //    HighlightAlphaMode  "ADD",
+      //    UseActiveContext    ,
+      //    SetAllPoints        ,
+      //}
+
+      //Frame "HIGHLIGHT" "HeroListItemPickedHighlight" {
+      //    DecorateFileNames,
+      //    HighlightType "FILETEXTURE",
+      //    UseActiveContext,
+      //    SetAllPoints,
+      //    HighlightAlphaFile "QuestDialogCompletedMouseOverHighlight",
+      //    HighlightAlphaMode "ADD",
+      //}
+    }
+
+    Frame "TEXT" "HeroListItemPicked" INHERITS "EscMenuInfoTextTemplate" {
+        UseActiveContext,
+        DecorateFileNames,
+        FrameFont "MasterFont", 0.009,"",
+        Width  0.06,
+	    FontJustificationH JUSTIFYLEFT,
+        SetPoint BOTTOMLEFT, "HeroListItemButton", BOTTOMLEFT, 0.012, 0.005,            
+    }
+
+	Frame "TEXT" "HeroListItemTitle" INHERITS "EscMenuInfoTextTemplate" {
+        FrameFont                   "MasterFont", 0.009,"",
+        UseActiveContext            ,
+        SetPoint                    LEFT, "HeroListItemButton", LEFT, 0.002, 0.002,
+        FontColor                   1.0 1.0 1.0 1.0,
+        FontHighlightColor          1.0 1.0 1.0 1.0,
+        FontDisabledColor           0.4 0.5 0.6 0.7,
+        FontJustificationH          JUSTIFYLEFT,
+    	FontJustificationOffset     0.01 0.001,
+        Text                        "HeroListItemTitle",
+    }
+}
+
+Frame "SCROLLBAR" "HeroListScrollBar" INHERITS WITHCHILDREN "EscMenuScrollBarTemplate" {
+    SetPoint TOPRIGHT, "HeroListContainer", TOPRIGHT, 0.005, 0,
+}
