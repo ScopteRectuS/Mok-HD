@@ -9,7 +9,7 @@ function CreateBuildingsForPlayer22()
     local life
     u = BlzCreateUnitWithSkin(p, FourCC("t000"), -1344.0, -832.0, 270.000, FourCC("t000"))
     u = BlzCreateUnitWithSkin(p, FourCC("t000"), 1344.0, -832.0, 270.000, FourCC("t000"))
-    u = BlzCreateUnitWithSkin(p, FourCC("t000"), 0.0, 1600.0, 270.000, FourCC("t000"))
+    u = BlzCreateUnitWithSkin(p, FourCC("t000"), 0.0, 1536.0, 270.000, FourCC("t000"))
 end
 
 function CreatePlayerBuildings()
