@@ -1,5 +1,0 @@
-UI\FrameDef\UI\EscMenuTemplates.fdf
-UI\FrameDef\UI\InfoPanelTemplates.fdf
-UI\FrameDef\Glue\StandardTemplates.fdf
-UI\FrameDef\Glue\BattleNetTemplates.fdf
-war3mapImported\HeroPickDialog.fdf

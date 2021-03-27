@@ -1,0 +1,133 @@
+// -- INCLUDE FILES ---------------------------------------------------------
+
+IncludeFile "UI\FrameDef\UI\EscMenuTemplates.fdf",
+IncludeFile "UI\FrameDef\UI\InfoPanelTemplates.fdf",
+IncludeFile "UI\FrameDef\Glue\StandardTemplates.fdf",
+IncludeFile "UI\FrameDef\Glue\BattleNetTemplates.fdf",
+
+// -- FRAMES ----------------------------------------------------------------
+
+Frame "GLUETEXTBUTTON" "MapStandardButton" INHERITS WITHCHILDREN "EscMenuButtonTemplate" {
+    ButtonText "MapStandardButtonText",
+	Frame "TEXT" "MapStandardButtonText" INHERITS "EscMenuButtonTextTemplate" {
+	    Text "MapStandardButtonTextValue",
+    }
+}
+
+Frame "BACKDROP" "HeroListItemIcon" {
+    DecorateFileNames,
+    BackdropBackground "EscMenuBackground",
+    BackdropBackgroundInsets 0.005 0.005 0.005 0.005,
+
+    Frame "BACKDROP" "HeroListItemIconBorder" {
+        SetAllPoints,
+
+        UseActiveContext,
+        DecorateFileNames,
+        BackdropBackground "EscMenuBlankBackground",
+        BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+        BackdropCornerSize 0.0125,
+        BackdropBackgroundSize 0.032,
+        BackdropEdgeFile "EscMenuButtonBorder",
+       	BackdropBackgroundInsets 0.005 0.005 0.005 0.005,
+        BackdropBlendAll,
+    }
+}
+
+Frame "GLUETEXTBUTTON" "HeroListItemButton" {
+    Width  0.18,
+    Height 0.06,
+
+    ControlStyle "AUTOTRACK",
+
+    ControlBackdrop "ButtonBackdropTemplate",
+    Frame "BACKDROP" "ButtonBackdropTemplate" {
+        DecorateFileNames,
+        BackdropTileBackground,
+        BackdropBackground "QuestDialogNormalBackground",
+        BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+        BackdropCornerSize 0.0125,
+        BackdropBackgroundSize 0.128,
+        BackdropBackgroundInsets 0.005 0.005 0.005 0.005,
+        BackdropEdgeFile "QuestDialogNormalBorder",
+    }
+
+    /*ControlPushedBackdrop "ButtonPushedBackdropTemplate",
+    Frame "BACKDROP" "ButtonPushedBackdropTemplate" {
+        DecorateFileNames,
+        BackdropTileBackground,
+        BackdropBackground  "QuestDialogCompletedBackground",
+        BackdropEdgeFile    "QuestDialogCompletedBorder",
+        BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+        BackdropCornerSize          0.0125,
+        BackdropBackgroundSize      0.128,
+        BackdropBackgroundInsets    0.005 0.005 0.005 0.005,
+    }*/
+
+    ControlDisabledBackdrop "ButtonDisabledBackdropTemplate",
+    Frame "BACKDROP" "ButtonDisabledBackdropTemplate" {
+        DecorateFileNames,
+        BackdropBackground  "EscMenuEditBoxBackground",
+        BackdropEdgeFile    "EscMenuButtonBorder",
+        BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+        BackdropCornerSize          0.0125,
+        BackdropBackgroundSize      0.128,
+        BackdropBackgroundInsets    0.005 0.005 0.005 0.005,
+    }
+
+    ControlDisabledPushedBackdrop "ButtonDisabledPushedBackdropTemplate",
+    Frame "BACKDROP" "ButtonDisabledPushedBackdropTemplate" {
+        DecorateFileNames,
+        BackdropTileBackground,
+        BackdropBackground  "QuestDialogFailedBackground",
+        BackdropEdgeFile    "QuestDialogFailedBorder",
+        BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+        BackdropCornerSize          0.0125,
+        BackdropBackgroundSize      0.128,
+        BackdropBackgroundInsets    0.005 0.005 0.005 0.005,
+    }
+
+    /*ControlMouseOverHighlight "ButtonMouseOverHighlightTemplate",
+    Frame "HIGHLIGHT" "ButtonMouseOverHighlightTemplate" {
+        DecorateFileNames,
+        HighlightType "FILETEXTURE",
+        HighlightAlphaFile "QuestDialogButtonMouseOverHighlight",
+        HighlightAlphaMode "ADD",
+    }*/
+
+    Frame "HIGHLIGHT" "HeroListItemCompletedHighlight" {
+        DecorateFileNames,
+        HighlightType "FILETEXTURE",
+        HighlightAlphaFile "QuestDialogButtonMouseOverHighlight",
+        HighlightAlphaMode "ADD",
+
+        UseActiveContext,
+        SetAllPoints,
+        HighlightAlphaFile "QuestDialogCompletedMouseOverHighlight",
+        HighlightAlphaMode "ADD",
+    }
+
+    Frame "HIGHLIGHT" "HeroListItemSelectedHighlight" {
+        DecorateFileNames,
+        HighlightType "FILETEXTURE",
+        HighlightAlphaFile "QuestDialogButtonMouseOverHighlight",
+        HighlightAlphaMode "ADD",
+
+        UseActiveContext,
+        SetAllPoints,
+    }
+
+    ButtonText "HeroListItemButtonTitle",
+    Frame "TEXT" "HeroListItemButtonTitle" INHERITS "EscMenuInfoTextTemplate" {
+        SetPoint LEFT, "HeroListItemButton", LEFT, 0.002, 0.002,
+
+        FrameFont "MasterFont", 0.009,"",
+        FontColor 1.0 1.0 1.0 1.0,
+        FontHighlightColor 1.0 1.0 1.0 1.0,
+        FontDisabledColor 0.4 0.5 0.6 0.7,
+        FontJustificationH JUSTIFYLEFT,
+    	FontJustificationOffset 0.01 0.001,
+        Text "HeroListItemButtonTitle",
+    }
+
+}

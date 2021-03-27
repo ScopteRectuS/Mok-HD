@@ -1,3 +1,18 @@
+isUnitDefaultAbilityTarget = function(u)
+    if
+        UnitAlive(u) and
+        BlzIsUnitSelectable(u) and
+        not IsUnitType(u, UNIT_TYPE_STRUCTURE) and
+        not IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) and
+        not IsUnitType(u, UNIT_TYPE_FLYING) and
+        not BlzIsUnitInvulnerable(u)
+    then
+
+    end
+end
+
+
+
 --[[
 COLOR
 if     i ==  0 then return "|cFFFF0303" .. s .. "|r"

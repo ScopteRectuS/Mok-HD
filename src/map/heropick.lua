@@ -18,12 +18,13 @@ HeroPick = {
         --PauseGame(true)
 
         -- Hero pick dialog initialization: 0.48 - 0.2085 * 2 - 0.030 * 2
-        local heroPickDialog = BlzCreateFrameByType("BACKDROP", "", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "EscMenuBackdrop", 0)
-        --BlzFrameSetSize(heroPickDialog, 0.48, 0.41875)
-        --BlzFrameSetSize(heroPickDialog, 0.48, 0.6) -- 0.003 0.026375 0,503375  |   0.024
-        --BlzFrameSetSize(heroPickDialog, 0.503375, 0.6)
+        local heroPickDialog = BlzCreateFrameByType("FRAME", "", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "", 0)
         BlzFrameSetSize(heroPickDialog, 0.497, 0.6)
         BlzFrameSetPoint(heroPickDialog, FRAMEPOINT_CENTER, BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), FRAMEPOINT_CENTER, 0.0, 0.0)
+
+        local heroPickDialogBackdrop = BlzCreateFrameByType("BACKDROP", "", heroPickDialog, "EscMenuBackdrop", 0)
+        BlzFrameSetAllPoints(heroPickDialogBackdrop, heroPickDialog)
+        BlzFrameSetText(heroPickDialogBackdrop, "webui\\versusmenu\\orc-beta-bg.jpg")
 
         local heroPickDialogTitle = BlzCreateFrameByType("TEXT", "", heroPickDialog, "EscMenuLabelTextTemplate", 0)
         BlzFrameSetPoint(heroPickDialogTitle, FRAMEPOINT_TOP, heroPickDialog, FRAMEPOINT_TOP, 0.0, -0.03)
@@ -58,6 +59,7 @@ HeroPick = {
         BlzFrameSetMinMaxValue(heroListScrollbar, 1, 5)
         BlzFrameSetStepSize(heroListScrollbar, 1)
         BlzFrameSetValue(heroListScrollbar, 5)
+        BlzFrameSetEnable(heroListScrollbar, false)
 
         local trig = CreateTrigger()
         BlzTriggerRegisterFrameEvent(trig, heroListContainer, FRAMEEVENT_MOUSE_WHEEL)
@@ -72,21 +74,21 @@ HeroPick = {
 
 
         -- Hero list item initialization:
-        local heroListItem = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)
+        --[[local heroListItem = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)]]
         local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
-        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
+        --[[local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
         local heroListItemHeight = 0.035
         BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
-        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)]]
 
-        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
+        local heroListItemIcon = BlzCreateFrame("HeroListItemIcon", heroListContainer, 0, 0)
         local heroListItemIconWidth = 0.035
         local heroListItemIconHeight = 0.035
         BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
-        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
-        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNPeon", 0, true)
+        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNEarthBrewmaster", 0, true)
 
-        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
+        local heroListItemButton = BlzCreateFrame("HeroListItemButton", heroListContainer, 0, 0)
         local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
         local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
         local heroListItemButtonHeight = 0.035
@@ -94,19 +96,14 @@ HeroPick = {
         BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
         BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
 
-        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
-        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
-        BlzFrameSetText(heroListItemButtonText, "Пеон, Король Батраков")
-        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
+        local trg = CreateTrigger()
+        BlzTriggerRegisterFrameEvent(trg, heroListItemButton, FRAMEEVENT_CONTROL_CLICK)
+        TriggerAddAction(trg, function() print "click" end)
 
-        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
-        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
-        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
-        BlzFrameClearAllPoints(heroListItemButtonStatusText)
-        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
-        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
-        BlzFrameSetText(heroListItemButtonStatusText, "герой уже выбран")
-        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
+        local heroListItemButtonText = BlzGetFrameByName("HeroListItemButtonTitle", 0)
+        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
+        BlzFrameSetText(heroListItemButtonText, "Jer'rykh, Earth Spirit")
+        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
 
 
 
@@ -124,7 +121,7 @@ HeroPick = {
         local heroListItemIconHeight = 0.035
         BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
         BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
-        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster", 0, true)
+        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNFireBrewmaster.dds", 0, true)
 
         local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
         local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
@@ -136,7 +133,7 @@ HeroPick = {
 
         local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
         BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
-        BlzFrameSetText(heroListItemButtonText, "Самуро, Мастер Клинка")
+        BlzFrameSetText(heroListItemButtonText, "Ort'rykh, Fire Spirit")
         BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
 
         local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
@@ -200,9 +197,9 @@ HeroPick = {
         local abilityListScrollbarHeight = BlzFrameGetHeight(abilityListContainer) - abilityListScrollbarOffset * 2
         BlzFrameSetSize(abilityListScrollbar, 0.012, abilityListScrollbarHeight)
         BlzFrameSetPoint(abilityListScrollbar, FRAMEPOINT_TOPRIGHT, abilityListContainer, FRAMEPOINT_TOPRIGHT, 0.0, -abilityListScrollbarOffset)
-        BlzFrameSetMinMaxValue(abilityListScrollbar, 1, 50)
+        BlzFrameSetMinMaxValue(abilityListScrollbar, 1, 15)
         BlzFrameSetStepSize(abilityListScrollbar, 1)
-        BlzFrameSetValue(abilityListScrollbar, 4)
+        BlzFrameSetValue(abilityListScrollbar, 15)
 
 
 
@@ -410,35 +407,28 @@ HeroPick = {
 
 
         -- Exit button initialization:
-        local okButton = BlzCreateFrameByType("GLUETEXTBUTTON", "", heroPickDialog, "EscMenuButtonTemplate", 0)
-        BlzFrameSetSize(okButton, 0.15, 0.03)
-        BlzFrameSetPoint(okButton, FRAMEPOINT_BOTTOMRIGHT, heroPickDialog, FRAMEPOINT_BOTTOMRIGHT, -0.03, 0.03)
+        local okButton = BlzCreateFrame("MapStandardButton", heroPickDialog, 0, 0)
+        BlzFrameSetSize(okButton, 0.129, BlzFrameGetHeight(okButton))
+        BlzFrameSetPoint(okButton, FRAMEPOINT_BOTTOMLEFT, heroPickDialog, FRAMEPOINT_BOTTOM, 0.003, 0.03)
 
-        local okButtonText = BlzCreateFrameByType("TEXT", "",okButton, "EscMenuButtonTextTemplate", 0)
-        BlzFrameSetPoint(okButtonText, FRAMEPOINT_CENTER, okButton, FRAMEPOINT_CENTER, 0.0, 0.0)
+        local okButtonText = BlzGetFrameByName("MapStandardButtonText", 0)
         BlzFrameSetText(okButtonText, "OK")
-        BlzFrameSetTextColor(okButtonText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
 
-        local tempButton = BlzCreateFrameByType("GLUETEXTBUTTON", "", heroPickDialog, "EscMenuButtonTemplate", 0)
-        BlzFrameSetSize(tempButton, 0.15, 0.03)
-        BlzFrameSetPoint(tempButton, FRAMEPOINT_TOPRIGHT, okButton, FRAMEPOINT_TOPLEFT, -0.003, 0.0)
+        local tempButton = BlzCreateFrame("MapStandardButton", heroPickDialog, 0, 0)
+        BlzFrameSetSize(tempButton, 0.129, BlzFrameGetHeight(tempButton))
+        BlzFrameSetPoint(tempButton, FRAMEPOINT_TOPRIGHT, okButton, FRAMEPOINT_TOPLEFT, -0.006, 0.0)
         BlzFrameSetEnable(tempButton, false)
 
-        local tempButtonText = BlzCreateFrameByType("TEXT", "", tempButton, "EscMenuButtonTextTemplate", 0)
-        BlzFrameSetPoint(tempButtonText, FRAMEPOINT_CENTER, tempButton, FRAMEPOINT_CENTER, 0.0, 0.0)
-        BlzFrameSetText(tempButtonText, "CANCEL")
-        BlzFrameSetTextColor(tempButtonText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
+        local tempButtonText = BlzGetFrameByName("MapStandardButtonText", 0)
+        BlzFrameSetText(tempButtonText, "Cancel")
 
         local trg = CreateTrigger()
         BlzTriggerRegisterFrameEvent(trg, okButton, FRAMEEVENT_CONTROL_CLICK)
-        TriggerAddAction(trg, function() BlzDestroyFrame(heroPickDialog) end)
-    end,
-
-    initialize = function()
-        local heroPickDialog = BlzCreateFrame("HeroPickDialog", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), 0, 0)
-        BlzFrameSetPoint(heroPickDialog, FRAMEPOINT_CENTER, BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), FRAMEPOINT_CENTER, 0.0, 0.0)
-
-        print(BlzFrameGetName(heroPickDialog))
+        TriggerAddAction(trg, function()
+            if GetLocalPlayer() == GetTriggerPlayer() then
+                BlzFrameSetVisible(heroPickDialog, false)
+            end
+        end)
     end
 
 }

@@ -1,0 +1,5 @@
+UI\FrameDef\Glue\StandardTemplates.fdf
+UI\FrameDef\Glue\BattleNetTemplates.fdf
+UI\FrameDef\UI\EscMenuTemplates.fdf
+UI\FrameDef\UI\InfoPanelTemplates.fdf
+UI\FrameDef\MapStandardTemplates.fdf

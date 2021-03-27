@@ -16,7 +16,7 @@ Mokk: Hero Defense
 
 STRING 9
 {
-1-4
+1-3
 }
 
 STRING 10
@@ -27,11 +27,6 @@ Nondescript
 STRING 11
 {
 scopterectus
-}
-
-STRING 12
-{
-Enemy
 }
 
 STRING 13
@@ -47,16 +42,6 @@ Hero 2
 STRING 15
 {
 Hero 3
-}
-
-STRING 16
-{
-Hero 4
-}
-
-STRING 18
-{
-Force 2
 }
 
 STRING 39
@@ -109,5 +94,41 @@ STRING 47
 // Units: pbrw (Peon Burrow), Name (Name)
 {
 Peon Burrow
+}
+
+STRING 48
+// Units: HerE (Earth Spirit), Name (Name)
+{
+Earth Spirit
+}
+
+STRING 49
+// Units: HerE (Earth Spirit), Propernames (Proper Names)
+{
+Earth Spirit
+}
+
+STRING 50
+// Units: HerF (Fire Spirit), Name (Name)
+{
+Fire Spirit
+}
+
+STRING 51
+// Units: HerF (Fire Spirit), Propernames (Proper Names)
+{
+Fire Spirit
+}
+
+STRING 52
+// Units: HerS (Storm Spirit), Name (Name)
+{
+Storm Spirit
+}
+
+STRING 53
+// Units: HerS (Storm Spirit), Propernames (Proper Names)
+{
+Storm Spirit
 }
 
