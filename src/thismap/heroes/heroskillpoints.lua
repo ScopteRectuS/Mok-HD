@@ -1,80 +1,80 @@
 SkillPoints = {
 
-    onPlayerHeroLevel = function()
-        local hero = GetLevelingUnit()
-        local level = GetHeroLevel(hero)
-
-        if level == 1 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 2 then
-            UnitModifySkillPoints(hero, 0) -- 1
-        elseif level == 3 then
-            UnitModifySkillPoints(hero, 0) -- 1
-        elseif level == 4 then
-            UnitModifySkillPoints(hero, 1) -- 2
-        elseif level == 5 then
-            UnitModifySkillPoints(hero, 0) -- 1
-        elseif level == 6 then
-            UnitModifySkillPoints(hero, 2) -- 3
-        elseif level == 7 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 8 then
-            UnitModifySkillPoints(hero, 1)
-        elseif level == 9 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 10 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 11 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 12 then
-            UnitModifySkillPoints(hero, 2)
-        elseif level == 13 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 14 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 15 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 16 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 17 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 18 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 19 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 20 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 21 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 22 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 23 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 24 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 25 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 26 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 27 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 28 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 29 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 30 then
-            UnitModifySkillPoints(hero, 0)
-        end
-    end,
-
     initialize = function()
         SkillPoints.trigger = CreateTrigger()
 
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x02), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x03), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x04), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x05), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerAddAction(SkillPoints.trigger, SkillPoints.onPlayerHeroLevel)
+        ForForce(Force.heroOwnerPlayers, function()
+            TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, GetEnumPlayer(), EVENT_PLAYER_HERO_LEVEL, nil)
+        end)
+
+        TriggerAddAction(SkillPoints.trigger, function()
+            local hero = GetLevelingUnit()
+            local level = GetHeroLevel(hero)
+
+            if level == 1 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 2 then
+                UnitModifySkillPoints(hero, 0) -- 1
+            elseif level == 3 then
+                UnitModifySkillPoints(hero, 0) -- 1
+            elseif level == 4 then
+                UnitModifySkillPoints(hero, 1) -- 2
+            elseif level == 5 then
+                UnitModifySkillPoints(hero, 0) -- 1
+            elseif level == 6 then
+                UnitModifySkillPoints(hero, 2) -- 3
+            elseif level == 7 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 8 then
+                UnitModifySkillPoints(hero, 1)
+            elseif level == 9 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 10 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 11 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 12 then
+                UnitModifySkillPoints(hero, 2)
+            elseif level == 13 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 14 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 15 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 16 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 17 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 18 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 19 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 20 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 21 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 22 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 23 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 24 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 25 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 26 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 27 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 28 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 29 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 30 then
+                UnitModifySkillPoints(hero, 0)
+            end
+        end)
+
+        Debug.logMsg("SkillPoints table successfully initialized.")
     end
 
 }

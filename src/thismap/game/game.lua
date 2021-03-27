@@ -132,9 +132,7 @@ Game = {
         Game.setCameraBounds()
         Game.setAllPlayersAlliance()
 
-        if DEBUG_MODE then
-            print("DEBUG_MODE: the Game library has been initialized.")
-        end
+        Debug.logMsg("Game table successfully initialized.")
     end
 
 }

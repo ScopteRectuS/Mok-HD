@@ -4,9 +4,7 @@ Ai = {
     end,
 
     initialize = function()
-        if DEBUG_MODE then
-            print("DEBUG_MODE: the Ai library has been initialized.")
-        end
+        Debug.logMsg("AI table successfully initialized.")
     end
 
 }

@@ -48,6 +48,8 @@ WatchTower = {
         WatchTower.group = CreateGroup()
 
         WatchTower.createAll()
+
+        Debug.logMsg("WatchTower table successfully initialized.")
     end
 
 }

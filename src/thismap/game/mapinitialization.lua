@@ -22,7 +22,5 @@ InitGlobals = function()
 
     -- Mokk data initialization:
 
-    if DEBUG_MODE then
-        print("DEBUG_MODE: all game data has been initialized.")
-    end
+    Debug.logMsg("All game data has been initialized.")
 end

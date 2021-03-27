@@ -429,6 +429,8 @@ HeroPick = {
                 BlzFrameSetVisible(heroPickDialog, false)
             end
         end)
+
+        Debug.logMsg("HeroPick table successfully initialized.")
     end
 
 }

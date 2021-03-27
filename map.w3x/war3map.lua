@@ -123,6 +123,16 @@ do
 
 end
 
+DEBUG_MODE = true
+
+MAP_NAME = "Mok: Hero Defense"
+MAP_VERSION = "1.0"
+MAP_HIDDEN_X = 0.0
+MAP_HIDDEN_Y = 0.0
+MAP_HIDDEN_Z = 0.0
+
+UNIT_MAX_COLLISION_SIZE = 197.0
+
 S2FourCC = function(value)
     return string.unpack(">I4", id)
 end
@@ -196,28 +206,24 @@ Debug = {
 
     logMsg = function(str)
         if DEBUG_MODE then
-            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 60.0, "[|cFFFFFFFFLOG MSG|r] :  " .. str)
+            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 60.0, "[|cFF0FFF0FLOG|r] :  " .. str)
         end
     end,
 
     warnMsg = function(str)
         if DEBUG_MODE then
-            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 60.0, "[|cFFFF851BWARNING MSG|r] :  " .. str)
+            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 60.0, "[|cFFFFFF0FWARN|r] :  " .. str)
         end
     end,
 
     errorMsg = function(str)
         if DEBUG_MODE then
-            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 60.0, "[|cFFFF4136ERROR MSG|r] :  " .. str)
+            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 60.0, "[|cFFFF0F0FERROR|r] :  " .. str)
         end
     end
 
 }
-TimerStart(CreateTimer(),0,false,function()
-    Debug.logMsg("asd gar asdf asdf ")
-    Debug.warnMsg("asd gar asdf asdf ")
-    Debug.errorMsg("asd gar asdf asdf ")
-end)
+
 DummyUnit = {
     id = FourCC("h000"),
 
@@ -449,291 +455,13 @@ do
 
 end
 
-DEBUG_MODE = true
-
-MAP_NAME = "Mok: Hero Defense"
-MAP_VERSION = "1.0"
-MAP_HIDDEN_X = 0.0
-MAP_HIDDEN_Y = 0.0
-MAP_HIDDEN_Z = 0.0
-
-UNIT_MAX_COLLISION_SIZE = 197.0
-
-InitGlobals = function()
-
-    -- Map initialization:
-    TOC.initialize()
-    Force.initialize()
-
-    -- Game data initialization:
-    Game.initialize()
-    Ai.initialize()
-
-    -- Hero data initialization:
-    HeroPick.initialize()
-    HeroRevive.initialize()
-    HeroExperience.initialize()
-    SkillPoints.initialize()
-
-    -- Peon data initialization:
-    WatchTower.initialize()
-    SentryWard.initialize()
-    PeonsBurrow.initialize()
-    Peon.initialize()
-
-    -- Mokk data initialization:
-
-    if DEBUG_MODE then
-        print("DEBUG_MODE: all game data has been initialized.")
-    end
-end
-
-do
-    PowerUp = { }
-
-    function PowerUp.initialize()
-        local circle = { }
-        local item = { }
-        local trig = CreateTrigger()
-
-        table.insert(circle, AddSpecialEffect('Abilities\\Spells\\NightElf\\Starfall\\StarfallCaster.mdl', 4736.0, -8320.0))
-        table.insert(circle, AddSpecialEffect('Abilities\\Spells\\NightElf\\Starfall\\StarfallCaster.mdl', 7296.0, -5760.0))
-
-        for _, value in pairs(circle) do
-            CreateUnit(Player(22), FourCC('n005'), BlzGetLocalSpecialEffectX(value), BlzGetLocalSpecialEffectY(value), bj_UNIT_FACING)
-        end
-
-        table.insert(item, FourCC('manh'))
-        table.insert(item, FourCC('tdx2'))
-        table.insert(item, FourCC('texp'))
-        table.insert(item, FourCC('tin2'))
-        table.insert(item, FourCC('tpow'))
-        table.insert(item, FourCC('tst2'))
-
-        for _, value in pairs(Team.defensiveForce) do
-            TriggerRegisterPlayerUnitEvent(trig, value, EVENT_PLAYER_UNIT_PICKUP_ITEM, nil)
-        end
-
-        TriggerAddAction(trig, function()
-            local it = GetManipulatedItem()
-            local id = GetItemTypeId(it)
-
-            for _, value in pairs(item) do
-                if id == value then
-                    RemoveItem(it)
-                    break
-                end
-            end
-        end)
-
-        TimerStart(CreateTimer(), 60.0, true, function()
-            for _, value in pairs(circle) do
-                local x = BlzGetLocalSpecialEffectX(value)
-                local y = BlzGetLocalSpecialEffectY(value)
-                local r = Rect(x - 32.0, y - 32.0, x + 32.0, y + 32.0)
-                local i = 0
-
-                EnumItemsInRect(r, nil, function()
-                    for _, value in pairs(item) do
-                        if GetItemTypeId(GetEnumItem()) == value then
-                            i = i + 1
-                        end
-                    end
-                end)
-
-                if i == 0 then
-                    SetItemInvulnerable(CreateItem(item[GetRandomInt(1, #item)], x, y), true)
-                end
-
-                RemoveRect(r)
-            end
-        end)
-    end
-
-end
-
-TimerStart(CreateTimer(), 0.0, false, PowerUp.initialize)
-
-do
-    Scoreboard = { }
-
-    local board = nil
-    local unitsProduced = { }
-    local unitsKilled = { }
-    local unitsLost = { }
-    local buildingsProduced = { }
-    local buildingsRazed = { }
-    local buildingsLost = { }
-    local damageDealt = { }
-    local damageReceived = { }
-    local goldMined = { }
-    local lumberHarvested = { }
-    local techPercentage = { }
-    local column = { }
-    local lostToUpkeep = { }
-
-    function Scoreboard.show(flag)
-        MultiboardDisplay(board, flag)
-        MultiboardMinimize(board, not flag)
-    end
-
-    function Scoreboard.setItem(row, column, iconfilename, val, width, red, green, blue, alpha)
-        local mbi = MultiboardGetItem(board, row, column)
-
-        MultiboardSetItemStyle(mbi, val ~= "", iconfilename ~= "")
-        MultiboardSetItemIcon(mbi, iconfilename)
-        MultiboardSetItemValue(mbi, val)
-        MultiboardSetItemWidth(mbi, width)
-        MultiboardSetItemValueColor(mbi, red, green, blue, alpha)
-        MultiboardReleaseItem(mbi)
-    end
-
-    function Scoreboard.addPlayerColumn(p)
-        column[p] = MultiboardGetColumnCount(board)
-        MultiboardSetColumnCount(board, column[p] + 1)
-    end
-
-    function Scoreboard.updatePlayerInfo(p)
-        local pIcon = ""
-        local pName = ""
-        local hIcon = ""
-        local hName = ""
-
-        --  if Player.isHero( p ) then
-        pIcon = "ReplaceableTextures\\CommandButtons\\BTNHoldPosition.tga"
-        pName = GetPlayerName(p)
-
-        if hero[p] ~= nil then
-            hIcon = "UI\\Widgets\\Console\\Human\\CommandButton\\human-multipleselection-heroglow123.blp"
-            hName = GetUnitName(p)
-        else
-            hIcon = "UI\\Widgets\\Console\\Human\\CommandButton\\human-multipleselection-heroglow.blp"
-            hName = "no hero"
-        end
-
-        --[[  elseif Player.isBuilder( p ) then
-                  pIcon = "ReplaceableTextures\\CommandButtons\\BTNBasicStruct.blp"
-                  pName = GetPlayerName( p )
-
-                  hIcon = "ReplaceableTextures\\CommandButtons\\BTNPeon.tga"
-                  hName = "Builder"
-              end ]]
-
-        Scoreboard.setItem(0, column[p], pIcon, pName, 0.103125, 0xFF, 0xCC, 0x00, 0xFF)
-        Scoreboard.setItem(1, column[p], hIcon, hName, 0.103125, 0x80, 0x80, 0x80, 0xFF)
-    end
-
-    function Scoreboard.updatePlayerUnits(p)
-        Scoreboard.setItem(2, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(3, column[p], "", tostring(unitsProduced[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(4, column[p], "", tostring(unitsKilled[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(5, column[p], "", tostring(unitsLost[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(6, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-    end
-
-    function Scoreboard.updatePlayerBuildings(p)
-        Scoreboard.setItem(7, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(8, column[p], "", tostring(buildingsProduced[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(9, column[p], "", tostring(buildingsRazed[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(10, column[p], "", tostring(buildingsLost[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(11, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-    end
-
-    function Scoreboard.updatePlayerCombat(p)
-        Scoreboard.setItem(12, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(13, column[p], "", tostring(damageDealt[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(14, column[p], "", tostring(damageReceived[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(15, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-    end
-
-    function Scoreboard.updatePlayerResources(p)
-        Scoreboard.setItem(16, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(17, column[p], "", tostring(goldMined[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(18, column[p], "", tostring(lumberHarvested[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(19, column[p], "", tostring(techPercentage[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(20, column[p], "", tostring(lostToUpkeep[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-        Scoreboard.setItem(21, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
-    end
-
-    function Scoreboard.initialize()
-        TimerStart(CreateTimer(), 0.0, false, function()
-            DestroyTimer(GetExpiredTimer())
-
-            local unitsIcon = "ReplaceableTextures\\CommandButtons\\BTNGrunt.tga"
-            local buildingsIcon = "ReplaceableTextures\\CommandButtons\\BTNOrcTower.tga"
-            local combatIcon = "ReplaceableTextures\\CommandButtons\\BTNAttack.tga"
-            local resourcesIcon = "ReplaceableTextures\\CommandButtons\\BTNPillage.tga"
-
-            board = CreateMultiboard()
-            MultiboardSetTitleText(board, "Статистика:")
-            MultiboardSetTitleTextColor(board, 0xFF, 0xFF, 0xFF, 0xFF)
-            MultiboardSetRowCount(board, 24)
-            MultiboardSetColumnCount(board, 1)
-            MultiboardDisplay(board, true)
-            MultiboardMinimize(board, false)
-            MultiboardMinimize(board, true)
-
-            Scoreboard.setItem(0, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(1, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(2, 0, unitsIcon, "В О Й С К А :", 0.175, 0xFF, 0xCC, 0x00, 0xFF)
-            Scoreboard.setItem(3, 0, "", "     Units Produced", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(4, 0, "", "     Units Killed", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(5, 0, "", "     Units Lost", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(6, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(7, 0, buildingsIcon, "З Д А Н И Я :", 0.175, 0xFF, 0xCC, 0x00, 0xFF)
-            Scoreboard.setItem(8, 0, "", "     Buildings Produced", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(9, 0, "", "     Buildings Razed", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(10, 0, "", "     Buildings Lost", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(11, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(12, 0, combatIcon, "Б О Й :", 0.175, 0xFF, 0xCC, 0x00, 0xFF)
-            Scoreboard.setItem(13, 0, "", "     Нанесено урона", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(14, 0, "", "     Получено урона", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(15, 0, "", "     Восстановлено здоровья", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(16, 0, "", "     Восстановлено маны", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(17, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(18, 0, resourcesIcon, "Р Е С У Р С Ы :", 0.175, 0xFF, 0xCC, 0x00, 0xFF)
-            Scoreboard.setItem(19, 0, "", "     Добыто золота", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(20, 0, "", "     Добыто древесины", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(21, 0, "", "     Прогресс технологий", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(22, 0, "", "     Потрачено на расходы", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-            Scoreboard.setItem(23, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
-
-            for _, val in pairs(Team.defensiveForce) do
-                unitsProduced[val] = 0
-                unitsKilled[val] = 0
-                unitsLost[val] = 0
-                buildingsProduced[val] = 0
-                buildingsRazed[val] = 0
-                buildingsLost[val] = 0
-                damageDealt[val] = 0
-                damageReceived[val] = 0
-                goldMined[val] = 0
-                lumberHarvested[val] = 0
-                techPercentage[val] = 0
-                column[val] = 0
-                lostToUpkeep[val] = 0
-
-                Scoreboard.addPlayerColumn(val)
-                Scoreboard.updatePlayerInfo(val)
-                Scoreboard.updatePlayerUnits(val)
-                Scoreboard.updatePlayerBuildings(val)
-                Scoreboard.updatePlayerCombat(val)
-                Scoreboard.updatePlayerResources(val)
-            end
-        end)
-    end
-
-end
-
 Ai = {
 
     start = function(forPlayer)
     end,
 
     initialize = function()
-        if DEBUG_MODE then
-            print("DEBUG_MODE: the Ai library has been initialized.")
-        end
+        Debug.logMsg("AI table successfully initialized.")
     end
 
 }
@@ -1355,7 +1083,7 @@ do
 
 end
 
-Debug = {
+Demo = {
 
     onEsc = function()
         local group = CreateGroup()
@@ -1375,13 +1103,13 @@ Debug = {
     end,
 
     initialize = function()
-        Debug.trigger = CreateTrigger()
+        Demo.trigger = CreateTrigger()
 
         for i = 0, bj_MAX_PLAYERS - 1 do
-            BlzTriggerRegisterPlayerKeyEvent(Debug.trigger, Player(i), OSKEY_ESCAPE, 0, true)
+            BlzTriggerRegisterPlayerKeyEvent(Demo.trigger, Player(i), OSKEY_ESCAPE, 0, true)
         end
 
-        TriggerAddAction(Debug.trigger, Debug.onEsc)
+        TriggerAddAction(Demo.trigger, Demo.onEsc)
     end
 
 }
@@ -1460,6 +1188,19 @@ TimerStart(CreateTimer(), 0.0, false, function()
     QuestSetCompleted(bj_lastCreatedQuest, false)
 end)
 
+-- Native Force API:
+-- function CreateForce() end
+-- function DestroyForce(whichForce) end
+-- function ForceAddPlayer(whichForce, whichPlayer) end
+-- function ForceRemovePlayer(whichForce, whichPlayer) end
+-- function BlzForceHasPlayer(whichForce, whichPlayer) end
+-- function ForceClear(whichForce) end
+-- function ForceEnumPlayers(whichForce, filter) end
+-- function ForceEnumPlayersCounted(whichForce, filter, countLimit) end
+-- function ForceEnumAllies(whichForce, whichPlayer, filter) end
+-- function ForceEnumEnemies(whichForce, whichPlayer, filter) end
+-- function ForForce(whichForce, callback) end
+
 Force = {
 
     getMokkOwnerPlayer = function()
@@ -1471,19 +1212,6 @@ Force = {
     end,
 
     initialize = function()
-        -- Native Force API:
-        -- function CreateForce() end
-        -- function DestroyForce(whichForce) end
-        -- function ForceAddPlayer(whichForce, whichPlayer) end
-        -- function ForceRemovePlayer(whichForce, whichPlayer) end
-        -- function BlzForceHasPlayer(whichForce, whichPlayer) end
-        -- function ForceClear(whichForce) end
-        -- function ForceEnumPlayers(whichForce, filter) end
-        -- function ForceEnumPlayersCounted(whichForce, filter, countLimit) end
-        -- function ForceEnumAllies(whichForce, whichPlayer, filter) end
-        -- function ForceEnumEnemies(whichForce, whichPlayer, filter) end
-        -- function ForForce(whichForce, callback) end
-
         -- Initialize offensive players:
         Force.offensivePlayers = CreateForce()
         ForceAddPlayer(Force.offensivePlayers, Player(0x00))
@@ -1519,9 +1247,7 @@ Force = {
         SetPlayerOnScoreScreen(Player(0x00), false)
         SetPlayerOnScoreScreen(Player(0x16), false)
 
-        if DEBUG_MODE then
-            print("DEBUG_MODE: the Force library has been initialized.")
-        end
+        Debug.logMsg("Force table successfully initialized.")
     end
 
 }
@@ -1660,9 +1386,7 @@ Game = {
         Game.setCameraBounds()
         Game.setAllPlayersAlliance()
 
-        if DEBUG_MODE then
-            print("DEBUG_MODE: the Game library has been initialized.")
-        end
+        Debug.logMsg("Game table successfully initialized.")
     end
 
 }
@@ -1674,6 +1398,33 @@ function displayTopMsg(msg)
     BlzFrameSetText(frame, msg)
     BlzFrameSetScale(frame, 2.6)
     BlzFrameSetVisible(frame, true)
+end
+
+InitGlobals = function()
+
+    -- Map initialization:
+    TOC.initialize()
+    Force.initialize()
+
+    -- Game data initialization:
+    Game.initialize()
+    Ai.initialize()
+
+    -- Hero data initialization:
+    HeroPick.initialize()
+    HeroRevive.initialize()
+    HeroExperience.initialize()
+    SkillPoints.initialize()
+
+    -- Peon data initialization:
+    WatchTower.initialize()
+    SentryWard.initialize()
+    PeonsBurrow.initialize()
+    Peon.initialize()
+
+    -- Mokk data initialization:
+
+    Debug.logMsg("All game data has been initialized.")
 end
 
 Peon = {
@@ -1699,6 +1450,8 @@ Peon = {
         Peon.id = FourCC("peon")
         Peon.owner = Force.getPeonOwnerPlayer()
         Peon.group = CreateGroup()
+
+        Debug.logMsg("Peon table successfully initialized.")
     end
 
 }
@@ -1719,9 +1472,246 @@ PeonsBurrow = {
         PeonsBurrow.id = FourCC("pbrw")
         PeonsBurrow.owner = Force.getPeonOwnerPlayer()
         PeonsBurrow.group = CreateGroup()
+
+        Debug.logMsg("PeonsBurrow table successfully initialized.")
     end
 
 }
+
+do
+    PowerUp = { }
+
+    function PowerUp.initialize()
+        local circle = { }
+        local item = { }
+        local trig = CreateTrigger()
+
+        table.insert(circle, AddSpecialEffect('Abilities\\Spells\\NightElf\\Starfall\\StarfallCaster.mdl', 4736.0, -8320.0))
+        table.insert(circle, AddSpecialEffect('Abilities\\Spells\\NightElf\\Starfall\\StarfallCaster.mdl', 7296.0, -5760.0))
+
+        for _, value in pairs(circle) do
+            CreateUnit(Player(22), FourCC('n005'), BlzGetLocalSpecialEffectX(value), BlzGetLocalSpecialEffectY(value), bj_UNIT_FACING)
+        end
+
+        table.insert(item, FourCC('manh'))
+        table.insert(item, FourCC('tdx2'))
+        table.insert(item, FourCC('texp'))
+        table.insert(item, FourCC('tin2'))
+        table.insert(item, FourCC('tpow'))
+        table.insert(item, FourCC('tst2'))
+
+        for _, value in pairs(Team.defensiveForce) do
+            TriggerRegisterPlayerUnitEvent(trig, value, EVENT_PLAYER_UNIT_PICKUP_ITEM, nil)
+        end
+
+        TriggerAddAction(trig, function()
+            local it = GetManipulatedItem()
+            local id = GetItemTypeId(it)
+
+            for _, value in pairs(item) do
+                if id == value then
+                    RemoveItem(it)
+                    break
+                end
+            end
+        end)
+
+        TimerStart(CreateTimer(), 60.0, true, function()
+            for _, value in pairs(circle) do
+                local x = BlzGetLocalSpecialEffectX(value)
+                local y = BlzGetLocalSpecialEffectY(value)
+                local r = Rect(x - 32.0, y - 32.0, x + 32.0, y + 32.0)
+                local i = 0
+
+                EnumItemsInRect(r, nil, function()
+                    for _, value in pairs(item) do
+                        if GetItemTypeId(GetEnumItem()) == value then
+                            i = i + 1
+                        end
+                    end
+                end)
+
+                if i == 0 then
+                    SetItemInvulnerable(CreateItem(item[GetRandomInt(1, #item)], x, y), true)
+                end
+
+                RemoveRect(r)
+            end
+        end)
+    end
+
+end
+
+do
+    Scoreboard = { }
+
+    local board = nil
+    local unitsProduced = { }
+    local unitsKilled = { }
+    local unitsLost = { }
+    local buildingsProduced = { }
+    local buildingsRazed = { }
+    local buildingsLost = { }
+    local damageDealt = { }
+    local damageReceived = { }
+    local goldMined = { }
+    local lumberHarvested = { }
+    local techPercentage = { }
+    local column = { }
+    local lostToUpkeep = { }
+
+    function Scoreboard.show(flag)
+        MultiboardDisplay(board, flag)
+        MultiboardMinimize(board, not flag)
+    end
+
+    function Scoreboard.setItem(row, column, iconfilename, val, width, red, green, blue, alpha)
+        local mbi = MultiboardGetItem(board, row, column)
+
+        MultiboardSetItemStyle(mbi, val ~= "", iconfilename ~= "")
+        MultiboardSetItemIcon(mbi, iconfilename)
+        MultiboardSetItemValue(mbi, val)
+        MultiboardSetItemWidth(mbi, width)
+        MultiboardSetItemValueColor(mbi, red, green, blue, alpha)
+        MultiboardReleaseItem(mbi)
+    end
+
+    function Scoreboard.addPlayerColumn(p)
+        column[p] = MultiboardGetColumnCount(board)
+        MultiboardSetColumnCount(board, column[p] + 1)
+    end
+
+    function Scoreboard.updatePlayerInfo(p)
+        local pIcon = ""
+        local pName = ""
+        local hIcon = ""
+        local hName = ""
+
+        --  if Player.isHero( p ) then
+        pIcon = "ReplaceableTextures\\CommandButtons\\BTNHoldPosition.tga"
+        pName = GetPlayerName(p)
+
+        if hero[p] ~= nil then
+            hIcon = "UI\\Widgets\\Console\\Human\\CommandButton\\human-multipleselection-heroglow123.blp"
+            hName = GetUnitName(p)
+        else
+            hIcon = "UI\\Widgets\\Console\\Human\\CommandButton\\human-multipleselection-heroglow.blp"
+            hName = "no hero"
+        end
+
+        --[[  elseif Player.isBuilder( p ) then
+                  pIcon = "ReplaceableTextures\\CommandButtons\\BTNBasicStruct.blp"
+                  pName = GetPlayerName( p )
+
+                  hIcon = "ReplaceableTextures\\CommandButtons\\BTNPeon.tga"
+                  hName = "Builder"
+              end ]]
+
+        Scoreboard.setItem(0, column[p], pIcon, pName, 0.103125, 0xFF, 0xCC, 0x00, 0xFF)
+        Scoreboard.setItem(1, column[p], hIcon, hName, 0.103125, 0x80, 0x80, 0x80, 0xFF)
+    end
+
+    function Scoreboard.updatePlayerUnits(p)
+        Scoreboard.setItem(2, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(3, column[p], "", tostring(unitsProduced[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(4, column[p], "", tostring(unitsKilled[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(5, column[p], "", tostring(unitsLost[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(6, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+    end
+
+    function Scoreboard.updatePlayerBuildings(p)
+        Scoreboard.setItem(7, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(8, column[p], "", tostring(buildingsProduced[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(9, column[p], "", tostring(buildingsRazed[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(10, column[p], "", tostring(buildingsLost[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(11, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+    end
+
+    function Scoreboard.updatePlayerCombat(p)
+        Scoreboard.setItem(12, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(13, column[p], "", tostring(damageDealt[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(14, column[p], "", tostring(damageReceived[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(15, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+    end
+
+    function Scoreboard.updatePlayerResources(p)
+        Scoreboard.setItem(16, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(17, column[p], "", tostring(goldMined[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(18, column[p], "", tostring(lumberHarvested[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(19, column[p], "", tostring(techPercentage[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(20, column[p], "", tostring(lostToUpkeep[p]), 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+        Scoreboard.setItem(21, column[p], "", "", 0.103125, 0xFF, 0xFF, 0xFF, 0xFF)
+    end
+
+    function Scoreboard.initialize()
+        TimerStart(CreateTimer(), 0.0, false, function()
+            DestroyTimer(GetExpiredTimer())
+
+            local unitsIcon = "ReplaceableTextures\\CommandButtons\\BTNGrunt.tga"
+            local buildingsIcon = "ReplaceableTextures\\CommandButtons\\BTNOrcTower.tga"
+            local combatIcon = "ReplaceableTextures\\CommandButtons\\BTNAttack.tga"
+            local resourcesIcon = "ReplaceableTextures\\CommandButtons\\BTNPillage.tga"
+
+            board = CreateMultiboard()
+            MultiboardSetTitleText(board, "Статистика:")
+            MultiboardSetTitleTextColor(board, 0xFF, 0xFF, 0xFF, 0xFF)
+            MultiboardSetRowCount(board, 24)
+            MultiboardSetColumnCount(board, 1)
+            MultiboardDisplay(board, true)
+            MultiboardMinimize(board, false)
+            MultiboardMinimize(board, true)
+
+            Scoreboard.setItem(0, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(1, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(2, 0, unitsIcon, "В О Й С К А :", 0.175, 0xFF, 0xCC, 0x00, 0xFF)
+            Scoreboard.setItem(3, 0, "", "     Units Produced", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(4, 0, "", "     Units Killed", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(5, 0, "", "     Units Lost", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(6, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(7, 0, buildingsIcon, "З Д А Н И Я :", 0.175, 0xFF, 0xCC, 0x00, 0xFF)
+            Scoreboard.setItem(8, 0, "", "     Buildings Produced", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(9, 0, "", "     Buildings Razed", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(10, 0, "", "     Buildings Lost", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(11, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(12, 0, combatIcon, "Б О Й :", 0.175, 0xFF, 0xCC, 0x00, 0xFF)
+            Scoreboard.setItem(13, 0, "", "     Нанесено урона", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(14, 0, "", "     Получено урона", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(15, 0, "", "     Восстановлено здоровья", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(16, 0, "", "     Восстановлено маны", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(17, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(18, 0, resourcesIcon, "Р Е С У Р С Ы :", 0.175, 0xFF, 0xCC, 0x00, 0xFF)
+            Scoreboard.setItem(19, 0, "", "     Добыто золота", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(20, 0, "", "     Добыто древесины", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(21, 0, "", "     Прогресс технологий", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(22, 0, "", "     Потрачено на расходы", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+            Scoreboard.setItem(23, 0, "", "", 0.175, 0xFF, 0xFF, 0xFF, 0xFF)
+
+            for _, val in pairs(Team.defensiveForce) do
+                unitsProduced[val] = 0
+                unitsKilled[val] = 0
+                unitsLost[val] = 0
+                buildingsProduced[val] = 0
+                buildingsRazed[val] = 0
+                buildingsLost[val] = 0
+                damageDealt[val] = 0
+                damageReceived[val] = 0
+                goldMined[val] = 0
+                lumberHarvested[val] = 0
+                techPercentage[val] = 0
+                column[val] = 0
+                lostToUpkeep[val] = 0
+
+                Scoreboard.addPlayerColumn(val)
+                Scoreboard.updatePlayerInfo(val)
+                Scoreboard.updatePlayerUnits(val)
+                Scoreboard.updatePlayerBuildings(val)
+                Scoreboard.updatePlayerCombat(val)
+                Scoreboard.updatePlayerResources(val)
+            end
+        end)
+    end
+
+end
 
 SentryWard = {
 
@@ -1733,6 +1723,8 @@ SentryWard = {
         SentryWard.id = FourCC("swrd")
         SentryWard.owner = Force.getPeonOwnerPlayer()
         SentryWard.group = CreateGroup()
+
+        Debug.logMsg("SentryWard table successfully initialized.")
     end
 
 }
@@ -1787,6 +1779,8 @@ WatchTower = {
         WatchTower.group = CreateGroup()
 
         WatchTower.createAll()
+
+        Debug.logMsg("WatchTower table successfully initialized.")
     end
 
 }
@@ -1800,6 +1794,7 @@ Blademaster = {
     end
 
 }
+
 HeroExperience = {
 
     initialize = function()
@@ -1839,6 +1834,8 @@ HeroExperience = {
                 end
             end)
         end)
+
+        Debug.logMsg("HeroExperience table successfully initialized.")
     end
 
 }
@@ -2301,6 +2298,8 @@ HeroPick = {
                 BlzFrameSetVisible(heroPickDialog, false)
             end
         end)
+
+        Debug.logMsg("HeroPick table successfully initialized.")
     end
 
 }
@@ -2403,87 +2402,89 @@ HeroRevive = {
                 end)
             end
         end)
+
+        Debug.logMsg("HeroRevive table successfully initialized.")
     end
 
 }
 
 SkillPoints = {
 
-    onPlayerHeroLevel = function()
-        local hero = GetLevelingUnit()
-        local level = GetHeroLevel(hero)
-
-        if level == 1 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 2 then
-            UnitModifySkillPoints(hero, 0) -- 1
-        elseif level == 3 then
-            UnitModifySkillPoints(hero, 0) -- 1
-        elseif level == 4 then
-            UnitModifySkillPoints(hero, 1) -- 2
-        elseif level == 5 then
-            UnitModifySkillPoints(hero, 0) -- 1
-        elseif level == 6 then
-            UnitModifySkillPoints(hero, 2) -- 3
-        elseif level == 7 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 8 then
-            UnitModifySkillPoints(hero, 1)
-        elseif level == 9 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 10 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 11 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 12 then
-            UnitModifySkillPoints(hero, 2)
-        elseif level == 13 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 14 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 15 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 16 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 17 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 18 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 19 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 20 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 21 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 22 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 23 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 24 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 25 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 26 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 27 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 28 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 29 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 30 then
-            UnitModifySkillPoints(hero, 0)
-        end
-    end,
-
     initialize = function()
         SkillPoints.trigger = CreateTrigger()
 
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x02), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x03), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x04), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x05), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerAddAction(SkillPoints.trigger, SkillPoints.onPlayerHeroLevel)
+        ForForce(Force.heroOwnerPlayers, function()
+            TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, GetEnumPlayer(), EVENT_PLAYER_HERO_LEVEL, nil)
+        end)
+
+        TriggerAddAction(SkillPoints.trigger, function()
+            local hero = GetLevelingUnit()
+            local level = GetHeroLevel(hero)
+
+            if level == 1 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 2 then
+                UnitModifySkillPoints(hero, 0) -- 1
+            elseif level == 3 then
+                UnitModifySkillPoints(hero, 0) -- 1
+            elseif level == 4 then
+                UnitModifySkillPoints(hero, 1) -- 2
+            elseif level == 5 then
+                UnitModifySkillPoints(hero, 0) -- 1
+            elseif level == 6 then
+                UnitModifySkillPoints(hero, 2) -- 3
+            elseif level == 7 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 8 then
+                UnitModifySkillPoints(hero, 1)
+            elseif level == 9 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 10 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 11 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 12 then
+                UnitModifySkillPoints(hero, 2)
+            elseif level == 13 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 14 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 15 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 16 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 17 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 18 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 19 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 20 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 21 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 22 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 23 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 24 then
+                UnitModifySkillPoints(hero, 0)
+            elseif level == 25 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 26 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 27 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 28 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 29 then
+                UnitModifySkillPoints(hero, -1) -- empty
+            elseif level == 30 then
+                UnitModifySkillPoints(hero, 0)
+            end
+        end)
+
+        Debug.logMsg("SkillPoints table successfully initialized.")
     end
 
 }
@@ -2492,9 +2493,9 @@ TOC = {
 
     initialize = function()
         if BlzLoadTOCFile("UI\\FrameDef\\FrameDef.toc") then
-            if DEBUG_MODE then
-                print("|cFF00FF00DEBUG_MODE|r: the TOC library has been initialized.")
-            end
+            Debug.logMsg("TOC table successfully initialized.")
+        else
+            Debug.errorMsg("TOC table failed to initialize.")
         end
     end
 

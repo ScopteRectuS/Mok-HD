@@ -37,6 +37,8 @@ HeroExperience = {
                 end
             end)
         end)
+
+        Debug.logMsg("HeroExperience table successfully initialized.")
     end
 
 }

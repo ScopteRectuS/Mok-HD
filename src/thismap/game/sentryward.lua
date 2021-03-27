@@ -8,6 +8,8 @@ SentryWard = {
         SentryWard.id = FourCC("swrd")
         SentryWard.owner = Force.getPeonOwnerPlayer()
         SentryWard.group = CreateGroup()
+
+        Debug.logMsg("SentryWard table successfully initialized.")
     end
 
 }

@@ -21,6 +21,8 @@ Peon = {
         Peon.id = FourCC("peon")
         Peon.owner = Force.getPeonOwnerPlayer()
         Peon.group = CreateGroup()
+
+        Debug.logMsg("Peon table successfully initialized.")
     end
 
 }

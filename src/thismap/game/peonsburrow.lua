@@ -14,6 +14,8 @@ PeonsBurrow = {
         PeonsBurrow.id = FourCC("pbrw")
         PeonsBurrow.owner = Force.getPeonOwnerPlayer()
         PeonsBurrow.group = CreateGroup()
+
+        Debug.logMsg("PeonsBurrow table successfully initialized.")
     end
 
 }

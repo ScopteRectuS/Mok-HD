@@ -1,4 +1,4 @@
-Debug = {
+Demo = {
 
     onEsc = function()
         local group = CreateGroup()
@@ -18,13 +18,13 @@ Debug = {
     end,
 
     initialize = function()
-        Debug.trigger = CreateTrigger()
+        Demo.trigger = CreateTrigger()
 
         for i = 0, bj_MAX_PLAYERS - 1 do
-            BlzTriggerRegisterPlayerKeyEvent(Debug.trigger, Player(i), OSKEY_ESCAPE, 0, true)
+            BlzTriggerRegisterPlayerKeyEvent(Demo.trigger, Player(i), OSKEY_ESCAPE, 0, true)
         end
 
-        TriggerAddAction(Debug.trigger, Debug.onEsc)
+        TriggerAddAction(Demo.trigger, Demo.onEsc)
     end
 
 }

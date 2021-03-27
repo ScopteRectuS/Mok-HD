@@ -55,6 +55,8 @@ HeroRevive = {
                 end)
             end
         end)
+
+        Debug.logMsg("HeroRevive table successfully initialized.")
     end
 
 }
