@@ -26,9 +26,7 @@ do
     end
 end
 
-function GetParabolaZ(maxHeight, maxRange, currentRange)
-    return (4 * maxHeight / maxRange) * (maxRange - currentRange) * (currentRange / maxRange)
-end
+
 
 do
     local tempGroup = CreateGroup()

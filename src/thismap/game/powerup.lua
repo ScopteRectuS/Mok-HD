@@ -61,5 +61,3 @@ do
     end
 
 end
-
-TimerStart(CreateTimer(), 0.0, false, PowerUp.initialize)

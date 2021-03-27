@@ -123,16 +123,6 @@ do
 
 end
 
-DEBUG_MODE = true
-
-MAP_NAME = "Mok: Hero Defense"
-MAP_VERSION = "1.0"
-MAP_HIDDEN_X = 0.0
-MAP_HIDDEN_Y = 0.0
-MAP_HIDDEN_Z = 0.0
-
-UNIT_MAX_COLLISION_SIZE = 197.0
-
 S2FourCC = function(value)
     return string.unpack(">I4", id)
 end
@@ -161,9 +151,7 @@ do
     end
 end
 
-function GetParabolaZ(maxHeight, maxRange, currentRange)
-    return (4 * maxHeight / maxRange) * (maxRange - currentRange) * (currentRange / maxRange)
-end
+
 
 do
     local tempGroup = CreateGroup()
@@ -204,6 +192,32 @@ function UnitRestoreMana(source, target, amount)
     SetUnitState(target, UNIT_STATE_MANA, newMana)
 end
 
+Debug = {
+
+    logMsg = function(str)
+        if DEBUG_MODE then
+            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 60.0, "[|cFFFFFFFFLOG MSG|r] :  " .. str)
+        end
+    end,
+
+    warnMsg = function(str)
+        if DEBUG_MODE then
+            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 60.0, "[|cFFFF851BWARNING MSG|r] :  " .. str)
+        end
+    end,
+
+    errorMsg = function(str)
+        if DEBUG_MODE then
+            DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 60.0, "[|cFFFF4136ERROR MSG|r] :  " .. str)
+        end
+    end
+
+}
+TimerStart(CreateTimer(),0,false,function()
+    Debug.logMsg("asd gar asdf asdf ")
+    Debug.warnMsg("asd gar asdf asdf ")
+    Debug.errorMsg("asd gar asdf asdf ")
+end)
 DummyUnit = {
     id = FourCC("h000"),
 
@@ -250,6 +264,11 @@ FloatingTextTag = {
         end
     end,
 
+    ---@type function
+    ---@param forPlayer player
+    ---@param whichUnit unit
+    ---@param value string
+    ---@return nothing
     lumber = function(forPlayer, whichUnit, value)
         if GetLocalPlayer() == forPlayer then
             local tt = CreateTextTag()
@@ -265,6 +284,10 @@ FloatingTextTag = {
         end
     end,
 
+    ---@type function
+    ---@param whichUnit unit
+    ---@param value string
+    ---@return nothing
     miss = function(whichUnit, value)
         local tt = CreateTextTag()
 
@@ -278,6 +301,10 @@ FloatingTextTag = {
         SetTextTagFadepoint(tt, 1.0)
     end,
 
+    ---@type function
+    ---@param whichUnit unit
+    ---@param value string
+    ---@return nothing
     criticalstrike = function(whichUnit, value)
         local tt = CreateTextTag()
 
@@ -291,6 +318,10 @@ FloatingTextTag = {
         SetTextTagFadepoint(tt, 2.0)
     end,
 
+    ---@type function
+    ---@param whichUnit unit
+    ---@param value string
+    ---@return nothing
     shadowstrike = function(whichUnit, value)
         local tt = CreateTextTag()
 
@@ -304,6 +335,10 @@ FloatingTextTag = {
         SetTextTagFadepoint(tt, 2.0)
     end,
 
+    ---@type function
+    ---@param whichUnit unit
+    ---@param value string
+    ---@return nothing
     manaburn = function(whichUnit, value)
         local tt = CreateTextTag()
 
@@ -319,6 +354,45 @@ FloatingTextTag = {
 
 }
 
+
+math.parabola = function(maxHeight, maxRange, currentRange)
+    return (4 * maxHeight / maxRange) * (maxRange - currentRange) * (currentRange / maxRange)
+end
+
+PlayerColor = {
+
+    getPlayerColoredString = function(index, str)
+        local color = {
+            [ 0] = "|cFFFF0303" .. str .. "|r",
+            [ 1] = "|cFF0042FF" .. str .. "|r",
+            [ 2] = "|cFF1CE6B9" .. str .. "|r",
+            [ 3] = "|cFF540081" .. str .. "|r",
+            [ 4] = "|cFFFFFF01" .. str .. "|r",
+            [ 5] = "|cFFFE8A0E" .. str .. "|r",
+            [ 6] = "|cFF20C000" .. str .. "|r",
+            [ 7] = "|cFFE55BB0" .. str .. "|r",
+            [ 8] = "|cFF959697" .. str .. "|r",
+            [ 9] = "|cFF7EBFF1" .. str .. "|r",
+            [10] = "|cFF106246" .. str .. "|r",
+            [11] = "|cFF4E2A04" .. str .. "|r",
+            [12] = "|cFF9B0000" .. str .. "|r",
+            [13] = "|cFF0000C3" .. str .. "|r",
+            [14] = "|cFF00EAFF" .. str .. "|r",
+            [15] = "|cFFBE00FE" .. str .. "|r",
+            [16] = "|cFFEBCD87" .. str .. "|r",
+            [17] = "|cFFF8A48B" .. str .. "|r",
+            [18] = "|cFFBFFF80" .. str .. "|r",
+            [19] = "|cFFDCB9EB" .. str .. "|r",
+            [20] = "|cFF282828" .. str .. "|r",
+            [21] = "|cFFEBF0FF" .. str .. "|r",
+            [22] = "|cFF00781E" .. str .. "|r",
+            [23] = "|cFFA46F33" .. str .. "|r"
+        }
+
+        return color[index]
+    end
+
+}
 
 Preload = {
 
@@ -375,930 +449,15 @@ do
 
 end
 
-Blademaster = {
-
-    preload = function()
-    end,
-
-    initialize = function()
-    end
-
-}
-Ai = {
-
-    start = function(forPlayer)
-    end,
-
-    initialize = function()
-        if DEBUG_MODE then
-            print("DEBUG_MODE: the Ai library has been initialized.")
-        end
-    end
-
-}
-
-Force = {
-
-    getMokkOwnerPlayer = function()
-        return Player(0x00)
-    end,
-
-    getPeonOwnerPlayer = function()
-        return Player(0x16)
-    end,
-
-    initialize = function()
-        -- Native Force API:
-        -- function CreateForce() end
-        -- function DestroyForce(whichForce) end
-        -- function ForceAddPlayer(whichForce, whichPlayer) end
-        -- function ForceRemovePlayer(whichForce, whichPlayer) end
-        -- function BlzForceHasPlayer(whichForce, whichPlayer) end
-        -- function ForceClear(whichForce) end
-        -- function ForceEnumPlayers(whichForce, filter) end
-        -- function ForceEnumPlayersCounted(whichForce, filter, countLimit) end
-        -- function ForceEnumAllies(whichForce, whichPlayer, filter) end
-        -- function ForceEnumEnemies(whichForce, whichPlayer, filter) end
-        -- function ForForce(whichForce, callback) end
-
-        -- Initialize offensive players:
-        Force.offensivePlayers = CreateForce()
-        ForceAddPlayer(Force.offensivePlayers, Player(0x00))
-
-        -- Initialize defensive players:
-        Force.defensivePlayers = CreateForce()
-        ForceAddPlayer(Force.defensivePlayers, Player(0x02))
-        ForceAddPlayer(Force.defensivePlayers, Player(0x03))
-        ForceAddPlayer(Force.defensivePlayers, Player(0x04))
-        ForceAddPlayer(Force.defensivePlayers, Player(0x05))
-        ForceAddPlayer(Force.defensivePlayers, Player(0x16))
-
-        -- Initialize hero owner players:
-        Force.heroOwnerPlayers = CreateForce()
-        ForceAddPlayer(Force.heroOwnerPlayers, Player(0x02))
-        ForceAddPlayer(Force.heroOwnerPlayers, Player(0x03))
-        ForceAddPlayer(Force.heroOwnerPlayers, Player(0x04))
-        ForceAddPlayer(Force.heroOwnerPlayers, Player(0x05))
-
-        -- Initialize peon owner players:
-        Force.peonOwnerPlayers = CreateForce()
-        ForceAddPlayer(Force.peonOwnerPlayers, Player(0x00))
-
-        -- Initialize all players:
-        Force.allMapPlayers = CreateForce()
-        ForceAddPlayer(Force.allMapPlayers, Player(0x00))
-        ForceAddPlayer(Force.allMapPlayers, Player(0x02))
-        ForceAddPlayer(Force.allMapPlayers, Player(0x03))
-        ForceAddPlayer(Force.allMapPlayers, Player(0x04))
-        ForceAddPlayer(Force.allMapPlayers, Player(0x05))
-        ForceAddPlayer(Force.allMapPlayers, Player(0x16))
-
-        SetPlayerOnScoreScreen(Player(0x00), false)
-        SetPlayerOnScoreScreen(Player(0x16), false)
-
-        if DEBUG_MODE then
-            print("DEBUG_MODE: the Force library has been initialized.")
-        end
-    end
-
-}
-
-Game = {
-
-    startDefeat = function()
-    end,
-
-    startVictory = function()
-    end,
-
-    setStartingVisibility = function()
-        FogEnable(true)
-        FogMaskEnable(true)
-    end,
-
-    setStartingResources = function()
-    end,
-
-    createStartingUnits = function()
-        for _, value in pairs(Team.computerForce) do
-            local id = GetPlayerId(value)
-            local startLocX = GetStartLocationX(id)
-            local startLocY = GetStartLocationY(id)
-
-            local unitSpacing = 64.00
-            local peonX = startLocX
-            local peonY = startLocY - 224.00
-
-            --  Spawn Great Hall at the start location.
-            CreateUnit(value, FourCC("o002"), startLocX, startLocY, bj_UNIT_FACING)
-
-            --  Spawn Peons directly south of the town hall.
-            CreateUnit(value, FourCC("opeo"), peonX + 2.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
-            CreateUnit(value, FourCC("opeo"), peonX + 1.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
-            CreateUnit(value, FourCC("opeo"), peonX + 0.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
-            CreateUnit(value, FourCC("opeo"), peonX - 1.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
-            CreateUnit(value, FourCC("opeo"), peonX - 2.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
-        end
-    end,
-
-    setStartingHeroLimit = function()
-    end,
-
-    setPlayerAllianceStateAlly = function(sourcePlayer, otherPlayer, flag)
-        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_PASSIVE, flag)
-        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_HELP_REQUEST, flag)
-        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_HELP_RESPONSE, flag)
-        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_XP, flag)
-        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_SPELLS, flag)
-        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_VISION, flag)
-    end,
-    
-    setAllPlayersAlliance = function()
-        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x02), false)
-        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x03), false)
-        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x04), false)
-        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x05), false)
-        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x16), false)
-
-        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x00), false)
-        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x00), false)
-        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x00), false)
-        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x00), false)
-        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x00), false)
-        
-        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x03), true)
-        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x04), true)
-        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x05), true)
-        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x16), true)
-
-        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x02), true)
-        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x04), true)
-        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x05), true)
-        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x16), true)
-
-        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x02), true)
-        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x03), true)
-        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x05), true)
-        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x16), true)
-
-        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x02), true)
-        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x03), true)
-        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x04), true)
-        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x16), true)
-
-        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x02), true)
-        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x03), true)
-        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x04), true)
-        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x05), true)
-    end,
-
-    setCameraBounds = function()
-        local marginX = 1024.0 + 512.0 + 512.0
-        local marginY = 1024.0 + 512.0 + 256.0
-
-        local maxX = GetRectMaxX(GetWorldRect())
-        local minX = GetRectMinX(GetWorldRect())
-        local maxY = GetRectMaxY(GetWorldRect())
-        local minY = GetRectMinY(GetWorldRect())
-
-        SetCameraBounds(
-            minX + marginX,
-            minY + marginY,
-            maxX - marginX,
-            maxY - marginY,
-            minX + marginX,
-            maxY - marginY,
-            maxX - marginX,
-            minY + marginY
-        )
-    end,
-
-    setCameraTargetDistance = function()
-        local cameraDist = 1785.0
-
-        SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, cameraDist, 0.0)
-
-        TimerStart(CreateTimer(), 0.001, true, function()
-            SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, cameraDist, 0.0)
-        end)
-    end,
-
-    initialize = function()
-        --[[
-        Game.setStartingVisibility()
-        Game.setStartingResources()
-        Game.setStartingHeroLimit()
-
-
-        Game.setCameraTargetDistance()
-        Game.createStartingUnits()
-        ]]
-
-        Game.setCameraBounds()
-        Game.setAllPlayersAlliance()
-
-        if DEBUG_MODE then
-            print("DEBUG_MODE: the Game library has been initialized.")
-        end
-    end
-
-}
-
-function displayTopMsg(msg)
-    local frame = BlzCreateFrameByType("TEXT", "", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "", 0)
-
-    BlzFrameSetPoint(frame, FRAMEPOINT_TOP, BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), FRAMEPOINT_TOP, 0.0, -0.0195)
-    BlzFrameSetText(frame, msg)
-    BlzFrameSetScale(frame, 2.6)
-    BlzFrameSetVisible(frame, true)
-end
-
-HeroExperience = {
-
-    onPlayerUnitDeath = function()
-        local dyingUnit = GetDyingUnit()
-        local dyingUnitX = GetUnitX(dyingUnit)
-        local dyingUnitY = GetUnitY(dyingUnit)
-        local killingUnit = GetKillingUnit()
-
-        local life = BlzGetUnitMaxHP(dyingUnit)
-        local mana = BlzGetUnitMaxMana(dyingUnit)
-        local level = GetUnitLevel(dyingUnit)
-        local exp = math.ceil(2 * ((life + mana) * level) ^ 0.5)
-
-        GroupClear(HeroExperience.group)
-        GroupEnumUnitsInRange(HeroExperience.group, dyingUnitX, dyingUnitY, 1200.0 + UNIT_MAX_COLLISION_SIZE, nil)
-        ForGroup(HeroExperience.group, function()
-            local enumUnit = GetEnumUnit()
-
-            if IsUnitAlly(enumUnit, GetOwningPlayer(killingUnit)) and IsUnitType(enumUnit, UNIT_TYPE_HERO) and IsUnitInRangeXY(enumUnit, dyingUnitX, dyingUnitY, 1200.0) then
-                AddHeroXP(enumUnit, exp, true)
-            end
-        end)
-    end,
-
-    initialize = function()
-        HeroExperience.trigger = CreateTrigger()
-        HeroExperience.group = CreateGroup()
-
-        SetPlayerHandicapXP(Player(0x02), 0.0)
-        SetPlayerHandicapXP(Player(0x03), 0.0)
-        SetPlayerHandicapXP(Player(0x04), 0.0)
-        SetPlayerHandicapXP(Player(0x05), 0.0)
-
-        TriggerAddAction(HeroExperience.trigger, HeroExperience.onPlayerUnitDeath)
-        ForForce(Force.offensivePlayers, function()
-            TriggerRegisterPlayerUnitEvent(HeroExperience.trigger, GetEnumPlayer(), EVENT_PLAYER_UNIT_DEATH, nil)
-        end)
-    end
-
-}
-
-HERO_BLADEMASTER_TYPE_ID = FourCC("H000")
-HERO_BANSHEE_RANGER_TYPE_ID = FourCC("H001")
-HERO_WARDEN_TYPE_ID = FourCC("H002")
-HERO_DEMON_HUNTER_TYPE_ID = FourCC("H003")
-HERO_TAUREN_CHIEFTAIN_TYPE_ID = FourCC("H004")
-HERO_SHADOW_HUNTER_TYPE_ID = FourCC("H005")
-HERO_PANDAREN_BREWMASTER_TYPE_ID = FourCC("H006")
-HERO_FARSEER_TYPE_ID = FourCC("H007")
-HERO_BEASTMASTER_TYPE_ID = FourCC("H008")
-HERO_CRYPT_LORD_TYPE_ID = FourCC("H009")
-HERO_DREAD_LORD_TYPE_ID = FourCC("H00:")
-HERO_FLAME_LORD_TYPE_ID = FourCC("H00;")
-HERO_LICH_TYPE_ID = FourCC("H00<")
-HERO_PRIESTESS_OF_THE_MOON_TYPE_ID = FourCC("H00=")
-HERO_TINKER_TYPE_ID = FourCC("H00>")
-HERO_ALCHEMIST_TYPE_ID = FourCC("H00?")
-HERO_ELDER_DRANAI_TYPE_ID = FourCC("H00@")
-HERO_NAGA_TYPE_ID = FourCC("H00A")
-HERO_ADMIRAL_TYPE_ID = FourCC("H00B")
-HERO_ARCH_MAGE_TYPE_ID = FourCC("H00C")
-HERO_MOUNTAIN_KING_TYPE_ID = FourCC("H00D")
-HERO_TRACKER_TYPE_ID = FourCC("H00E")
-HERO_BLOOD_ELF_TYPE_ID = FourCC("H00F")
-HERO_PALADIN_TYPE_ID = FourCC("H00G")
-HERO_DREAD_KNIGHT_TYPE_ID = FourCC("H00H")
-HERO_ARCH_MAGE_TYPE_ID = FourCC("H00I")
-
-Hero = { }
-HeroPick = {
-
-    getSpawnX = function()
-        return 5360.0
-    end,
-
-    getSpawnY = function()
-        return -6300.0
-    end,
-
-    getSpawnFacing = function()
-        return bj_UNIT_FACING
-    end,
-
-    initialize = function()
-        --BlzHideOriginFrames(true)
-        --PauseGame(true)
-
-        -- Hero pick dialog initialization: 0.48 - 0.2085 * 2 - 0.030 * 2
-        local heroPickDialog = BlzCreateFrameByType("FRAME", "", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "", 0)
-        BlzFrameSetSize(heroPickDialog, 0.497, 0.6)
-        BlzFrameSetPoint(heroPickDialog, FRAMEPOINT_CENTER, BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), FRAMEPOINT_CENTER, 0.0, 0.0)
-
-        local heroPickDialogBackdrop = BlzCreateFrameByType("BACKDROP", "", heroPickDialog, "EscMenuBackdrop", 0)
-        BlzFrameSetAllPoints(heroPickDialogBackdrop, heroPickDialog)
-        BlzFrameSetText(heroPickDialogBackdrop, "webui\\versusmenu\\orc-beta-bg.jpg")
-
-        local heroPickDialogTitle = BlzCreateFrameByType("TEXT", "", heroPickDialog, "EscMenuLabelTextTemplate", 0)
-        BlzFrameSetPoint(heroPickDialogTitle, FRAMEPOINT_TOP, heroPickDialog, FRAMEPOINT_TOP, 0.0, -0.03)
-        BlzFrameSetText(heroPickDialogTitle, "Mokk: Hero Defense")
-        BlzFrameSetTextColor(heroPickDialogTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
-
-        local heroPickDialogSubtitle = BlzCreateFrameByType("TEXT", "", heroPickDialog, "EscMenuTitleTextTemplate", 0)
-        BlzFrameSetPoint(heroPickDialogSubtitle, FRAMEPOINT_TOP, heroPickDialogTitle, FRAMEPOINT_BOTTOM, 0.0, -0.002)
-        BlzFrameSetText(heroPickDialogSubtitle, "Выберите себе героя")
-        BlzFrameSetTextColor(heroPickDialogSubtitle, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
-
-
-
-        -- Hero list container initialization:
-        local heroListContainer = BlzCreateFrameByType("LISTBOX", "", heroPickDialog, "", 0)
-        local heroListContainerWidth = 0.2085
-        local heroListContainerHeight = 0.11
-        BlzFrameSetSize(heroListContainer, heroListContainerWidth, heroListContainerHeight)
-        BlzFrameSetPoint(heroListContainer, FRAMEPOINT_TOPLEFT, heroPickDialog, FRAMEPOINT_TOPLEFT,  0.030, -0.080)
-
-        local heroListTitle = BlzCreateFrameByType("TEXT", "", heroListContainer, "EscMenuLabelTextTemplate", 0)
-        BlzFrameSetPoint(heroListTitle, FRAMEPOINT_BOTTOMLEFT, heroListContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
-        BlzFrameSetText(heroListTitle, "Cписок героев:")
-        BlzFrameSetTextColor(heroListTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
-
-        local heroListScrollbar = BlzCreateFrameByType("SLIDER", "", heroListContainer, "EscMenuScrollBarTemplate", 0)
-        local heroListScrollbarOffset = 0.010
-        local heroListScrollbarHeight = BlzFrameGetHeight(heroListContainer) - heroListScrollbarOffset * 2
-        local heroListScrollbarWidth = 0.012
-        BlzFrameSetSize(heroListScrollbar, heroListScrollbarWidth, heroListScrollbarHeight)
-        BlzFrameSetPoint(heroListScrollbar, FRAMEPOINT_TOPRIGHT, heroListContainer, FRAMEPOINT_TOPRIGHT, 0.0, -heroListScrollbarOffset)
-        BlzFrameSetMinMaxValue(heroListScrollbar, 1, 5)
-        BlzFrameSetStepSize(heroListScrollbar, 1)
-        BlzFrameSetValue(heroListScrollbar, 5)
-        BlzFrameSetEnable(heroListScrollbar, false)
-
-        local trig = CreateTrigger()
-        BlzTriggerRegisterFrameEvent(trig, heroListContainer, FRAMEEVENT_MOUSE_WHEEL)
-        TriggerAddAction(trig, function()
-            if BlzGetTriggerFrameValue() > 0.0 then
-                BlzFrameSetValue(heroListScrollbar, BlzFrameGetValue(heroListScrollbar) + 1)
-            elseif BlzGetTriggerFrameValue() < 0.0 then
-                BlzFrameSetValue(heroListScrollbar, BlzFrameGetValue(heroListScrollbar) - 1)
-            end
-        end)
-
-
-
-        -- Hero list item initialization:
-        --[[local heroListItem = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)]]
-        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
-        --[[local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
-        local heroListItemHeight = 0.035
-        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
-        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)]]
-
-        local heroListItemIcon = BlzCreateFrame("HeroListItemIcon", heroListContainer, 0, 0)
-        local heroListItemIconWidth = 0.035
-        local heroListItemIconHeight = 0.035
-        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
-        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
-        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNEarthBrewmaster", 0, true)
-
-        local heroListItemButton = BlzCreateFrame("HeroListItemButton", heroListContainer, 0, 0)
-        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
-        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
-        local heroListItemButtonHeight = 0.035
-        BlzFrameClearAllPoints(heroListItemButton)
-        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
-        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
-
-        local trg = CreateTrigger()
-        BlzTriggerRegisterFrameEvent(trg, heroListItemButton, FRAMEEVENT_CONTROL_CLICK)
-        TriggerAddAction(trg, function() print "click" end)
-
-        local heroListItemButtonText = BlzGetFrameByName("HeroListItemButtonTitle", 0)
-        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
-        BlzFrameSetText(heroListItemButtonText, "Jer'rykh, Earth Spirit")
-        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
-
-
-
-        ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        local heroListItem = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)
-        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
-        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
-        local heroListItemHeight = 0.035
-        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
-        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, -(heroListItemHeight + heroListItemStepOffset) )
-
-        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
-        local heroListItemIconWidth = 0.035
-        local heroListItemIconHeight = 0.035
-        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
-        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
-        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNFireBrewmaster.dds", 0, true)
-
-        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
-        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
-        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
-        local heroListItemButtonHeight = 0.035
-        BlzFrameClearAllPoints(heroListItemButton)
-        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
-        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
-
-        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
-        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
-        BlzFrameSetText(heroListItemButtonText, "Ort'rykh, Fire Spirit")
-        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
-
-        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
-        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
-        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
-        BlzFrameClearAllPoints(heroListItemButtonStatusText)
-        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
-        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
-        BlzFrameSetText(heroListItemButtonStatusText, "")
-        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
-        ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-        --[[
-        -------------------------------------------------------------------------------------------------------------------------
-        BlzFrameSetVisible(heroListItemButton, false)
-
-        local heroListItemButton = BlzCreateFrameByType("GLUEBUTTON", "", heroListItem, "QuestButtonTemplate", 0)
-        local heroListItemButtonWidth = 0.2085 - 0.035 + 0.003 - 0.012 - 0.0025
-        local heroListItemButtonHeight = 0.035
-        BlzFrameClearAllPoints(heroListItemButton)
-        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
-        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, -0.003, 0.0)
-        -------------------------------------------------------------------------------------------------------------------------
-        ]]
-
-
-
-        -- Hero description container initialization:
-        local heroDescriptionContainer = BlzCreateFrameByType("FRAME", "", heroPickDialog, "", 0)
-        BlzFrameSetSize(heroDescriptionContainer, 0.2085, 0.11)
-        BlzFrameSetPoint(heroDescriptionContainer, FRAMEPOINT_TOPRIGHT, heroPickDialog, FRAMEPOINT_TOPRIGHT, -0.030, -0.08)
-
-        local heroDescriptionTitle = BlzCreateFrameByType("TEXT", "", heroDescriptionContainer, "EscMenuLabelTextTemplate", 0)
-        BlzFrameSetPoint(heroDescriptionTitle, FRAMEPOINT_BOTTOMLEFT, heroDescriptionContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
-        BlzFrameSetText(heroDescriptionTitle, "Описание героя:")
-        BlzFrameSetTextColor(heroDescriptionTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
-
-        local heroDescriptionTextArea = BlzCreateFrameByType("TEXTAREA", "", heroDescriptionContainer, "EscMenuTextAreaTemplate", 0)
-        BlzFrameSetAllPoints(heroDescriptionTextArea, heroDescriptionContainer)
-        BlzFrameAddText(heroDescriptionTextArea, "Базовый рабочий. Добывает золото и древесину, а также строит и ремонтирует здания. Может оборонять базу, засев в землянке.")
-
-
-
-        -- Ability list container initialization:
-        local abilityListContainer = BlzCreateFrameByType("LISTBOX", "", heroPickDialog, "", 0)
-        BlzFrameSetSize(abilityListContainer, 0.2085, 0.11)
-        BlzFrameSetPoint(abilityListContainer, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_BOTTOMLEFT,  0.0, -0.020)
-
-        local abilityListTitle = BlzCreateFrameByType("TEXT", "", abilityListContainer, "EscMenuLabelTextTemplate", 0)
-        BlzFrameSetPoint(abilityListTitle, FRAMEPOINT_BOTTOMLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
-        BlzFrameSetText(abilityListTitle, "Cписок способностей:")
-        BlzFrameSetTextColor(abilityListTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
-
-        local abilityListScrollbar = BlzCreateFrameByType("SLIDER", "", abilityListContainer, "EscMenuScrollBarTemplate", 0)
-        local abilityListScrollbarOffset = 0.010
-        local abilityListScrollbarHeight = BlzFrameGetHeight(abilityListContainer) - abilityListScrollbarOffset * 2
-        BlzFrameSetSize(abilityListScrollbar, 0.012, abilityListScrollbarHeight)
-        BlzFrameSetPoint(abilityListScrollbar, FRAMEPOINT_TOPRIGHT, abilityListContainer, FRAMEPOINT_TOPRIGHT, 0.0, -abilityListScrollbarOffset)
-        BlzFrameSetMinMaxValue(abilityListScrollbar, 1, 15)
-        BlzFrameSetStepSize(abilityListScrollbar, 1)
-        BlzFrameSetValue(abilityListScrollbar, 15)
-
-
-
-        local trig = CreateTrigger()
-        BlzTriggerRegisterFrameEvent(trig, abilityListContainer, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, abilityListScrollbar, FRAMEEVENT_MOUSE_WHEEL)
-        TriggerAddAction(trig, function()
-            if BlzGetTriggerFrameValue() > 0.0 then
-                BlzFrameSetValue(abilityListScrollbar, BlzFrameGetValue(abilityListScrollbar) + 1)
-            elseif BlzGetTriggerFrameValue() < 0.0 then
-                BlzFrameSetValue(abilityListScrollbar, BlzFrameGetValue(abilityListScrollbar) - 1)
-            end
-        end)
-
-
-
-        -----------------------------
-        local heroListItem = BlzCreateFrame("QuestListItem", abilityListContainer, 0, 0)
-        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
-        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
-        local heroListItemHeight = 0.035
-        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
-        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
-
-        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
-        local heroListItemIconWidth = 0.035
-        local heroListItemIconHeight = 0.035
-        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
-        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
-        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNWindWalkOn.blp", 0, true)
-
-        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
-        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
-        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
-        local heroListItemButtonHeight = 0.035
-        BlzFrameClearAllPoints(heroListItemButton)
-        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
-        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
-
-        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
-        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
-        BlzFrameSetText(heroListItemButtonText, "Shadow Walk")
-        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
-
-        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
-        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
-        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
-        BlzFrameClearAllPoints(heroListItemButtonStatusText)
-        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
-        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
-        BlzFrameSetText(heroListItemButtonStatusText, "")
-        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
-
-
-
-        BlzTriggerRegisterFrameEvent(trig, heroListItem, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemIcon, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemButton, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonText, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonStatusText, FRAMEEVENT_MOUSE_WHEEL)
-
-
-
-        local heroListItem = BlzCreateFrame("QuestListItem", abilityListContainer, 0, 0)
-        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
-        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
-        local heroListItemHeight = 0.035
-        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
-        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT,  0.0, -1 * (heroListItemHeight + heroListItemStepOffset))
-
-        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
-        local heroListItemIconWidth = 0.035
-        local heroListItemIconHeight = 0.035
-        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
-        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
-        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNMirrorImage.blp", 0, true)
-
-        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
-        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
-        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
-        local heroListItemButtonHeight = 0.035
-        BlzFrameClearAllPoints(heroListItemButton)
-        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
-        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
-
-        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
-        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
-        BlzFrameSetText(heroListItemButtonText, "Mirror Image")
-        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
-
-        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
-        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
-        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
-        BlzFrameClearAllPoints(heroListItemButtonStatusText)
-        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
-        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
-        BlzFrameSetText(heroListItemButtonStatusText, "")
-        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
-
-
-
-        BlzTriggerRegisterFrameEvent(trig, heroListItem, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemIcon, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemButton, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonText, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonStatusText, FRAMEEVENT_MOUSE_WHEEL)
-
-
-
-        local heroListItem = BlzCreateFrame("QuestListItem", abilityListContainer, 0, 0)
-        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
-        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
-        local heroListItemHeight = 0.035
-        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
-        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT,  0.0, -2 * (heroListItemHeight + heroListItemStepOffset))
-
-        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
-        local heroListItemIconWidth = 0.035
-        local heroListItemIconHeight = 0.035
-        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
-        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
-        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNCriticalStrike.blp", 0, true)
-
-        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
-        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
-        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
-        local heroListItemButtonHeight = 0.035
-        BlzFrameClearAllPoints(heroListItemButton)
-        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
-        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
-
-        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
-        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
-        BlzFrameSetText(heroListItemButtonText, "Critical Strike")
-        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
-
-        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
-        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
-        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
-        BlzFrameClearAllPoints(heroListItemButtonStatusText)
-        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
-        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
-        BlzFrameSetText(heroListItemButtonStatusText, "")
-        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
-
-
-
-        BlzTriggerRegisterFrameEvent(trig, heroListItem, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemIcon, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemButton, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonText, FRAMEEVENT_MOUSE_WHEEL)
-        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonStatusText, FRAMEEVENT_MOUSE_WHEEL)
-
-        -----------------------------
-        -----------------------------
-
-
-
-        -- Ability description container initialization:
-        local abilityDescriptionContainer = BlzCreateFrameByType("FRAME", "", heroPickDialog, "", 0)
-        BlzFrameSetSize(abilityDescriptionContainer, 0.2085, 0.11)
-        --BlzFrameSetPoint(abilityDescriptionContainer, FRAMEPOINT_TOPRIGHT, heroDescriptionContainer, FRAMEPOINT_BOTTOMRIGHT, 0.0, -0.026375)
-        BlzFrameSetPoint(abilityDescriptionContainer, FRAMEPOINT_TOPRIGHT, heroDescriptionContainer, FRAMEPOINT_BOTTOMRIGHT, 0.0, -0.020)
-
-        local abilityDescriptionTitle = BlzCreateFrameByType("TEXT", "", abilityDescriptionContainer, "EscMenuLabelTextTemplate", 0)
-        BlzFrameSetPoint(abilityDescriptionTitle, FRAMEPOINT_BOTTOMLEFT, abilityDescriptionContainer, FRAMEPOINT_TOPLEFT, 0.003, 0.002)
-        BlzFrameSetPoint(abilityDescriptionTitle, FRAMEPOINT_BOTTOMLEFT, abilityDescriptionContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
-        BlzFrameSetText(abilityDescriptionTitle, "Описание способности:")
-        BlzFrameSetTextColor(abilityDescriptionTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
-
-        local abilityDescriptionTextArea = BlzCreateFrameByType("TEXTAREA", "", abilityDescriptionContainer, "EscMenuTextAreaTemplate", 0)
-        BlzFrameSetAllPoints(abilityDescriptionTextArea, abilityDescriptionContainer)
-        BlzFrameAddText(abilityDescriptionTextArea, "Some text can be here. Some text can be here. Some text can be here.")
-
-
-
-        -- Chat log container initialization:
-        local chatLogContainer = BlzCreateFrameByType("FRAME", "", heroPickDialog, "", 0)
-        BlzFrameSetSize(chatLogContainer, 0.42, 0.11)
-        --BlzFrameSetPoint(chatLogContainer, FRAMEPOINT_TOPRIGHT, abilityDescriptionContainer, FRAMEPOINT_BOTTOMRIGHT, 0.0, -0.026375)
-        BlzFrameSetPoint(chatLogContainer, FRAMEPOINT_TOPRIGHT, abilityDescriptionContainer, FRAMEPOINT_BOTTOMRIGHT, 0.0, -0.020)
-        BlzFrameSetPoint(chatLogContainer, FRAMEPOINT_TOPLEFT, abilityListContainer, FRAMEPOINT_BOTTOMLEFT, 0.0, -0.020)
-
-        local chatLogTitle = BlzCreateFrameByType("TEXT", "", chatLogContainer, "EscMenuLabelTextTemplate", 0)
-        BlzFrameSetPoint(chatLogTitle, FRAMEPOINT_BOTTOMLEFT, chatLogContainer, FRAMEPOINT_TOPLEFT, 0.003, 0.002)
-        BlzFrameSetPoint(chatLogTitle, FRAMEPOINT_BOTTOMLEFT, chatLogContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
-        BlzFrameSetText(chatLogTitle, "Журнал сообщений:")
-        BlzFrameSetTextColor(chatLogTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
-
-        local chatLogTextArea = BlzCreateFrameByType("TEXTAREA", "", chatLogContainer, "EscMenuTextAreaTemplate", 0)
-        BlzFrameSetAllPoints(chatLogTextArea, chatLogContainer)
-
-        BlzFrameAddText(chatLogTextArea, "|cff32CD32HINT|r – Выбор правильного персонажа поможет вам проще пройти игру. Обратите внимание на то, чтобы в вашей команде был хотя бы один герой из каждого класса.")
-        BlzFrameAddText(chatLogTextArea, " ")
-        BlzFrameAddText(chatLogTextArea, "|cFFFF0303scopterectus|r: привет, модмейкеры!")
-        BlzFrameAddText(chatLogTextArea, "|cFFFE8A0EBergi-bear|r: ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо!")
-        BlzFrameAddText(chatLogTextArea, "|cFFFE8A0EBergi-bear|r: Peony i translit rulit!! )))]]]")
-        BlzFrameAddText(chatLogTextArea, "|cFFFF0303scopterectus|r: ну всё, я обиделся...............")
-
-        local chatLogEditBox = BlzCreateFrameByType("EDITBOX", "", chatLogContainer, "EscMenuEditBoxTemplate", 0)
-        BlzFrameSetSize(chatLogEditBox, 0.42, 0.04)
-        BlzFrameSetPoint(chatLogEditBox, FRAMEPOINT_TOPRIGHT, chatLogTextArea, FRAMEPOINT_BOTTOMRIGHT, 0.0, -0.0010)
-        BlzFrameSetPoint(chatLogEditBox, FRAMEPOINT_TOPLEFT, chatLogTextArea, FRAMEPOINT_BOTTOMLEFT, 0.0, -0.0010)
-
-
-
-        -- Exit button initialization:
-        local okButton = BlzCreateFrame("MapStandardButton", heroPickDialog, 0, 0)
-        BlzFrameSetSize(okButton, 0.129, BlzFrameGetHeight(okButton))
-        BlzFrameSetPoint(okButton, FRAMEPOINT_BOTTOMLEFT, heroPickDialog, FRAMEPOINT_BOTTOM, 0.003, 0.03)
-
-        local okButtonText = BlzGetFrameByName("MapStandardButtonText", 0)
-        BlzFrameSetText(okButtonText, "OK")
-
-        local tempButton = BlzCreateFrame("MapStandardButton", heroPickDialog, 0, 0)
-        BlzFrameSetSize(tempButton, 0.129, BlzFrameGetHeight(tempButton))
-        BlzFrameSetPoint(tempButton, FRAMEPOINT_TOPRIGHT, okButton, FRAMEPOINT_TOPLEFT, -0.006, 0.0)
-        BlzFrameSetEnable(tempButton, false)
-
-        local tempButtonText = BlzGetFrameByName("MapStandardButtonText", 0)
-        BlzFrameSetText(tempButtonText, "Cancel")
-
-        local trg = CreateTrigger()
-        BlzTriggerRegisterFrameEvent(trg, okButton, FRAMEEVENT_CONTROL_CLICK)
-        TriggerAddAction(trg, function()
-            if GetLocalPlayer() == GetTriggerPlayer() then
-                BlzFrameSetVisible(heroPickDialog, false)
-            end
-        end)
-    end
-
-}
-
-function Hero.getByPlayer(whichPlayer)
-    return Hero[whichPlayer]
-end
-
-function HeroPick.displayHint()
-    local snd = CreateSoundFromLabel("Hint", false, false, false, 10000, 10000)
-    local hint = "Choose the right character for your game. " ..
-        "To complete the game, your team must have at least one hero from each class. " ..
-        "For more information, click on the tavern you are interested in."
-
-    DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 9.0, " ")
-    DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 9.0, "|cff32CD32HINT|r – " .. hint)
-    StartSound(snd)
-    KillSoundWhenDone(snd)
-end
-
-function HeroPick.initializeTavernPick()
-    local soldUnit = GetSoldUnit()
-    local owner = GetOwningPlayer(soldUnit)
-
-    for _, value in pairs(Team.defensiveForce) do
-        SetPlayerTechMaxAllowed(value, GetUnitTypeId(soldUnit), IntegerTertiaryOp(value == owner, 1, 0))
-    end
-
-    UnitModifySkillPoints(soldUnit, -1)
-    SetUnitX(soldUnit, HeroPick.getSpawnX(owner))
-    SetUnitY(soldUnit, HeroPick.getSpawnY(owner))
-    SetUnitFacing(soldUnit, HeroPick.getSpawnFacing(owner))
-    SetUnitState(soldUnit, UNIT_STATE_LIFE, BlzGetUnitMaxHP(soldUnit))
-    SetUnitState(soldUnit, UNIT_STATE_MANA, BlzGetUnitMaxMana(soldUnit))
-    BlzSetHeroProperName(soldUnit, GetPlayerName(owner))
-
-    if GetLocalPlayer() == owner then
-        ClearSelection()
-        ClearTextMessages()
-        SelectUnit(soldUnit, true)
-        BlzFrameSetVisible(topMsg, false)
-        SetCameraPosition(GetUnitX(soldUnit), GetUnitY(soldUnit))
-    end
-end
-
-HeroRevive = {
-
-    onPlayerUnitDeath = function()
-        local dyingUnit = GetDyingUnit()
-
-        if IsUnitType(dyingUnit, UNIT_TYPE_HERO) then
-            local dyingUnitX = GetUnitX(dyingUnit)
-            local dyingUnitY = GetUnitY(dyingUnit)
-            local grave = CreateUnit(GetOwningPlayer(dyingUnit), HeroRevive.graveTypeId, dyingUnitX, dyingUnitY, 0.0)
-            local timer = CreateTimer()
-            local graveLife = 1.0
-
-            SetWidgetLife(grave, 1.0)
-            SetUnitPathing(grave, false)
-            BlzSetUnitName(grave, GetHeroProperName(dyingUnit))
-
-            if IsUnitSelected(dyingUnit, GetLocalPlayer()) then
-                SelectUnit(dyingUnit, false)
-                SelectUnit(grave, true)
-            end
-
-            TimerStart(timer, 0.1, true, function()
-                local curLife = GetWidgetLife(grave)
-
-                if curLife < 100.0 then
-                    if curLife > graveLife then
-                        graveLife = curLife
-                    elseif curLife <= graveLife then
-                        graveLife = 1.0
-                        SetWidgetLife(grave, 1.0)
-                    end
-
-                else
-                    ReviveHero(dyingUnit, dyingUnitX, dyingUnitY, true)
-                    SetUnitState(dyingUnit, UNIT_STATE_LIFE, BlzGetUnitMaxHP(dyingUnit))
-                    SetUnitState(dyingUnit, UNIT_STATE_MANA, BlzGetUnitMaxMana(dyingUnit))
-
-                    if IsUnitSelected(grave, GetLocalPlayer()) then
-                        SelectUnit(grave, false)
-                        SelectUnit(dyingUnit, true)
-                    end
-
-                    RemoveUnit(grave)
-                    PauseTimer(timer)
-                    DestroyTimer(timer)
-                end
-            end)
-        end
-    end,
-
-    initialize = function()
-        HeroRevive.trigger = CreateTrigger()
-        HeroRevive.graveTypeId = FourCC('h003')
-
-        TriggerAddAction(HeroRevive.trigger, onPlayerUnitDeath)
-        ForForce(Force.heroOwnerPlayers, function()
-            TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, GetEnumPlayer(), EVENT_PLAYER_UNIT_DEATH, nil)
-        end)
-    end
-
-}
-
-SkillPoints = {
-
-    onPlayerHeroLevel = function()
-        local hero = GetLevelingUnit()
-        local level = GetHeroLevel(hero)
-
-        if level == 1 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 2 then
-            UnitModifySkillPoints(hero, 0) -- 1
-        elseif level == 3 then
-            UnitModifySkillPoints(hero, 0) -- 1
-        elseif level == 4 then
-            UnitModifySkillPoints(hero, 1) -- 2
-        elseif level == 5 then
-            UnitModifySkillPoints(hero, 0) -- 1
-        elseif level == 6 then
-            UnitModifySkillPoints(hero, 2) -- 3
-        elseif level == 7 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 8 then
-            UnitModifySkillPoints(hero, 1)
-        elseif level == 9 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 10 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 11 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 12 then
-            UnitModifySkillPoints(hero, 2)
-        elseif level == 13 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 14 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 15 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 16 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 17 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 18 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 19 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 20 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 21 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 22 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 23 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 24 then
-            UnitModifySkillPoints(hero, 0)
-        elseif level == 25 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 26 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 27 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 28 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 29 then
-            UnitModifySkillPoints(hero, -1) -- empty
-        elseif level == 30 then
-            UnitModifySkillPoints(hero, 0)
-        end
-    end,
-
-    initialize = function()
-        SkillPoints.trigger = CreateTrigger()
-
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x02), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x03), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x04), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x05), EVENT_PLAYER_HERO_LEVEL, nil)
-        TriggerAddAction(SkillPoints.trigger, SkillPoints.onPlayerHeroLevel)
-    end
-
-}
+DEBUG_MODE = true
+
+MAP_NAME = "Mok: Hero Defense"
+MAP_VERSION = "1.0"
+MAP_HIDDEN_X = 0.0
+MAP_HIDDEN_Y = 0.0
+MAP_HIDDEN_Z = 0.0
+
+UNIT_MAX_COLLISION_SIZE = 197.0
 
 InitGlobals = function()
 
@@ -1328,53 +487,6 @@ InitGlobals = function()
         print("DEBUG_MODE: all game data has been initialized.")
     end
 end
-
-Peon = {
-
-    protectTarget = function(target)
-    end,
-
-    restoreAll = function()
-    end,
-
-    setInvulnerableAll = function(flag)
-        SetUnitInvulnerable(u, flag)
-    end,
-
-    remove = function(u)
-    end,
-
-    create = function(x, y, face)
-        return CreateUnit(Player(0x16), FourCC("opeo"), x, y, face)
-    end,
-
-    initialize = function()
-        Peon.id = FourCC("peon")
-        Peon.owner = Force.getPeonOwnerPlayer()
-        Peon.group = CreateGroup()
-    end
-
-}
-
-PeonsBurrow = {
-
-    restore = function(u)
-    end,
-
-    setInvulnerable = function(u, flag)
-        SetUnitInvulnerable(u, flag)
-    end,
-
-    create = function(x, y, face)
-    end,
-
-    initialize = function()
-        PeonsBurrow.id = FourCC("pbrw")
-        PeonsBurrow.owner = Force.getPeonOwnerPlayer()
-        PeonsBurrow.group = CreateGroup()
-    end
-
-}
 
 do
     PowerUp = { }
@@ -1613,82 +725,15 @@ do
 
 end
 
-SentryWard = {
+Ai = {
 
-    create = function(x, y, face)
-        return CreateUnit(SentryWard.owner, SentryWard.id, x, y, face)
+    start = function(forPlayer)
     end,
 
     initialize = function()
-        SentryWard.id = FourCC("swrd")
-        SentryWard.owner = Force.getPeonOwnerPlayer()
-        SentryWard.group = CreateGroup()
-    end
-
-}
-
-TOC = {
-
-    initialize = function()
-        if BlzLoadTOCFile("UI\\FrameDef\\FrameDef.toc") then
-            if DEBUG_MODE then
-                print("DEBUG_MODE: the TOC library has been initialized.")
-            end
+        if DEBUG_MODE then
+            print("DEBUG_MODE: the Ai library has been initialized.")
         end
-    end
-
-}
-
-WatchTower = {
-
-    setInvulnerable = function(u, flag)
-        SetUnitInvulnerable(u, flag)
-        SetUnitVertexColor(u, 0xFF, 0xFF, 0xFF, IntegerTertiaryOp(flag, 0xA0, 0xFF))
-    end,
-
-    setInvulnerableAll = function(flag)
-        ForGroup(WatchTower.group, function()
-            WatchTower.setInvulnerable(GetEnumUnit(), flag)
-        end)
-    end,
-
-    restore = function(u)
-        if not UnitAlive(u) then
-            ReviveUnit(u)
-        end
-
-        SetUnitState(u, UNIT_STATE_LIFE, BlzGetUnitMaxHP(u))
-        SetUnitState(u, UNIT_STATE_MANA, BlzGetUnitMaxMana(u))
-        DestroyEffect(AddSpecialEffectTarget("", u,"origin"))
-    end,
-
-    restoreAll = function()
-        ForGroup(WatchTower.group, function()
-            WatchTower.restore(GetEnumUnit())
-        end)
-    end,
-
-    create = function(x, y)
-        local unit = CreateUnit(WatchTower.owner, WatchTower.id, x, y, bj_UNIT_FACING)
-        GroupAddUnit(WatchTower.group, unit)
-        CreateMinimapIconOnUnit(unit, 0xFF, 0xFF, 0xFF, "UI\\MiniMap\\minimap-neutralbuilding.mdx", FOG_OF_WAR_VISIBLE)
-
-        local splat = CreateUbersplat(x, y, "OLAR", 0xFF, 0xFF, 0xFF, 0xFF, true, true)
-        SetUbersplatRenderAlways(splat, true)
-
-        return unit
-    end,
-
-    createAll = function()
-        WatchTower.create(0.0, 0.0)
-    end,
-
-    initialize = function()
-        WatchTower.id = FourCC("t000")
-        WatchTower.owner = Force.getPeonOwnerPlayer()
-        WatchTower.group = CreateGroup()
-
-        WatchTower.createAll()
     end
 
 }
@@ -2415,233 +1460,1045 @@ TimerStart(CreateTimer(), 0.0, false, function()
     QuestSetCompleted(bj_lastCreatedQuest, false)
 end)
 
---[[
-COLOR
-if     i ==  0 then return "|cFFFF0303" .. s .. "|r"
-elseif i ==  1 then return "|cFF0042FF" .. s .. "|r"
-elseif i ==  2 then return "|cFF1CE6B9" .. s .. "|r"
-elseif i ==  3 then return "|cFF540081" .. s .. "|r"
-elseif i ==  4 then return "|cFFFFFF01" .. s .. "|r"
-elseif i ==  5 then return "|cFFFE8A0E" .. s .. "|r"
-elseif i ==  6 then return "|cFF20C000" .. s .. "|r"
-elseif i ==  7 then return "|cFFE55BB0" .. s .. "|r"
-elseif i ==  8 then return "|cff959697" .. s .. "|r"
-elseif i ==  9 then return "|cFF7EBFF1" .. s .. "|r"
-elseif i == 10 then return "|cFF106246" .. s .. "|r"
-elseif i == 11 then return "|cFF4E2A04" .. s .. "|r"
-elseif i == 12 then return "|cFF282828" .. s .. "|r"
-elseif i == 13 then return "|cFF282828" .. s .. "|r"
-elseif i == 14 then return "|cFF282828" .. s .. "|r"
-elseif i == 15 then return "|cFF282828" .. s .. "|r"
-elseif i >= 16 then return "|cFFFFFFFF" .. s .. "|r"
+Force = {
+
+    getMokkOwnerPlayer = function()
+        return Player(0x00)
+    end,
+
+    getPeonOwnerPlayer = function()
+        return Player(0x16)
+    end,
+
+    initialize = function()
+        -- Native Force API:
+        -- function CreateForce() end
+        -- function DestroyForce(whichForce) end
+        -- function ForceAddPlayer(whichForce, whichPlayer) end
+        -- function ForceRemovePlayer(whichForce, whichPlayer) end
+        -- function BlzForceHasPlayer(whichForce, whichPlayer) end
+        -- function ForceClear(whichForce) end
+        -- function ForceEnumPlayers(whichForce, filter) end
+        -- function ForceEnumPlayersCounted(whichForce, filter, countLimit) end
+        -- function ForceEnumAllies(whichForce, whichPlayer, filter) end
+        -- function ForceEnumEnemies(whichForce, whichPlayer, filter) end
+        -- function ForForce(whichForce, callback) end
+
+        -- Initialize offensive players:
+        Force.offensivePlayers = CreateForce()
+        ForceAddPlayer(Force.offensivePlayers, Player(0x00))
+
+        -- Initialize defensive players:
+        Force.defensivePlayers = CreateForce()
+        ForceAddPlayer(Force.defensivePlayers, Player(0x02))
+        ForceAddPlayer(Force.defensivePlayers, Player(0x03))
+        ForceAddPlayer(Force.defensivePlayers, Player(0x04))
+        ForceAddPlayer(Force.defensivePlayers, Player(0x05))
+        ForceAddPlayer(Force.defensivePlayers, Player(0x16))
+
+        -- Initialize hero owner players:
+        Force.heroOwnerPlayers = CreateForce()
+        ForceAddPlayer(Force.heroOwnerPlayers, Player(0x02))
+        ForceAddPlayer(Force.heroOwnerPlayers, Player(0x03))
+        ForceAddPlayer(Force.heroOwnerPlayers, Player(0x04))
+        ForceAddPlayer(Force.heroOwnerPlayers, Player(0x05))
+
+        -- Initialize peon owner players:
+        Force.peonOwnerPlayers = CreateForce()
+        ForceAddPlayer(Force.peonOwnerPlayers, Player(0x00))
+
+        -- Initialize all players:
+        Force.allMapPlayers = CreateForce()
+        ForceAddPlayer(Force.allMapPlayers, Player(0x00))
+        ForceAddPlayer(Force.allMapPlayers, Player(0x02))
+        ForceAddPlayer(Force.allMapPlayers, Player(0x03))
+        ForceAddPlayer(Force.allMapPlayers, Player(0x04))
+        ForceAddPlayer(Force.allMapPlayers, Player(0x05))
+        ForceAddPlayer(Force.allMapPlayers, Player(0x16))
+
+        SetPlayerOnScoreScreen(Player(0x00), false)
+        SetPlayerOnScoreScreen(Player(0x16), false)
+
+        if DEBUG_MODE then
+            print("DEBUG_MODE: the Force library has been initialized.")
+        end
+    end
+
+}
+
+Game = {
+
+    startDefeat = function()
+    end,
+
+    startVictory = function()
+    end,
+
+    setStartingVisibility = function()
+        FogEnable(true)
+        FogMaskEnable(true)
+    end,
+
+    setStartingResources = function()
+    end,
+
+    createStartingUnits = function()
+        for _, value in pairs(Team.computerForce) do
+            local id = GetPlayerId(value)
+            local startLocX = GetStartLocationX(id)
+            local startLocY = GetStartLocationY(id)
+
+            local unitSpacing = 64.00
+            local peonX = startLocX
+            local peonY = startLocY - 224.00
+
+            --  Spawn Great Hall at the start location.
+            CreateUnit(value, FourCC("o002"), startLocX, startLocY, bj_UNIT_FACING)
+
+            --  Spawn Peons directly south of the town hall.
+            CreateUnit(value, FourCC("opeo"), peonX + 2.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
+            CreateUnit(value, FourCC("opeo"), peonX + 1.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
+            CreateUnit(value, FourCC("opeo"), peonX + 0.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
+            CreateUnit(value, FourCC("opeo"), peonX - 1.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
+            CreateUnit(value, FourCC("opeo"), peonX - 2.00 * unitSpacing, peonY + 0.00 * unitSpacing, bj_UNIT_FACING)
+        end
+    end,
+
+    setStartingHeroLimit = function()
+    end,
+
+    setPlayerAllianceStateAlly = function(sourcePlayer, otherPlayer, flag)
+        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_PASSIVE, flag)
+        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_HELP_REQUEST, flag)
+        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_HELP_RESPONSE, flag)
+        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_XP, flag)
+        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_SPELLS, flag)
+        SetPlayerAlliance(sourcePlayer, otherPlayer, ALLIANCE_SHARED_VISION, flag)
+    end,
+    
+    setAllPlayersAlliance = function()
+        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x02), false)
+        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x03), false)
+        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x04), false)
+        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x05), false)
+        Game.setPlayerAllianceStateAlly(Player(0x00), Player(0x16), false)
+
+        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x00), false)
+        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x00), false)
+        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x00), false)
+        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x00), false)
+        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x00), false)
+        
+        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x03), true)
+        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x04), true)
+        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x05), true)
+        Game.setPlayerAllianceStateAlly(Player(0x02), Player(0x16), true)
+
+        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x02), true)
+        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x04), true)
+        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x05), true)
+        Game.setPlayerAllianceStateAlly(Player(0x03), Player(0x16), true)
+
+        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x02), true)
+        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x03), true)
+        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x05), true)
+        Game.setPlayerAllianceStateAlly(Player(0x04), Player(0x16), true)
+
+        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x02), true)
+        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x03), true)
+        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x04), true)
+        Game.setPlayerAllianceStateAlly(Player(0x05), Player(0x16), true)
+
+        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x02), true)
+        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x03), true)
+        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x04), true)
+        Game.setPlayerAllianceStateAlly(Player(0x16), Player(0x05), true)
+    end,
+
+    setCameraBounds = function()
+        local marginX = 1024.0 + 512.0 + 512.0
+        local marginY = 1024.0 + 512.0 + 256.0
+
+        local maxX = GetRectMaxX(GetWorldRect())
+        local minX = GetRectMinX(GetWorldRect())
+        local maxY = GetRectMaxY(GetWorldRect())
+        local minY = GetRectMinY(GetWorldRect())
+
+        SetCameraBounds(
+            minX + marginX,
+            minY + marginY,
+            maxX - marginX,
+            maxY - marginY,
+            minX + marginX,
+            maxY - marginY,
+            maxX - marginX,
+            minY + marginY
+        )
+    end,
+
+    setCameraTargetDistance = function()
+        local cameraDist = 1785.0
+
+        SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, cameraDist, 0.0)
+
+        TimerStart(CreateTimer(), 0.001, true, function()
+            SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, cameraDist, 0.0)
+        end)
+    end,
+
+    initialize = function()
+        --[[
+        Game.setStartingVisibility()
+        Game.setStartingResources()
+        Game.setStartingHeroLimit()
+
+
+        Game.setCameraTargetDistance()
+        Game.createStartingUnits()
+        ]]
+
+        Game.setCameraBounds()
+        Game.setAllPlayersAlliance()
+
+        if DEBUG_MODE then
+            print("DEBUG_MODE: the Game library has been initialized.")
+        end
+    end
+
+}
+
+function displayTopMsg(msg)
+    local frame = BlzCreateFrameByType("TEXT", "", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "", 0)
+
+    BlzFrameSetPoint(frame, FRAMEPOINT_TOP, BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), FRAMEPOINT_TOP, 0.0, -0.0195)
+    BlzFrameSetText(frame, msg)
+    BlzFrameSetScale(frame, 2.6)
+    BlzFrameSetVisible(frame, true)
+end
+
+Peon = {
+
+    protectTarget = function(target)
+    end,
+
+    restoreAll = function()
+    end,
+
+    setInvulnerableAll = function(flag)
+        SetUnitInvulnerable(u, flag)
+    end,
+
+    remove = function(u)
+    end,
+
+    create = function(x, y, face)
+        return CreateUnit(Player(0x16), FourCC("opeo"), x, y, face)
+    end,
+
+    initialize = function()
+        Peon.id = FourCC("peon")
+        Peon.owner = Force.getPeonOwnerPlayer()
+        Peon.group = CreateGroup()
+    end
+
+}
+
+PeonsBurrow = {
+
+    restore = function(u)
+    end,
+
+    setInvulnerable = function(u, flag)
+        SetUnitInvulnerable(u, flag)
+    end,
+
+    create = function(x, y, face)
+    end,
+
+    initialize = function()
+        PeonsBurrow.id = FourCC("pbrw")
+        PeonsBurrow.owner = Force.getPeonOwnerPlayer()
+        PeonsBurrow.group = CreateGroup()
+    end
+
+}
+
+SentryWard = {
+
+    create = function(x, y, face)
+        return CreateUnit(SentryWard.owner, SentryWard.id, x, y, face)
+    end,
+
+    initialize = function()
+        SentryWard.id = FourCC("swrd")
+        SentryWard.owner = Force.getPeonOwnerPlayer()
+        SentryWard.group = CreateGroup()
+    end
+
+}
+
+WatchTower = {
+
+    setInvulnerable = function(u, flag)
+        SetUnitInvulnerable(u, flag)
+        SetUnitVertexColor(u, 0xFF, 0xFF, 0xFF, IntegerTertiaryOp(flag, 0xA0, 0xFF))
+    end,
+
+    setInvulnerableAll = function(flag)
+        ForGroup(WatchTower.group, function()
+            WatchTower.setInvulnerable(GetEnumUnit(), flag)
+        end)
+    end,
+
+    restore = function(u)
+        if not UnitAlive(u) then
+            ReviveUnit(u)
+        end
+
+        SetUnitState(u, UNIT_STATE_LIFE, BlzGetUnitMaxHP(u))
+        SetUnitState(u, UNIT_STATE_MANA, BlzGetUnitMaxMana(u))
+        DestroyEffect(AddSpecialEffectTarget("", u,"origin"))
+    end,
+
+    restoreAll = function()
+        ForGroup(WatchTower.group, function()
+            WatchTower.restore(GetEnumUnit())
+        end)
+    end,
+
+    create = function(x, y)
+        local unit = CreateUnit(WatchTower.owner, WatchTower.id, x, y, bj_UNIT_FACING)
+        GroupAddUnit(WatchTower.group, unit)
+        CreateMinimapIconOnUnit(unit, 0xFF, 0xFF, 0xFF, "UI\\MiniMap\\minimap-neutralbuilding.mdx", FOG_OF_WAR_VISIBLE)
+
+        local splat = CreateUbersplat(x, y, "OLAR", 0xFF, 0xFF, 0xFF, 0xFF, true, true)
+        SetUbersplatRenderAlways(splat, true)
+
+        return unit
+    end,
+
+    createAll = function()
+        WatchTower.create(0.0, 0.0)
+    end,
+
+    initialize = function()
+        WatchTower.id = FourCC("t000")
+        WatchTower.owner = Force.getPeonOwnerPlayer()
+        WatchTower.group = CreateGroup()
+
+        WatchTower.createAll()
+    end
+
+}
+
+Blademaster = {
+
+    preload = function()
+    end,
+
+    initialize = function()
+    end
+
+}
+HeroExperience = {
+
+    initialize = function()
+        HeroExperience.trigger = CreateTrigger()
+        HeroExperience.group = CreateGroup()
+
+        ForForce(Force.heroOwnerPlayers, function()
+            SetPlayerHandicapXP(GetEnumPlayer(), 0.0)
+        end)
+
+        ForForce(Force.offensivePlayers, function()
+            TriggerRegisterPlayerUnitEvent(HeroExperience.trigger, GetEnumPlayer(), EVENT_PLAYER_UNIT_DEATH, nil)
+        end)
+
+        TriggerAddAction(HeroExperience.trigger, function()
+            local dyingUnit = GetDyingUnit()
+            local dyingUnitX = GetUnitX(dyingUnit)
+            local dyingUnitY = GetUnitY(dyingUnit)
+            local killingUnit = GetKillingUnit()
+
+            local life = BlzGetUnitMaxHP(dyingUnit)
+            local mana = BlzGetUnitMaxMana(dyingUnit)
+            local level = GetUnitLevel(dyingUnit)
+            local exp = math.ceil(2 * ((life + mana) * level) ^ 0.5)
+
+            GroupClear(HeroExperience.group)
+            GroupEnumUnitsInRange(HeroExperience.group, dyingUnitX, dyingUnitY, 1200.0 + UNIT_MAX_COLLISION_SIZE, nil)
+            ForGroup(HeroExperience.group, function()
+                local enumUnit = GetEnumUnit()
+
+                if
+                    IsUnitAlly(enumUnit, GetOwningPlayer(killingUnit)) and
+                    IsUnitType(enumUnit, UNIT_TYPE_HERO) and
+                    IsUnitInRangeXY(enumUnit, dyingUnitX, dyingUnitY, 1200.0)
+                then
+                    AddHeroXP(enumUnit, exp, true)
+                end
+            end)
+        end)
+    end
+
+}
+
+HERO_BLADEMASTER_TYPE_ID = FourCC("H000")
+HERO_BANSHEE_RANGER_TYPE_ID = FourCC("H001")
+HERO_WARDEN_TYPE_ID = FourCC("H002")
+HERO_DEMON_HUNTER_TYPE_ID = FourCC("H003")
+HERO_TAUREN_CHIEFTAIN_TYPE_ID = FourCC("H004")
+HERO_SHADOW_HUNTER_TYPE_ID = FourCC("H005")
+HERO_PANDAREN_BREWMASTER_TYPE_ID = FourCC("H006")
+HERO_FARSEER_TYPE_ID = FourCC("H007")
+HERO_BEASTMASTER_TYPE_ID = FourCC("H008")
+HERO_CRYPT_LORD_TYPE_ID = FourCC("H009")
+HERO_DREAD_LORD_TYPE_ID = FourCC("H00:")
+HERO_FLAME_LORD_TYPE_ID = FourCC("H00;")
+HERO_LICH_TYPE_ID = FourCC("H00<")
+HERO_PRIESTESS_OF_THE_MOON_TYPE_ID = FourCC("H00=")
+HERO_TINKER_TYPE_ID = FourCC("H00>")
+HERO_ALCHEMIST_TYPE_ID = FourCC("H00?")
+HERO_ELDER_DRANAI_TYPE_ID = FourCC("H00@")
+HERO_NAGA_TYPE_ID = FourCC("H00A")
+HERO_ADMIRAL_TYPE_ID = FourCC("H00B")
+HERO_ARCH_MAGE_TYPE_ID = FourCC("H00C")
+HERO_MOUNTAIN_KING_TYPE_ID = FourCC("H00D")
+HERO_TRACKER_TYPE_ID = FourCC("H00E")
+HERO_BLOOD_ELF_TYPE_ID = FourCC("H00F")
+HERO_PALADIN_TYPE_ID = FourCC("H00G")
+HERO_DREAD_KNIGHT_TYPE_ID = FourCC("H00H")
+HERO_ARCH_MAGE_TYPE_ID = FourCC("H00I")
+
+Hero = { }
+HeroPick = {
+
+    getSpawnX = function()
+        return 5360.0
+    end,
+
+    getSpawnY = function()
+        return -6300.0
+    end,
+
+    getSpawnFacing = function()
+        return bj_UNIT_FACING
+    end,
+
+    initialize = function()
+        --BlzHideOriginFrames(true)
+        --PauseGame(true)
+
+        -- Hero pick dialog initialization: 0.48 - 0.2085 * 2 - 0.030 * 2
+        local heroPickDialog = BlzCreateFrameByType("FRAME", "", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "", 0)
+        BlzFrameSetSize(heroPickDialog, 0.497, 0.6)
+        BlzFrameSetPoint(heroPickDialog, FRAMEPOINT_CENTER, BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), FRAMEPOINT_CENTER, 0.0, 0.0)
+
+        local heroPickDialogBackdrop = BlzCreateFrameByType("BACKDROP", "", heroPickDialog, "EscMenuBackdrop", 0)
+        BlzFrameSetAllPoints(heroPickDialogBackdrop, heroPickDialog)
+        BlzFrameSetText(heroPickDialogBackdrop, "webui\\versusmenu\\orc-beta-bg.jpg")
+
+        local heroPickDialogTitle = BlzCreateFrameByType("TEXT", "", heroPickDialog, "EscMenuLabelTextTemplate", 0)
+        BlzFrameSetPoint(heroPickDialogTitle, FRAMEPOINT_TOP, heroPickDialog, FRAMEPOINT_TOP, 0.0, -0.03)
+        BlzFrameSetText(heroPickDialogTitle, "Mokk: Hero Defense")
+        BlzFrameSetTextColor(heroPickDialogTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
+
+        local heroPickDialogSubtitle = BlzCreateFrameByType("TEXT", "", heroPickDialog, "EscMenuTitleTextTemplate", 0)
+        BlzFrameSetPoint(heroPickDialogSubtitle, FRAMEPOINT_TOP, heroPickDialogTitle, FRAMEPOINT_BOTTOM, 0.0, -0.002)
+        BlzFrameSetText(heroPickDialogSubtitle, "Выберите себе героя")
+        BlzFrameSetTextColor(heroPickDialogSubtitle, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
+
+
+
+        -- Hero list container initialization:
+        local heroListContainer = BlzCreateFrameByType("LISTBOX", "", heroPickDialog, "", 0)
+        local heroListContainerWidth = 0.2085
+        local heroListContainerHeight = 0.11
+        BlzFrameSetSize(heroListContainer, heroListContainerWidth, heroListContainerHeight)
+        BlzFrameSetPoint(heroListContainer, FRAMEPOINT_TOPLEFT, heroPickDialog, FRAMEPOINT_TOPLEFT,  0.030, -0.080)
+
+        local heroListTitle = BlzCreateFrameByType("TEXT", "", heroListContainer, "EscMenuLabelTextTemplate", 0)
+        BlzFrameSetPoint(heroListTitle, FRAMEPOINT_BOTTOMLEFT, heroListContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
+        BlzFrameSetText(heroListTitle, "Cписок героев:")
+        BlzFrameSetTextColor(heroListTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
+
+        local heroListScrollbar = BlzCreateFrameByType("SLIDER", "", heroListContainer, "EscMenuScrollBarTemplate", 0)
+        local heroListScrollbarOffset = 0.010
+        local heroListScrollbarHeight = BlzFrameGetHeight(heroListContainer) - heroListScrollbarOffset * 2
+        local heroListScrollbarWidth = 0.012
+        BlzFrameSetSize(heroListScrollbar, heroListScrollbarWidth, heroListScrollbarHeight)
+        BlzFrameSetPoint(heroListScrollbar, FRAMEPOINT_TOPRIGHT, heroListContainer, FRAMEPOINT_TOPRIGHT, 0.0, -heroListScrollbarOffset)
+        BlzFrameSetMinMaxValue(heroListScrollbar, 1, 5)
+        BlzFrameSetStepSize(heroListScrollbar, 1)
+        BlzFrameSetValue(heroListScrollbar, 5)
+        BlzFrameSetEnable(heroListScrollbar, false)
+
+        local trig = CreateTrigger()
+        BlzTriggerRegisterFrameEvent(trig, heroListContainer, FRAMEEVENT_MOUSE_WHEEL)
+        TriggerAddAction(trig, function()
+            if BlzGetTriggerFrameValue() > 0.0 then
+                BlzFrameSetValue(heroListScrollbar, BlzFrameGetValue(heroListScrollbar) + 1)
+            elseif BlzGetTriggerFrameValue() < 0.0 then
+                BlzFrameSetValue(heroListScrollbar, BlzFrameGetValue(heroListScrollbar) - 1)
+            end
+        end)
+
+
+
+        -- Hero list item initialization:
+        --[[local heroListItem = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)]]
+        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
+        --[[local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemHeight = 0.035
+        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
+        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)]]
+
+        local heroListItemIcon = BlzCreateFrame("HeroListItemIcon", heroListContainer, 0, 0)
+        local heroListItemIconWidth = 0.035
+        local heroListItemIconHeight = 0.035
+        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
+        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNEarthBrewmaster", 0, true)
+
+        local heroListItemButton = BlzCreateFrame("HeroListItemButton", heroListContainer, 0, 0)
+        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
+        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemButtonHeight = 0.035
+        BlzFrameClearAllPoints(heroListItemButton)
+        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
+        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
+
+        local trg = CreateTrigger()
+        BlzTriggerRegisterFrameEvent(trg, heroListItemButton, FRAMEEVENT_CONTROL_CLICK)
+        TriggerAddAction(trg, function() print "click" end)
+
+        local heroListItemButtonText = BlzGetFrameByName("HeroListItemButtonTitle", 0)
+        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
+        BlzFrameSetText(heroListItemButtonText, "Jer'rykh, Earth Spirit")
+        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
+
+
+
+        ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        local heroListItem = BlzCreateFrame("QuestListItem", heroListContainer, 0, 0)
+        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
+        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemHeight = 0.035
+        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
+        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_TOPLEFT,  0.0, -(heroListItemHeight + heroListItemStepOffset) )
+
+        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
+        local heroListItemIconWidth = 0.035
+        local heroListItemIconHeight = 0.035
+        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
+        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNFireBrewmaster.dds", 0, true)
+
+        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
+        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
+        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemButtonHeight = 0.035
+        BlzFrameClearAllPoints(heroListItemButton)
+        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
+        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
+
+        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
+        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
+        BlzFrameSetText(heroListItemButtonText, "Ort'rykh, Fire Spirit")
+        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
+
+        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
+        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
+        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
+        BlzFrameClearAllPoints(heroListItemButtonStatusText)
+        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
+        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
+        BlzFrameSetText(heroListItemButtonStatusText, "")
+        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
+        ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
 
-    DAMAGE_TYPE_PHYSICAL
-    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_MELEE, DAMAGE_TYPE_NORMAL, null )
-    DAMAGE_TYPE_PHYSICAL_EX
-    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_MELEE, DAMAGE_TYPE_UNIVERSAL, null )
 
-    DAMAGE_TYPE_MAGICAL
-    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, null )
-    DAMAGE_TYPE_MAGICAL_EX
-    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_ENHANCED, null )
+        --[[
+        -------------------------------------------------------------------------------------------------------------------------
+        BlzFrameSetVisible(heroListItemButton, false)
 
-    DAMAGE_TYPE_PURE
-    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, null )
-    DAMAGE_TYPE_COMPOSITE
-    UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL, null )
-
+        local heroListItemButton = BlzCreateFrameByType("GLUEBUTTON", "", heroListItem, "QuestButtonTemplate", 0)
+        local heroListItemButtonWidth = 0.2085 - 0.035 + 0.003 - 0.012 - 0.0025
+        local heroListItemButtonHeight = 0.035
+        BlzFrameClearAllPoints(heroListItemButton)
+        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
+        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, -0.003, 0.0)
+        -------------------------------------------------------------------------------------------------------------------------
+        ]]
 
 
 
-    FLOATING_TEXTTAG_GOLD                                   FLOATING_TEXTTAG_LUMBER
-    SetTextTagText( tt, value, 0.023 )                      SetTextTagText( tt, value, 0.023 )
-    SetTextTagPosUnit( tt, whichUnit, 0.0 )                 SetTextTagPosUnit( tt, whichUnit, 0.0 )
-    SetTextTagColor( tt, 255, 220, 0, 255 )                 SetTextTagColor( tt, 0, 200, 80, 255 )
-    SetTextTagVisibility ( tt, true )                       SetTextTagVisibility( tt, true )
-    SetTextTagPermanent( tt, false )                        SetTextTagPermanent( tt, false )
-    SetTextTagVelocity( tt, 0.0, 0.029 )                    SetTextTagVelocity( tt, 0.0, 0.029 )
-    SetTextTagLifespan( tt, 2.0 )                           SetTextTagLifespan( tt, 2.0 )
-    SetTextTagFadepoint( tt, 1.0 )                          SetTextTagFadepoint( tt, 1.0 )
+        -- Hero description container initialization:
+        local heroDescriptionContainer = BlzCreateFrameByType("FRAME", "", heroPickDialog, "", 0)
+        BlzFrameSetSize(heroDescriptionContainer, 0.2085, 0.11)
+        BlzFrameSetPoint(heroDescriptionContainer, FRAMEPOINT_TOPRIGHT, heroPickDialog, FRAMEPOINT_TOPRIGHT, -0.030, -0.08)
 
-    FLOATING_TEXTTAG_MISS                                   FLOATING_TEXTTAG_CRITICAL_STRIKE
-    SetTextTagText( tt, value, 0.023 )                      SetTextTagText( tt, value, 0.023 )
-    SetTextTagPosUnit( tt, whichUnit, 0.0 )                 SetTextTagPosUnit( tt, whichUnit, 0.0 )
-    SetTextTagColor( tt, 255, 0, 0, 255 )                   SetTextTagColor( tt, 255, 0, 0, 255 )
-    SetTextTagVisibility( tt, true )                        SetTextTagVisibility( tt, true )
-    SetTextTagPermanent( tt, false )                        SetTextTagPermanent( tt, false )
-    SetTextTagVelocity( tt, 0.0, 0.03993 )                  SetTextTagVelocity( tt, 0.0, 0.03993 )
-    SetTextTagLifespan( tt, 3.0 )                           SetTextTagLifespan( tt, 5.0 )
-    SetTextTagFadepoint( tt, 1.0 )                          SetTextTagFadepoint( tt, 2.0 )
+        local heroDescriptionTitle = BlzCreateFrameByType("TEXT", "", heroDescriptionContainer, "EscMenuLabelTextTemplate", 0)
+        BlzFrameSetPoint(heroDescriptionTitle, FRAMEPOINT_BOTTOMLEFT, heroDescriptionContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
+        BlzFrameSetText(heroDescriptionTitle, "Описание героя:")
+        BlzFrameSetTextColor(heroDescriptionTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
 
-    FLOATING_TEXTTAG_SHADOW_STRIKE                          FLOATING_TEXTTAG_MANA_BURN
-    SetTextTagText( tt, value, 0.023 )                      SetTextTagText( tt, value, 0.023 )
-    SetTextTagPosUnit( tt, whichUnit, 0.0 )                 SetTextTagPosUnit( tt, whichUnit, 0.0 )
-    SetTextTagColor( tt, 158, 255, 0, 255 )                 SetTextTagColor( tt, 81, 81, 255, 255 )
-    SetTextTagVisibility( tt, true )                        SetTextTagVisibility( tt, true )
-    SetTextTagPermanent( tt, false )                        SetTextTagPermanent( tt, false )
-    SetTextTagVelocity( tt, 0.0, 0.03993 )                  SetTextTagVelocity( tt, 0.0, 0.03993 )
-    SetTextTagLifespan( tt, 5.0 )                           SetTextTagLifespan( tt, 5.0 )
-    SetTextTagFadepoint( tt, 2.0 )                          SetTextTagFadepoint( tt, 2.0 )
+        local heroDescriptionTextArea = BlzCreateFrameByType("TEXTAREA", "", heroDescriptionContainer, "EscMenuTextAreaTemplate", 0)
+        BlzFrameSetAllPoints(heroDescriptionTextArea, heroDescriptionContainer)
+        BlzFrameAddText(heroDescriptionTextArea, "Базовый рабочий. Добывает золото и древесину, а также строит и ремонтирует здания. Может оборонять базу, засев в землянке.")
 
 
 
+        -- Ability list container initialization:
+        local abilityListContainer = BlzCreateFrameByType("LISTBOX", "", heroPickDialog, "", 0)
+        BlzFrameSetSize(abilityListContainer, 0.2085, 0.11)
+        BlzFrameSetPoint(abilityListContainer, FRAMEPOINT_TOPLEFT, heroListContainer, FRAMEPOINT_BOTTOMLEFT,  0.0, -0.020)
+
+        local abilityListTitle = BlzCreateFrameByType("TEXT", "", abilityListContainer, "EscMenuLabelTextTemplate", 0)
+        BlzFrameSetPoint(abilityListTitle, FRAMEPOINT_BOTTOMLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
+        BlzFrameSetText(abilityListTitle, "Cписок способностей:")
+        BlzFrameSetTextColor(abilityListTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
+
+        local abilityListScrollbar = BlzCreateFrameByType("SLIDER", "", abilityListContainer, "EscMenuScrollBarTemplate", 0)
+        local abilityListScrollbarOffset = 0.010
+        local abilityListScrollbarHeight = BlzFrameGetHeight(abilityListContainer) - abilityListScrollbarOffset * 2
+        BlzFrameSetSize(abilityListScrollbar, 0.012, abilityListScrollbarHeight)
+        BlzFrameSetPoint(abilityListScrollbar, FRAMEPOINT_TOPRIGHT, abilityListContainer, FRAMEPOINT_TOPRIGHT, 0.0, -abilityListScrollbarOffset)
+        BlzFrameSetMinMaxValue(abilityListScrollbar, 1, 15)
+        BlzFrameSetStepSize(abilityListScrollbar, 1)
+        BlzFrameSetValue(abilityListScrollbar, 15)
 
 
 
+        local trig = CreateTrigger()
+        BlzTriggerRegisterFrameEvent(trig, abilityListContainer, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, abilityListScrollbar, FRAMEEVENT_MOUSE_WHEEL)
+        TriggerAddAction(trig, function()
+            if BlzGetTriggerFrameValue() > 0.0 then
+                BlzFrameSetValue(abilityListScrollbar, BlzFrameGetValue(abilityListScrollbar) + 1)
+            elseif BlzGetTriggerFrameValue() < 0.0 then
+                BlzFrameSetValue(abilityListScrollbar, BlzFrameGetValue(abilityListScrollbar) - 1)
+            end
+        end)
 
 
 
-    QUESTMESSAGE_DISCOVERED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, "|cFFFFCC00" .. "MAIN QUEST" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, message )
-    StartSound( QUEST_DISCOVERED_SOUND )
-    FlashQuestDialogButton( )
+        -----------------------------
+        local heroListItem = BlzCreateFrame("QuestListItem", abilityListContainer, 0, 0)
+        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
+        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemHeight = 0.035
+        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
+        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
 
-    QUESTMESSAGE_OPT_DISCOVERED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, "|cFFFFCC00" .. "OPTIONAL QUEST" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUEST, message )
-    StartSound( QUEST_DISCOVERED_SOUND)
-    FlashQuestDialogButton( )
+        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
+        local heroListItemIconWidth = 0.035
+        local heroListItemIconHeight = 0.035
+        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
+        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNWindWalkOn.blp", 0, true)
 
-    QUESTMESSAGE_UPDATED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, "|cffffcc00" .. "MAIN QUEST UPDATE" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, message )
-    StartSound( QUEST_UPDATED_SOUND )
-    FlashQuestDialogButton( )
+        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
+        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
+        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemButtonHeight = 0.035
+        BlzFrameClearAllPoints(heroListItemButton)
+        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
+        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
 
-    QUESTMESSAGE_OPT_UPDATED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, "|cFFFFCC00" .. "OPTIONAL QUEST UPDATE" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTUPDATE, message )
-    StartSound( QUEST_UPDATED_SOUND )
-    FlashQuestDialogButton( )
+        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
+        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
+        BlzFrameSetText(heroListItemButtonText, "Shadow Walk")
+        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
 
-    QUESTMESSAGE_COMPLETED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, "|cFFFFCC00" .. "MAIN QUEST COMPLETED" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, message )
-    StartSound( QUEST_COMPLETED_SOUND )
-    FlashQuestDialogButton( )
-
-    QUESTMESSAGE_OPT_COMPLETED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, "|cFFFFCC00" .. "OPTIONAL QUEST COMPLETED" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTDONE, message )
-    StartSound( QUEST_COMPLETED_SOUND )
-    FlashQuestDialogButton( )
-
-    QUESTMESSAGE_FAILED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, "|cFFFFCC00" .. "QUEST FAILED" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, message )
-    StartSound( QUEST_FAILED_SOUND )
-    FlashQuestDialogButton( )
-
-    QUESTMESSAGE_OPT_FAILED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, "|cFFFFCC00" .. "OPTIONAL QUEST FAILED" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTFAILED, message )
-    StartSound( QUEST_FAILED_SOUND )
-    FlashQuestDialogButton( )
-
-    QUESTMESSAGE_REQUIREMENT
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTREQUIREMENT, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_QUESTREQUIREMENT, message )
-
-    QUESTMESSAGE_MISSIONFAILED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_MISSIONFAILED, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_MISSIONFAILED, "|cFFFFCC00" .. "MISSION FAILED" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_MISSIONFAILED, message )
-    StartSound( QUEST_FAILED_SOUND )
-
-    QUESTMESSAGE_HINT
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_HINT, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_HINT, "|cff32CD32" .. "КРАТКАЯ ПОДСКАЗКА:" .. "|r " .. message )
-    StartSound( QUEST_HINT_SOUND )
-
-    QUESTMESSAGE_ALWAYSHINT
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_ALWAYSHINT, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_ALWAYSHINT, "|cff32CD32" .. "HINT" .. "|r " .. " – " .. message )
-    StartSound( QUEST_HINT_SOUND )
-
-    QUESTMESSAGE_SECRET
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_SECRET, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_SECRET, "|cff32CD32" .. "SECRET FOUND" .. "|r " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_SECRET, message )
-    StartSound( QUEST_SECRET_SOUND )
-
-    QUESTMESSAGE_UNITACQUIRED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITACQUIRED, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITACQUIRED, "|cff87ceeb" .. "ВЫ ПОЛУЧИЛИ ПОДКРЕПЛЕНИЕ" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITACQUIRED, message )
-    StartSound( QUEST_HINT_SOUND )
-
-    QUESTMESSAGE_UNITAVAILABLE
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITAVAILABLE, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITAVAILABLE, "|cff87ceeb" .. "NEW UNIT AVAILABLE" .. "|r" )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_UNITAVAILABLE, message )
-    StartSound( QUEST_HINT_SOUND )
-
-    QUESTMESSAGE_ITEMACQUIRED
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_ITEMACQUIRED, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_ITEMACQUIRED, "|cff87ceeb" .. "ПОЛУЧЕНЫ ПРЕДМЕТЫ:" .. "|r " .. message )
-    StartSound( QUEST_ITEM_ACQUIRED_SOUND )
-
-    QUESTMESSAGE_WARNING
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_WARNING, " " )
-    DisplayTimedTextToPlayer( GetLocalPlayer( ),  0.0,  0.0, bj_TEXT_DELAY_WARNING, "|cff32cd32" .. "ВНИМАНИЕ:" .. "|r " .. message )
-    StartSound( QUEST_WARNING_SOUND )
+        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
+        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
+        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
+        BlzFrameClearAllPoints(heroListItemButtonStatusText)
+        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
+        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
+        BlzFrameSetText(heroListItemButtonStatusText, "")
+        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
 
 
 
-    SOUND_PING_MINIMAP                                                  = CreateSoundFromLabel( "AutoCastButtonClick",         false, false, false, 10000, 10000 )
-    SOUND_RESCUE                                                        = CreateSoundFromLabel( "Rescue",                      false, false, false, 10000, 10000 )
-    SOUND_QUEST_DISCOVERED                                              = CreateSoundFromLabel( "QuestNew",                    false, false, false, 10000, 10000 )
-    SOUND_QUEST_UPDATED                                                 = CreateSoundFromLabel( "QuestUpdate",                 false, false, false, 10000, 10000 )
-    SOUND_QUEST_COMPLETED                                               = CreateSoundFromLabel( "QuestCompleted",              false, false, false, 10000, 10000 )
-    SOUND_QUEST_FAILED                                                  = CreateSoundFromLabel( "QuestFailed",                 false, false, false, 10000, 10000 )
-    SOUND_QUEST_HINT                                                    = CreateSoundFromLabel( "Hint",                        false, false, false, 10000, 10000 )
-    SOUND_QUEST_SECRET                                                  = CreateSoundFromLabel( "SecretFound",                 false, false, false, 10000, 10000 )
-    SOUND_QUEST_ITEM_ACQUIRED                                           = CreateSoundFromLabel( "ItemReward",                  false, false, false, 10000, 10000 )
-    SOUND_QUEST_WARNING                                                 = CreateSoundFromLabel( "Warning",                     false, false, false, 10000, 10000 )
-    SOUND_VICTORY_DIALOG                                                = CreateSoundFromLabel( "QuestCompleted",              false, false, false, 10000, 10000 )
-    SOUND_DEFEAT_DIALOG                                                 = CreateSoundFromLabel( "QuestFailed",                 false, false, false, 10000, 10000 )
-    SOUND_DAWN                                                          = CreateSound( "Sound\\Time\\DaybreakRooster.wav",     false, false, false, 10, 10, "DefaultEAXON" )
-    SOUND_DUSK                                                          = CreateSound( "Sound\\Time\\DuskWolf.wav",            false, false, false, 10, 10, "DefaultEAXON" )
-    SOUND_BATTLE_NET_TICK                                               = CreateSound( "Sound\\Interface\\BattleNetTick.wav",  false, false, false, 10, 10, "DefaultEAXON" )
-    SOUND_GOOD_JOB                                                      = CreateSound( "Sound\\Interface\\GoodJob.wav",        false, false, false, 10, 10, "DefaultEAXON" )
-    SOUND_CLAN_INVITATION                                               = CreateSound( "Sound\\Interface\\ClanInvitation.wav", false, false, false, 10, 10, "DefaultEAXON" )
+        BlzTriggerRegisterFrameEvent(trig, heroListItem, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemIcon, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButton, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonText, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonStatusText, FRAMEEVENT_MOUSE_WHEEL)
 
 
 
-    ITEM_POWERUP = {
-        [0]                                                             = FourCC( "manh" ),
-        [1]                                                             = FourCC( "tdx2" ),
-        [2]                                                             = FourCC( "texp" ),
-        [3]                                                             = FourCC( "tin2" ),
-        [4]                                                             = FourCC( "tpow" ),
-        [5]                                                             = FourCC( "tst2" )
-    }
+        local heroListItem = BlzCreateFrame("QuestListItem", abilityListContainer, 0, 0)
+        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
+        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemHeight = 0.035
+        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
+        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT,  0.0, -1 * (heroListItemHeight + heroListItemStepOffset))
 
-    TIP = {
-        [0x00]                                                          = "выберите подходящего для вашего стиля игры героя.",
-        [0x01]                                                          = "каждый раз, когда вы успешно проходите волну, богиня благословляет вас, исцеляя всех раненных воинов и воскрешая всех, кто пал в бою.",
-        [0x02]                                                          = "когда погибает один из героев, его могут воскресить другие герои, которые остались в живых. Для этого щёлкните |cFFFED312ПРАВОЙ КНОПКОЙ МЫШИ|r на могиле погибшего героя. Если погибнут все герои, то вы проиграете.",
-        [0x03]                                                          = "за убийство боссов иногда могут выпдать различные артефакты",
-        [0x04]                                                          = "Choose the right character for your game. To complete the game, your team must have at least one hero from each class. For more information, click on the tavern you are interested in.",
-        [0x05]                                                          = "|cFFFED312Ability Power:|r  Ability Power гладиаторы в битве полагаются в основном на урон с заклинаний, при этом сами обладают небольшим количеством брони и здоровья.",
-        [0x06]                                                          = "|cFFFED312Attack Damage:|r  oписание находится в разработке.",
-        [0x07]                                                          = "|cFFFED312Support:|r  сами Support'ы по себе не сильны, однако очень полезны для команды. Они могут как лечить раненных в бою союзников, так и усиливать огневую мощь атакующих.",
-        [0x08]                                                          = "|cFFFED312Tank:|r  гладиаторы класса Tank отвлекают в бою внимание противника на себя, предотвращая нанесение урона слобозащищённым персонажам. Могут также перехватить часть повреждений, нацеленных на союзников. Для выполнения поставленных задач Tank'и имеют хорошую защиту и большой запас здоровья."
-    }
+        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
+        local heroListItemIconWidth = 0.035
+        local heroListItemIconHeight = 0.035
+        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
+        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNMirrorImage.blp", 0, true)
 
-]]
+        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
+        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
+        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemButtonHeight = 0.035
+        BlzFrameClearAllPoints(heroListItemButton)
+        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
+        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
+
+        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
+        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
+        BlzFrameSetText(heroListItemButtonText, "Mirror Image")
+        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
+
+        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
+        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
+        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
+        BlzFrameClearAllPoints(heroListItemButtonStatusText)
+        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
+        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
+        BlzFrameSetText(heroListItemButtonStatusText, "")
+        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
+
+
+
+        BlzTriggerRegisterFrameEvent(trig, heroListItem, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemIcon, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButton, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonText, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonStatusText, FRAMEEVENT_MOUSE_WHEEL)
+
+
+
+        local heroListItem = BlzCreateFrame("QuestListItem", abilityListContainer, 0, 0)
+        local heroListItemStepOffset = 0.0025 -- Расстояние между кнпоками.
+        local heroListItemWidth = heroListContainerWidth - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemHeight = 0.035
+        BlzFrameSetSize(heroListItem, heroListItemWidth, heroListItemHeight)
+        BlzFrameSetPoint(heroListItem, FRAMEPOINT_TOPLEFT, abilityListContainer, FRAMEPOINT_TOPLEFT,  0.0, -2 * (heroListItemHeight + heroListItemStepOffset))
+
+        local heroListItemIcon = BlzGetFrameByName("QuestListItemIconContainer", 0)
+        local heroListItemIconWidth = 0.035
+        local heroListItemIconHeight = 0.035
+        BlzFrameSetSize(heroListItemIcon, heroListItemIconWidth, heroListItemIconHeight)
+        BlzFrameSetPoint(heroListItemIcon, FRAMEPOINT_TOPLEFT, heroListItem, FRAMEPOINT_TOPLEFT,  0.0, 0.0)
+        BlzFrameSetTexture(heroListItemIcon, "ReplaceableTextures\\CommandButtons\\BTNCriticalStrike.blp", 0, true)
+
+        local heroListItemButton = BlzGetFrameByName("QuestListItemButton", 0)
+        local heroListItemButtonOffset = -0.003 -- Смещение по оси "х" относительно "heroListItemIcon".
+        local heroListItemButtonWidth = heroListContainerWidth - heroListItemIconWidth - heroListItemButtonOffset - heroListScrollbarWidth - heroListItemStepOffset
+        local heroListItemButtonHeight = 0.035
+        BlzFrameClearAllPoints(heroListItemButton)
+        BlzFrameSetSize(heroListItemButton, heroListItemButtonWidth, heroListItemButtonHeight)
+        BlzFrameSetPoint(heroListItemButton, FRAMEPOINT_TOPLEFT, heroListItemIcon, FRAMEPOINT_TOPRIGHT, heroListItemButtonOffset, 0.0)
+
+        local heroListItemButtonText = BlzGetFrameByName("QuestListItemTitle", 0)
+        BlzFrameSetPoint(heroListItemButtonText, FRAMEPOINT_LEFT, heroListItemButton, FRAMEPOINT_LEFT, 0.002, 0.002)
+        BlzFrameSetText(heroListItemButtonText, "Critical Strike")
+        BlzFrameSetTextColor(heroListItemButtonText, BlzConvertColor(0xFF, 0xFF, 0xFF, 0xFF))
+
+        local heroListItemButtonStatusText = BlzGetFrameByName("QuestListItemComplete", 0)
+        local heroListItemButtonStatusTextWidth = BlzFrameGetWidth(heroListItemButtonText)
+        local heroListItemButtonStatusTextHeight = BlzFrameGetHeight(heroListItemButtonStatusText)
+        BlzFrameClearAllPoints(heroListItemButtonStatusText)
+        BlzFrameSetSize(heroListItemButtonStatusText, heroListItemButtonStatusTextWidth, heroListItemButtonStatusTextHeight)
+        BlzFrameSetPoint(heroListItemButtonStatusText, FRAMEPOINT_BOTTOMLEFT, heroListItemButton, FRAMEPOINT_BOTTOMLEFT, 0.012, 0.008)
+        BlzFrameSetText(heroListItemButtonStatusText, "")
+        BlzFrameSetTextColor(heroListItemButtonStatusText, BlzConvertColor(0xFF, 0x80, 0x80, 0x80))
+
+
+
+        BlzTriggerRegisterFrameEvent(trig, heroListItem, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemIcon, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButton, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonText, FRAMEEVENT_MOUSE_WHEEL)
+        BlzTriggerRegisterFrameEvent(trig, heroListItemButtonStatusText, FRAMEEVENT_MOUSE_WHEEL)
+
+        -----------------------------
+        -----------------------------
+
+
+
+        -- Ability description container initialization:
+        local abilityDescriptionContainer = BlzCreateFrameByType("FRAME", "", heroPickDialog, "", 0)
+        BlzFrameSetSize(abilityDescriptionContainer, 0.2085, 0.11)
+        --BlzFrameSetPoint(abilityDescriptionContainer, FRAMEPOINT_TOPRIGHT, heroDescriptionContainer, FRAMEPOINT_BOTTOMRIGHT, 0.0, -0.026375)
+        BlzFrameSetPoint(abilityDescriptionContainer, FRAMEPOINT_TOPRIGHT, heroDescriptionContainer, FRAMEPOINT_BOTTOMRIGHT, 0.0, -0.020)
+
+        local abilityDescriptionTitle = BlzCreateFrameByType("TEXT", "", abilityDescriptionContainer, "EscMenuLabelTextTemplate", 0)
+        BlzFrameSetPoint(abilityDescriptionTitle, FRAMEPOINT_BOTTOMLEFT, abilityDescriptionContainer, FRAMEPOINT_TOPLEFT, 0.003, 0.002)
+        BlzFrameSetPoint(abilityDescriptionTitle, FRAMEPOINT_BOTTOMLEFT, abilityDescriptionContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
+        BlzFrameSetText(abilityDescriptionTitle, "Описание способности:")
+        BlzFrameSetTextColor(abilityDescriptionTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
+
+        local abilityDescriptionTextArea = BlzCreateFrameByType("TEXTAREA", "", abilityDescriptionContainer, "EscMenuTextAreaTemplate", 0)
+        BlzFrameSetAllPoints(abilityDescriptionTextArea, abilityDescriptionContainer)
+        BlzFrameAddText(abilityDescriptionTextArea, "Some text can be here. Some text can be here. Some text can be here.")
+
+
+
+        -- Chat log container initialization:
+        local chatLogContainer = BlzCreateFrameByType("FRAME", "", heroPickDialog, "", 0)
+        BlzFrameSetSize(chatLogContainer, 0.42, 0.11)
+        --BlzFrameSetPoint(chatLogContainer, FRAMEPOINT_TOPRIGHT, abilityDescriptionContainer, FRAMEPOINT_BOTTOMRIGHT, 0.0, -0.026375)
+        BlzFrameSetPoint(chatLogContainer, FRAMEPOINT_TOPRIGHT, abilityDescriptionContainer, FRAMEPOINT_BOTTOMRIGHT, 0.0, -0.020)
+        BlzFrameSetPoint(chatLogContainer, FRAMEPOINT_TOPLEFT, abilityListContainer, FRAMEPOINT_BOTTOMLEFT, 0.0, -0.020)
+
+        local chatLogTitle = BlzCreateFrameByType("TEXT", "", chatLogContainer, "EscMenuLabelTextTemplate", 0)
+        BlzFrameSetPoint(chatLogTitle, FRAMEPOINT_BOTTOMLEFT, chatLogContainer, FRAMEPOINT_TOPLEFT, 0.003, 0.002)
+        BlzFrameSetPoint(chatLogTitle, FRAMEPOINT_BOTTOMLEFT, chatLogContainer, FRAMEPOINT_TOPLEFT, 0.006, 0.002)
+        BlzFrameSetText(chatLogTitle, "Журнал сообщений:")
+        BlzFrameSetTextColor(chatLogTitle, BlzConvertColor(0xFF, 0xFC, 0xD3, 0x12))
+
+        local chatLogTextArea = BlzCreateFrameByType("TEXTAREA", "", chatLogContainer, "EscMenuTextAreaTemplate", 0)
+        BlzFrameSetAllPoints(chatLogTextArea, chatLogContainer)
+
+        BlzFrameAddText(chatLogTextArea, "|cff32CD32HINT|r – Выбор правильного персонажа поможет вам проще пройти игру. Обратите внимание на то, чтобы в вашей команде был хотя бы один герой из каждого класса.")
+        BlzFrameAddText(chatLogTextArea, " ")
+        BlzFrameAddText(chatLogTextArea, "|cFFFF0303scopterectus|r: привет, модмейкеры!")
+        BlzFrameAddText(chatLogTextArea, "|cFFFE8A0EBergi-bear|r: ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо! ха-хо-хо!")
+        BlzFrameAddText(chatLogTextArea, "|cFFFE8A0EBergi-bear|r: Peony i translit rulit!! )))]]]")
+        BlzFrameAddText(chatLogTextArea, "|cFFFF0303scopterectus|r: ну всё, я обиделся...............")
+
+        local chatLogEditBox = BlzCreateFrameByType("EDITBOX", "", chatLogContainer, "EscMenuEditBoxTemplate", 0)
+        BlzFrameSetSize(chatLogEditBox, 0.42, 0.04)
+        BlzFrameSetPoint(chatLogEditBox, FRAMEPOINT_TOPRIGHT, chatLogTextArea, FRAMEPOINT_BOTTOMRIGHT, 0.0, -0.0010)
+        BlzFrameSetPoint(chatLogEditBox, FRAMEPOINT_TOPLEFT, chatLogTextArea, FRAMEPOINT_BOTTOMLEFT, 0.0, -0.0010)
+
+
+
+        -- Exit button initialization:
+        local okButton = BlzCreateFrame("MapStandardButton", heroPickDialog, 0, 0)
+        BlzFrameSetSize(okButton, 0.129, BlzFrameGetHeight(okButton))
+        BlzFrameSetPoint(okButton, FRAMEPOINT_BOTTOMLEFT, heroPickDialog, FRAMEPOINT_BOTTOM, 0.003, 0.03)
+
+        local okButtonText = BlzGetFrameByName("MapStandardButtonText", 0)
+        BlzFrameSetText(okButtonText, "OK")
+
+        local tempButton = BlzCreateFrame("MapStandardButton", heroPickDialog, 0, 0)
+        BlzFrameSetSize(tempButton, 0.129, BlzFrameGetHeight(tempButton))
+        BlzFrameSetPoint(tempButton, FRAMEPOINT_TOPRIGHT, okButton, FRAMEPOINT_TOPLEFT, -0.006, 0.0)
+        BlzFrameSetEnable(tempButton, false)
+
+        local tempButtonText = BlzGetFrameByName("MapStandardButtonText", 0)
+        BlzFrameSetText(tempButtonText, "Cancel")
+
+        local trg = CreateTrigger()
+        BlzTriggerRegisterFrameEvent(trg, okButton, FRAMEEVENT_CONTROL_CLICK)
+        TriggerAddAction(trg, function()
+            if GetLocalPlayer() == GetTriggerPlayer() then
+                BlzFrameSetVisible(heroPickDialog, false)
+            end
+        end)
+    end
+
+}
+
+function Hero.getByPlayer(whichPlayer)
+    return Hero[whichPlayer]
+end
+
+function HeroPick.displayHint()
+    local snd = CreateSoundFromLabel("Hint", false, false, false, 10000, 10000)
+    local hint = "Choose the right character for your game. " ..
+        "To complete the game, your team must have at least one hero from each class. " ..
+        "For more information, click on the tavern you are interested in."
+
+    DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 9.0, " ")
+    DisplayTimedTextToPlayer(GetLocalPlayer(), 0.0, 0.0, 9.0, "|cff32CD32HINT|r – " .. hint)
+    StartSound(snd)
+    KillSoundWhenDone(snd)
+end
+
+function HeroPick.initializeTavernPick()
+    local soldUnit = GetSoldUnit()
+    local owner = GetOwningPlayer(soldUnit)
+
+    for _, value in pairs(Team.defensiveForce) do
+        SetPlayerTechMaxAllowed(value, GetUnitTypeId(soldUnit), IntegerTertiaryOp(value == owner, 1, 0))
+    end
+
+    UnitModifySkillPoints(soldUnit, -1)
+    SetUnitX(soldUnit, HeroPick.getSpawnX(owner))
+    SetUnitY(soldUnit, HeroPick.getSpawnY(owner))
+    SetUnitFacing(soldUnit, HeroPick.getSpawnFacing(owner))
+    SetUnitState(soldUnit, UNIT_STATE_LIFE, BlzGetUnitMaxHP(soldUnit))
+    SetUnitState(soldUnit, UNIT_STATE_MANA, BlzGetUnitMaxMana(soldUnit))
+    BlzSetHeroProperName(soldUnit, GetPlayerName(owner))
+
+    if GetLocalPlayer() == owner then
+        ClearSelection()
+        ClearTextMessages()
+        SelectUnit(soldUnit, true)
+        BlzFrameSetVisible(topMsg, false)
+        SetCameraPosition(GetUnitX(soldUnit), GetUnitY(soldUnit))
+    end
+end
+
+HeroRevive = {
+
+    initialize = function()
+        HeroRevive.trigger = CreateTrigger()
+        HeroRevive.graveTypeId = FourCC('h003')
+
+        ForForce(Force.heroOwnerPlayers, function()
+            TriggerRegisterPlayerUnitEvent(HeroRevive.trigger, GetEnumPlayer(), EVENT_PLAYER_UNIT_DEATH, nil)
+        end)
+
+        TriggerAddAction(HeroRevive.trigger, function()
+            local dyingUnit = GetDyingUnit()
+
+            if IsUnitType(dyingUnit, UNIT_TYPE_HERO) then
+                local dyingUnitX = GetUnitX(dyingUnit)
+                local dyingUnitY = GetUnitY(dyingUnit)
+                local grave = CreateUnit(GetOwningPlayer(dyingUnit), HeroRevive.graveTypeId, dyingUnitX, dyingUnitY, 0.0)
+                local timer = CreateTimer()
+                local graveLife = 1.0
+
+                SetWidgetLife(grave, 1.0)
+                SetUnitPathing(grave, false)
+                BlzSetUnitName(grave, GetHeroProperName(dyingUnit))
+
+                if IsUnitSelected(dyingUnit, GetLocalPlayer()) then
+                    SelectUnit(dyingUnit, false)
+                    SelectUnit(grave, true)
+                end
+
+                TimerStart(timer, 0.1, true, function()
+                    local curLife = GetWidgetLife(grave)
+
+                    if curLife < 100.0 then
+                        if curLife > graveLife then
+                            graveLife = curLife
+                        elseif curLife <= graveLife then
+                            graveLife = 1.0
+                            SetWidgetLife(grave, 1.0)
+                        end
+
+                    else
+                        ReviveHero(dyingUnit, dyingUnitX, dyingUnitY, true)
+                        SetUnitState(dyingUnit, UNIT_STATE_LIFE, BlzGetUnitMaxHP(dyingUnit))
+                        SetUnitState(dyingUnit, UNIT_STATE_MANA, BlzGetUnitMaxMana(dyingUnit))
+
+                        if IsUnitSelected(grave, GetLocalPlayer()) then
+                            SelectUnit(grave, false)
+                            SelectUnit(dyingUnit, true)
+                        end
+
+                        RemoveUnit(grave)
+                        PauseTimer(timer)
+                        DestroyTimer(timer)
+                    end
+                end)
+            end
+        end)
+    end
+
+}
+
+SkillPoints = {
+
+    onPlayerHeroLevel = function()
+        local hero = GetLevelingUnit()
+        local level = GetHeroLevel(hero)
+
+        if level == 1 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 2 then
+            UnitModifySkillPoints(hero, 0) -- 1
+        elseif level == 3 then
+            UnitModifySkillPoints(hero, 0) -- 1
+        elseif level == 4 then
+            UnitModifySkillPoints(hero, 1) -- 2
+        elseif level == 5 then
+            UnitModifySkillPoints(hero, 0) -- 1
+        elseif level == 6 then
+            UnitModifySkillPoints(hero, 2) -- 3
+        elseif level == 7 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 8 then
+            UnitModifySkillPoints(hero, 1)
+        elseif level == 9 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 10 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 11 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 12 then
+            UnitModifySkillPoints(hero, 2)
+        elseif level == 13 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 14 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 15 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 16 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 17 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 18 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 19 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 20 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 21 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 22 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 23 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 24 then
+            UnitModifySkillPoints(hero, 0)
+        elseif level == 25 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 26 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 27 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 28 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 29 then
+            UnitModifySkillPoints(hero, -1) -- empty
+        elseif level == 30 then
+            UnitModifySkillPoints(hero, 0)
+        end
+    end,
+
+    initialize = function()
+        SkillPoints.trigger = CreateTrigger()
+
+        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x02), EVENT_PLAYER_HERO_LEVEL, nil)
+        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x03), EVENT_PLAYER_HERO_LEVEL, nil)
+        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x04), EVENT_PLAYER_HERO_LEVEL, nil)
+        TriggerRegisterPlayerUnitEvent(SkillPoints.trigger, Player(0x05), EVENT_PLAYER_HERO_LEVEL, nil)
+        TriggerAddAction(SkillPoints.trigger, SkillPoints.onPlayerHeroLevel)
+    end
+
+}
+
+TOC = {
+
+    initialize = function()
+        if BlzLoadTOCFile("UI\\FrameDef\\FrameDef.toc") then
+            if DEBUG_MODE then
+                print("|cFF00FF00DEBUG_MODE|r: the TOC library has been initialized.")
+            end
+        end
+    end
+
+}
 
 --CUSTOM_CODE
 function Trig_Standard_Script_Initialization_Actions()

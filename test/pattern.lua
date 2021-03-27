@@ -14,24 +14,7 @@ end
 
 
 --[[
-COLOR
-if     i ==  0 then return "|cFFFF0303" .. s .. "|r"
-elseif i ==  1 then return "|cFF0042FF" .. s .. "|r"
-elseif i ==  2 then return "|cFF1CE6B9" .. s .. "|r"
-elseif i ==  3 then return "|cFF540081" .. s .. "|r"
-elseif i ==  4 then return "|cFFFFFF01" .. s .. "|r"
-elseif i ==  5 then return "|cFFFE8A0E" .. s .. "|r"
-elseif i ==  6 then return "|cFF20C000" .. s .. "|r"
-elseif i ==  7 then return "|cFFE55BB0" .. s .. "|r"
-elseif i ==  8 then return "|cff959697" .. s .. "|r"
-elseif i ==  9 then return "|cFF7EBFF1" .. s .. "|r"
-elseif i == 10 then return "|cFF106246" .. s .. "|r"
-elseif i == 11 then return "|cFF4E2A04" .. s .. "|r"
-elseif i == 12 then return "|cFF282828" .. s .. "|r"
-elseif i == 13 then return "|cFF282828" .. s .. "|r"
-elseif i == 14 then return "|cFF282828" .. s .. "|r"
-elseif i == 15 then return "|cFF282828" .. s .. "|r"
-elseif i >= 16 then return "|cFFFFFFFF" .. s .. "|r"
+
 
 
 
@@ -50,39 +33,6 @@ elseif i >= 16 then return "|cFFFFFFFF" .. s .. "|r"
     UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, null )
     DAMAGE_TYPE_COMPOSITE
     UnitDamageTarget( source, target, amount, true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL, null )
-
-
-
-
-    FLOATING_TEXTTAG_GOLD                                   FLOATING_TEXTTAG_LUMBER
-    SetTextTagText( tt, value, 0.023 )                      SetTextTagText( tt, value, 0.023 )
-    SetTextTagPosUnit( tt, whichUnit, 0.0 )                 SetTextTagPosUnit( tt, whichUnit, 0.0 )
-    SetTextTagColor( tt, 255, 220, 0, 255 )                 SetTextTagColor( tt, 0, 200, 80, 255 )
-    SetTextTagVisibility ( tt, true )                       SetTextTagVisibility( tt, true )
-    SetTextTagPermanent( tt, false )                        SetTextTagPermanent( tt, false )
-    SetTextTagVelocity( tt, 0.0, 0.029 )                    SetTextTagVelocity( tt, 0.0, 0.029 )
-    SetTextTagLifespan( tt, 2.0 )                           SetTextTagLifespan( tt, 2.0 )
-    SetTextTagFadepoint( tt, 1.0 )                          SetTextTagFadepoint( tt, 1.0 )
-
-    FLOATING_TEXTTAG_MISS                                   FLOATING_TEXTTAG_CRITICAL_STRIKE
-    SetTextTagText( tt, value, 0.023 )                      SetTextTagText( tt, value, 0.023 )
-    SetTextTagPosUnit( tt, whichUnit, 0.0 )                 SetTextTagPosUnit( tt, whichUnit, 0.0 )
-    SetTextTagColor( tt, 255, 0, 0, 255 )                   SetTextTagColor( tt, 255, 0, 0, 255 )
-    SetTextTagVisibility( tt, true )                        SetTextTagVisibility( tt, true )
-    SetTextTagPermanent( tt, false )                        SetTextTagPermanent( tt, false )
-    SetTextTagVelocity( tt, 0.0, 0.03993 )                  SetTextTagVelocity( tt, 0.0, 0.03993 )
-    SetTextTagLifespan( tt, 3.0 )                           SetTextTagLifespan( tt, 5.0 )
-    SetTextTagFadepoint( tt, 1.0 )                          SetTextTagFadepoint( tt, 2.0 )
-
-    FLOATING_TEXTTAG_SHADOW_STRIKE                          FLOATING_TEXTTAG_MANA_BURN
-    SetTextTagText( tt, value, 0.023 )                      SetTextTagText( tt, value, 0.023 )
-    SetTextTagPosUnit( tt, whichUnit, 0.0 )                 SetTextTagPosUnit( tt, whichUnit, 0.0 )
-    SetTextTagColor( tt, 158, 255, 0, 255 )                 SetTextTagColor( tt, 81, 81, 255, 255 )
-    SetTextTagVisibility( tt, true )                        SetTextTagVisibility( tt, true )
-    SetTextTagPermanent( tt, false )                        SetTextTagPermanent( tt, false )
-    SetTextTagVelocity( tt, 0.0, 0.03993 )                  SetTextTagVelocity( tt, 0.0, 0.03993 )
-    SetTextTagLifespan( tt, 5.0 )                           SetTextTagLifespan( tt, 5.0 )
-    SetTextTagFadepoint( tt, 2.0 )                          SetTextTagFadepoint( tt, 2.0 )
 
 
 

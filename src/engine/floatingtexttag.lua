@@ -20,6 +20,11 @@ FloatingTextTag = {
         end
     end,
 
+    ---@type function
+    ---@param forPlayer player
+    ---@param whichUnit unit
+    ---@param value string
+    ---@return nothing
     lumber = function(forPlayer, whichUnit, value)
         if GetLocalPlayer() == forPlayer then
             local tt = CreateTextTag()
@@ -35,6 +40,10 @@ FloatingTextTag = {
         end
     end,
 
+    ---@type function
+    ---@param whichUnit unit
+    ---@param value string
+    ---@return nothing
     miss = function(whichUnit, value)
         local tt = CreateTextTag()
 
@@ -48,6 +57,10 @@ FloatingTextTag = {
         SetTextTagFadepoint(tt, 1.0)
     end,
 
+    ---@type function
+    ---@param whichUnit unit
+    ---@param value string
+    ---@return nothing
     criticalstrike = function(whichUnit, value)
         local tt = CreateTextTag()
 
@@ -61,6 +74,10 @@ FloatingTextTag = {
         SetTextTagFadepoint(tt, 2.0)
     end,
 
+    ---@type function
+    ---@param whichUnit unit
+    ---@param value string
+    ---@return nothing
     shadowstrike = function(whichUnit, value)
         local tt = CreateTextTag()
 
@@ -74,6 +91,10 @@ FloatingTextTag = {
         SetTextTagFadepoint(tt, 2.0)
     end,
 
+    ---@type function
+    ---@param whichUnit unit
+    ---@param value string
+    ---@return nothing
     manaburn = function(whichUnit, value)
         local tt = CreateTextTag()
 
